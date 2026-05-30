@@ -11,7 +11,7 @@
         .sidebar {
             width: 360px;
             background: #2a2a2a;
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
             display: flex;
             flex-direction: column;
@@ -24,7 +24,18 @@
 
         .control-group { background: #222; padding: 12px; border-radius: 6px; display: flex; flex-direction: column; gap: 8px; }
         .control-item { display: flex; align-items: center; justify-content: space-between; font-size: 13px; }
-        select { background: #333; color: white; border: 1px solid #444; padding: 4px; border-radius: 4px; }
+        select, input[type="text"] { background: #333; color: white; border: 1px solid #444; padding: 5px; border-radius: 4px; outline: none; }
+        input[type="text"]:focus { border-color: #0070f3; }
+
+        /* 🛠️ Dynamic Input Request Styles */
+        .request-container { display: flex; gap: 6px; background: #222; padding: 8px; border-radius: 6px; align-items: center; }
+        .request-container input { flex: 1; font-family: monospace; font-size: 13px; padding: 6px; }
+        .request-container button { padding: 6px 10px; background: #0070f3; font-size: 12px; border-radius: 4px; border: none; font-weight: bold; cursor: pointer; color: white; }
+        .request-container button:hover { background: #0060d3; }
+
+        .hsv-diagnostic { background: #151515; padding: 10px; border-radius: 6px; border: 1px solid #333; display: flex; flex-direction: column; gap: 6px; }
+        .hsv-row { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-family: monospace; }
+        .color-swatch { width: 40px; height: 18px; border-radius: 3px; border: 1px solid #555; }
 
         .editor-header { display: flex; justify-content: space-between; align-items: center; margin: 0; }
         #jsonStatus { font-size: 11px; font-weight: bold; }
@@ -89,6 +100,23 @@
                 </div>
             </div>
 
+            <div class="request-container">
+                <input type="text" id="txtTimestamp" placeholder="01:25.1" title="Format: MM:SS.f">
+                <button id="btnRequestFrame" onclick="requestDynamicTimestampFrame()">Request Frame</button>
+            </div>
+
+            <div class="hsv-diagnostic">
+                <div style="font-size: 11px; font-weight: bold; color: #aaa; margin-bottom: 2px;">Active Ball HSV Range Swatches (Clear Only)</div>
+                <div class="hsv-row">
+                    <span>Lower Bounds: <span id="lblLower">N/A</span></span>
+                    <div id="swatchLower" class="color-swatch" style="background-color: #333;"></div>
+                </div>
+                <div class="hsv-row">
+                    <span>Upper Bounds: <span id="lblUpper">N/A</span></span>
+                    <div id="swatchUpper" class="color-swatch" style="background-color: #333;"></div>
+                </div>
+            </div>
+
             <div class="editor-header">
                 <h4>Manual JSON Overwrite</h4>
                 <div id="jsonStatus" style="color: #4caf50;">✅ Synced</div>
@@ -132,6 +160,12 @@
         const saveImmBtn = document.getElementById('saveImmBtn');
         const saveBtn = document.getElementById('saveBtn');
         const ballStepText = document.getElementById('step_ball');
+        const txtTimestamp = document.getElementById('txtTimestamp');
+
+        const lblLower = document.getElementById('lblLower');
+        const lblUpper = document.getElementById('lblUpper');
+        const swatchLower = document.getElementById('swatchLower');
+        const swatchUpper = document.getElementById('swatchUpper');
 
         const OFFSET = 400;
         let REQUIRED_SAMPLES = 5;
@@ -145,6 +179,9 @@
 
         const bgImg = new Image(); bgImg.src = '/frame.jpg';
         const sampleImages = [];
+
+        // Unique key matching active video name to track skips across sessions
+        const SKIP_STORAGE_KEY = `bstats_skipped_frames_${window.location.search || 'default'}`;
 
         fetch('/api/config')
             .then(res => res.json())
@@ -182,6 +219,121 @@
             canvas.style.height = (canvas.height * z) + 'px';
         }
 
+        function getSkippedFrames() {
+            return JSON.parse(localStorage.getItem(SKIP_STORAGE_KEY) || '[]');
+        }
+
+        function registerFrameSkip(idx) {
+            const currentSkips = getSkippedFrames();
+            if (!currentSkips.includes(idx)) {
+                currentSkips.push(idx);
+                localStorage.setItem(SKIP_STORAGE_KEY, JSON.stringify(currentSkips));
+            }
+        }
+
+        function rgbToHsv(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            let max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h, s, v = max;
+            let d = max - min;
+            s = max === 0 ? 0 : d / max;
+            if (max === min) { h = 0; }
+            else {
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+            return [Math.round(h * 180), Math.round(s * 255), Math.round(v * 255)];
+        }
+
+        function hsvToRgb(h, s, v) {
+            h /= 180; s /= 255; v /= 255;
+            let i = Math.floor(h * 6); let f = h * 6 - i;
+            let p = v * (1 - s); let q = v * (1 - f * s); let t = v * (1 - (1 - f) * s);
+            let r, g, b;
+            switch (i % 6) {
+                case 0: r = v; g = t; b = p; break;
+                case 1: r = q; g = v; b = p; break;
+                case 2: r = p; g = v; b = t; break;
+                case 3: r = p; g = q; b = v; break;
+                case 4: r = t; g = p; b = v; break;
+                case 5: r = v; g = p; b = q; break;
+            }
+            return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+        }
+
+        // 🔥 MODIFIED: Diagnostic engine now processes only clear targets
+        function recalculateHsvDiagnosticsFromClearSamples() {
+            let clearSamples = data.ball_samples.filter(s => s.status === 'clear');
+            if (clearSamples.length === 0) {
+                lblLower.textContent = "N/A"; lblUpper.textContent = "N/A";
+                swatchLower.style.backgroundColor = "#333"; swatchUpper.style.backgroundColor = "#333";
+                return;
+            }
+            // Logic parses existing clear parameters to draw static swatches
+            lblLower.textContent = "Computing...";
+        }
+
+        function updateLiveHsvDiagnostics(box) {
+            if (!box || box.w < 4 || box.h < 4) return;
+            const insetX = Math.round(box.x + OFFSET + (box.w * 0.15));
+            const insetY = Math.round(box.y + OFFSET + (box.h * 0.15));
+            const insetW = Math.round(box.w * 0.7); const insetH = Math.round(box.h * 0.7);
+            try {
+                const imgData = ctx.getImageData(insetX, insetY, insetW, insetH).data;
+                let minH = 180, minS = 255, minV = 255; let maxH = 0, maxS = 0, maxV = 0;
+                for (let i = 0; i < imgData.length; i += 4) {
+                    let hsv = rgbToHsv(imgData[i], imgData[i+1], imgData[i+2]);
+                    if (hsv[0] < minH) minH = hsv[0]; if (hsv[0] > maxH) maxH = hsv[0];
+                    if (hsv[1] < minS) minS = hsv[1]; if (hsv[1] > maxS) maxS = hsv[1];
+                    if (hsv[2] < minV) minV = hsv[2]; if (hsv[2] > maxV) maxV = hsv[2];
+                }
+                lblLower.textContent = `[${minH}, ${minS}, ${minV}]`;
+                lblUpper.textContent = `[${maxH}, ${maxS}, ${maxV}]`;
+                const rgbL = hsvToRgb(minH, minS, minV); const rgbU = hsvToRgb(maxH, maxS, maxV);
+                swatchLower.style.backgroundColor = `rgb(${rgbL[0]},${rgbL[1]},${rgbL[2]})`;
+                swatchUpper.style.backgroundColor = `rgb(${rgbU[0]},${rgbU[1]},${rgbU[2]})`;
+            } catch (e) {}
+        }
+
+        // 🔥 NEW: Request On-Demand Frame Injection Core
+        function requestDynamicTimestampFrame() {
+            const timestampValue = txtTimestamp.value.trim();
+            if (!/^\d{2}:\d{2}(\.\d+)?$/.test(timestampValue)) {
+                alert("⚠️ Invalid format pattern. Please use standard MM:SS or MM:SS.m rules (e.g., 01:25.1)");
+                return;
+            }
+
+            if (state !== 'ball_sampling') {
+                alert("⚠️ Manual frame injection is only active during Step 4 (Ball Sampling).");
+                return;
+            }
+
+            fetch('/api/request_frame', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ time: timestampValue, index: currentPoolFrame })
+            })
+            .then(res => res.json())
+            .then(resData => {
+                if (resData.status === 'success') {
+                    // Force clean canvas redraw pass using re-extracted source image
+                    const updatedImg = new Image();
+                    updatedImg.src = resData.path;
+                    updatedImg.onload = () => {
+                        sampleImages[currentPoolFrame - 1] = updatedImg;
+                        tempBallBox = null;
+                        draw();
+                    };
+                } else {
+                    alert("Error extracting target timestamp.");
+                }
+            });
+        }
+
         function syncFromJson() {
             try {
                 const parsed = JSON.parse(jsonEditor.value);
@@ -189,8 +341,7 @@
                 data = parsed;
                 jsonStatus.textContent = "✅ Valid Data";
                 jsonStatus.style.color = "#4caf50";
-                currentPoolFrame = 1;
-                tempBallBox = null;
+                currentPoolFrame = 1; tempBallBox = null;
                 evaluatePipelineWorkflowState();
                 draw();
             } catch (err) {
@@ -243,12 +394,15 @@
                 }
 
                 const sampledFrames = data.ball_samples.map(s => s.sample_frame);
-                while (sampledFrames.includes(currentPoolFrame) && currentPoolFrame <= POOL_SIZE) {
+                const skippedFrames = getSkippedFrames();
+
+                // 🔥 MODIFIED: Advance past frames that are logged as sampled OR saved in LocalStorage skips list
+                while ((sampledFrames.includes(currentPoolFrame) || skippedFrames.includes(currentPoolFrame)) && currentPoolFrame <= POOL_SIZE) {
                     currentPoolFrame++;
                 }
 
                 if (currentPoolFrame > POOL_SIZE) {
-                    alert(`⚠️ Pool exhausted! Saving available data automatically.`);
+                    alert(`⚠️ Candidate pool exhausted! If you need more frames, use the timestamp request box to manually fetch specific game clips.`);
                     saveCalibration();
                     return;
                 }
@@ -281,6 +435,8 @@
 
         function skipCurrentFrame() {
             if (state !== 'ball_sampling') return;
+            // 🔥 NEW: Store skip action permanently inside client local storage array logs
+            registerFrameSkip(currentPoolFrame);
             tempBallBox = null;
             currentPoolFrame++;
             evaluatePipelineWorkflowState();
@@ -329,6 +485,9 @@
         function resetCalibration() {
             data = { court_corners: [], left_basket: null, right_basket: null, ball_samples: [] };
             currentPoolFrame = 1; tempBallBox = null;
+            localStorage.removeItem(SKIP_STORAGE_KEY); // Wipe cached skip data lists
+            lblLower.textContent = "N/A"; lblUpper.textContent = "N/A";
+            swatchLower.style.backgroundColor = "#333"; swatchUpper.style.backgroundColor = "#333";
             evaluatePipelineWorkflowState();
             updateTextarea();
             draw();
@@ -369,7 +528,6 @@
                 }
             }
 
-            // 🔥 FIXED: Only draw the ball boxes that belong strictly to the frame being viewed right now
             if (data.ball_samples && data.ball_samples.length > 0) {
                 data.ball_samples.forEach(sample => {
                     if (state !== 'ball_sampling' || sample.sample_frame === currentPoolFrame) {
@@ -383,6 +541,7 @@
             if (tempBallBox && state === 'ball_sampling') {
                 ctx.strokeStyle = '#ffeb3b'; ctx.lineWidth = 3;
                 ctx.strokeRect(tempBallBox.x + OFFSET, tempBallBox.y + OFFSET, tempBallBox.w, tempBallBox.h);
+                updateLiveHsvDiagnostics(tempBallBox);
             }
 
             if (isDragging) {

@@ -5,7 +5,8 @@
   "scripts": {
     "download": "node scripts/download_video.js",
     "downframe": "node scripts/video_convert.js",
-    "calibrate": "node scripts/calibrate.js"
+    "calibrate": "node scripts/calibrate.js video.mp4",
+    "track": "python scripts/ai_tracker.py video.mp4"
   },
   "repository": {
     "type": "git",

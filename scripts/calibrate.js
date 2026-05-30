@@ -2,12 +2,13 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const { exec, execSync } = require('child_process');
+const url = require('url');
 
 // =====================================================================
 // ⚙️ CALIBRATION SAMPLING CONFIGURATION
 // =====================================================================
-const TOTAL_BALL_SAMPLES_POOL = 25;   // Deep pool size across the timeline
-const REQUIRED_BALL_SAMPLES = 7;      // Goal target (Can be bypassed with Save Immediately)
+const TOTAL_BALL_SAMPLES_POOL = 25;
+const REQUIRED_BALL_SAMPLES = 7;
 // =====================================================================
 
 const ffmpegPath = path.join(__dirname, '../bin/ffmpeg.exe');
@@ -19,7 +20,7 @@ const frameImg = path.join(__dirname, '../videos/calibration_frame.jpg');
 const PORT = 8080;
 
 if (!fs.existsSync(actualVideoPath)) {
-    console.error(`Error: Target video asset missing at ${actualVideoPath}`);
+    print(`Error: Target video asset missing at ${actualVideoPath}`);
     process.exit(1);
 }
 
@@ -28,11 +29,7 @@ try {
     const ffprobePath = path.join(__dirname, '../bin/ffprobe.exe');
     const meta = execSync(`"${ffprobePath}" -v error -show_entries format=duration -of default=noprint_wrappers=1:nocorner=1 "${actualVideoPath}"`, { encoding: 'utf-8' });
     if (parseFloat(meta)) durationSeconds = parseFloat(meta);
-} catch (e) {
-    console.log("[Calibrate] Using default video duration estimation fallback.");
-}
-
-console.log(`[Calibrate] Initializing background workspace across ${Math.round(durationSeconds)}s timeline...`);
+} catch (e) {}
 
 if (!fs.existsSync(frameImg)) {
     execSync(`"${ffmpegPath}" -y -ss 00:00:02 -i "${actualVideoPath}" -vframes 1 "${frameImg}"`);
@@ -55,26 +52,54 @@ sampleTimes.forEach((seconds, idx) => {
     }
 });
 
-console.log(`[Calibrate] Extracted a comprehensive pool of ${TOTAL_BALL_SAMPLES_POOL} frames.`);
-
 const server = http.createServer((req, res) => {
-    if (req.url === '/' && req.method === 'GET') {
+    const parsedUrl = url.parse(req.url, true);
+
+    if (parsedUrl.pathname === '/' && req.method === 'GET') {
         res.writeHead(200, { 'Content-Type': 'text/html' });
         res.end(fs.readFileSync(path.join(__dirname, 'calibrate.html'), 'utf8'));
     }
-    else if (req.url === '/frame.jpg' && req.method === 'GET') {
+    else if (parsedUrl.pathname === '/frame.jpg' && req.method === 'GET') {
         res.writeHead(200, { 'Content-Type': 'image/jpeg' });
         res.end(fs.readFileSync(frameImg));
     }
-    else if (req.url === '/api/config' && req.method === 'GET') {
+    else if (parsedUrl.pathname === '/api/config' && req.method === 'GET') {
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({
-            required_samples: REQUIRED_BALL_SAMPLES,
-            pool_size: TOTAL_BALL_SAMPLES_POOL
-        }));
+        res.end(JSON.stringify({ required_samples: REQUIRED_BALL_SAMPLES, pool_size: TOTAL_BALL_SAMPLES_POOL }));
     }
-    else if (req.url.startsWith('/ball_sample_') && req.method === 'GET') {
-        const imgName = req.url.split('?')[0].substring(1);
+    // 🔥 NEW: On-Demand Dynamic Frame Generation Engine
+    else if (parsedUrl.pathname === '/api/request_frame' && req.method === 'POST') {
+        let body = '';
+        req.on('data', chunk => { body += chunk.toString(); });
+        req.on('end', () => {
+            try {
+                const payload = JSON.parse(body);
+                const userTime = payload.time; // Format: MM:SS.m
+
+                // Parse timestamp format safely into hours:minutes:seconds.ms
+                const parts = userTime.split(':');
+                let minutes = parseInt(parts[0], 10) || 0;
+                let secondsStr = parts[1] || '0';
+
+                let minStr = String(minutes).padStart(2, '0');
+                // Format directly into standard ffmpeg target time strings
+                const ffmpegTimestamp = `00:${minStr}:${secondsStr.padStart(4, '0')}`;
+
+                const customIndex = String(payload.index);
+                const outPath = path.join(__dirname, `../videos/ball_sample_${customIndex}.jpg`);
+
+                // Trigger dynamic extraction command block
+                execSync(`"${ffmpegPath}" -y -ss ${ffmpegTimestamp} -i "${actualVideoPath}" -vframes 1 "${outPath}"`);
+
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ status: 'success', path: `/ball_sample_${customIndex}.jpg?t=${Date.now()}` }));
+            } catch (err) {
+                res.writeHead(500); res.end(JSON.stringify({ error: err.message }));
+            }
+        });
+    }
+    else if (parsedUrl.pathname.startsWith('/ball_sample_') && req.method === 'GET') {
+        const imgName = parsedUrl.pathname.substring(1);
         const samplePath = path.join(__dirname, '../videos', imgName);
         if (fs.existsSync(samplePath)) {
             res.writeHead(200, { 'Content-Type': 'image/jpeg' });
@@ -83,12 +108,11 @@ const server = http.createServer((req, res) => {
             res.writeHead(404); res.end();
         }
     }
-    else if (req.url === '/api/save' && req.method === 'POST') {
+    else if (parsedUrl.pathname === '/api/save' && req.method === 'POST') {
         let body = '';
         req.on('data', chunk => { body += chunk.toString(); });
         req.on('end', () => {
             fs.writeFileSync(jsonOutput, body, 'utf8');
-            console.log(`\n[Calibrate] Configuration payload successfully saved to: ${jsonOutput}`);
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ status: 'success' }));
             server.close(() => { process.exit(0); });
@@ -97,6 +121,6 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
-    console.log(`[Calibrate] Interface ready at http://localhost:${PORT}`);
+    console.log(`[Calibrate] Server running at http://localhost:${PORT}`);
     exec(`start http://localhost:${PORT}`);
 });
