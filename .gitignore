@@ -1,1 +1,6 @@
 videos/*.mp4
+videos/*.jpg
+
+# Ignore YOLO files which can be auto generated
+*.pt
+*.onnx

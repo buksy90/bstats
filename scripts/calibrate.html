@@ -2,113 +2,117 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>bstats - Court Calibration</title>
+    <title>bstats - Deep Workspace Calibration</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: #1a1a1a;
-            color: #fff;
-            margin: 0;
-            padding: 20px;
-            height: calc(100vh - 40px);
-            display: flex;
-            flex-direction: column;
-        }
-        h1 { margin-top: 0; margin-bottom: 15px; font-size: 24px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #1a1a1a; color: #fff; margin: 0; padding: 20px; height: calc(100vh - 40px); display: flex; flex-direction: column; }
+        h1 { margin: 0 0 15px 0; font-size: 24px; }
         .container { display: flex; gap: 20px; flex: 1; min-height: 0; }
 
         .sidebar {
-            width: 320px;
+            width: 360px;
             background: #2a2a2a;
             padding: 20px;
             border-radius: 8px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             box-sizing: border-box;
         }
-        .instructions p { margin: 5px 0; font-size: 14px; line-height: 1.4; }
-        .active-step { color: #0070f3; font-weight: bold; }
-        .step-done { color: #4caf50; text-decoration: line-through; opacity: 0.6; }
+        .instructions p { margin: 4px 0; font-size: 12px; color: #aaa; line-height: 1.3; }
+        .active-step { color: #0070f3 !important; font-weight: bold; }
+        .step-done { color: #4caf50 !important; text-decoration: line-through; opacity: 0.5; }
 
-        .control-group {
-            background: #222;
-            padding: 12px;
-            border-radius: 6px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .control-item { display: flex; align-items: center; justify-content: space-between; font-size: 14px; }
-        select { background: #333; color: white; border: 1px solid #444; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+        .control-group { background: #222; padding: 12px; border-radius: 6px; display: flex; flex-direction: column; gap: 8px; }
+        .control-item { display: flex; align-items: center; justify-content: space-between; font-size: 13px; }
+        select { background: #333; color: white; border: 1px solid #444; padding: 4px; border-radius: 4px; }
 
-        .log-container { flex: 1; overflow-y: auto; background: #1f1f1f; border-radius: 6px; padding: 10px; border: 1px solid #333; }
-        ul { padding-left: 20px; margin: 0; font-size: 13px; line-height: 1.6; color: #ccc; }
-
-        .btn-group { display: flex; gap: 10px; }
-        button { color: white; border: none; padding: 12px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; flex: 1; font-size: 14px; }
-        #saveBtn { background: #0070f3; }
-        #saveBtn:hover { background: #0051a8; }
-        #saveBtn:disabled { background: #555; cursor: not-allowed; }
-        #resetBtn { background: #dc3545; }
-        #resetBtn:hover { background: #bd2130; }
-
-        /* Scrollable viewer workspace wrapper */
-        .viewer-workspace {
+        .editor-header { display: flex; justify-content: space-between; align-items: center; margin: 0; }
+        #jsonStatus { font-size: 11px; font-weight: bold; }
+        textarea {
             flex: 1;
-            background: #111;
-            border-radius: 8px;
-            border: 2px dashed #444;
-            overflow: auto; /* Enables scrollbars when canvas content expands */
-            position: relative;
-            display: block;
+            background: #151515;
+            color: #00ff66;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 11px;
+            line-height: 1.3;
+            resize: none;
+            box-sizing: border-box;
+            outline: none;
         }
-        canvas {
-            display: block;
-            cursor: crosshair;
-            transform-origin: top left;
-        }
+
+        .btn-matrix { display: flex; flex-direction: column; gap: 6px; }
+        .btn-row { display: flex; gap: 6px; }
+        button { color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold; flex: 1; font-size: 12px; }
+
+        #okClearBtn { background: #28a745; } #okClearBtn:disabled { background: #555; cursor: not-allowed; opacity: 0.3; }
+        #okCoveredBtn { background: #17a2b8; } #okCoveredBtn:disabled { background: #555; cursor: not-allowed; opacity: 0.3; }
+        #skipBtn { background: #e67e22; } #skipBtn:disabled { background: #555; cursor: not-allowed; opacity: 0.3; }
+        #saveImmBtn { background: #6f42c1; } #saveImmBtn:disabled { background: #555; cursor: not-allowed; opacity: 0.3; }
+        #resetBtn { background: #dc3545; }
+        #saveBtn { background: #0070f3; } #saveBtn:disabled { background: #555; cursor: not-allowed; }
+
+        .viewer-workspace { flex: 1; background: #111; border-radius: 8px; border: 2px dashed #444; overflow: auto; }
+        canvas { display: block; cursor: crosshair; transform-origin: top left; }
     </style>
 </head>
 <body>
-    <h1>🏀 bstats Court Calibration</h1>
+    <h1>🏀 Deep Court & Ball Calibration</h1>
     <div class="container">
         <div class="sidebar">
-            <div class="instructions">
-                <h3>Instructions</h3>
-                <p id="step1" class="active-step">1. Click 4 corners of court boundary (Clockwise from Top-Left).</p>
-                <p id="step2">2. Click and drag a box around the LEFT basket/rim.</p>
-                <p id="step3">3. Click and drag a box around the RIGHT basket/rim.</p>
+            <div class="instructions" id="stepsPanel">
+                <h3>Workflow Steps</h3>
+                <p id="step_corners" class="active-step">1. Click 4 corners of court boundary.</p>
+                <p id="step_left">2. Drag box around LEFT rim.</p>
+                <p id="step_right">3. Drag box around RIGHT rim.</p>
+                <p id="step_ball" style="color: #aaa;">4. Ball Sampling (Awaiting components...)</p>
             </div>
 
             <div class="control-group">
                 <div class="control-item">
-                    <label for="zoomSelect">Workspace Zoom:</label>
+                    <label>Workspace Zoom:</label>
                     <select id="zoomSelect" onchange="updateZoom()">
                         <option value="0.5">0.5x</option>
-                        <option value="1" selected>1.0x (Default)</option>
+                        <option value="1" selected>1.0x</option>
                         <option value="2">2.0x</option>
-                        <option value="4">4.0x</option>
                     </select>
                 </div>
                 <div class="control-item">
-                    <label for="showPaddingCheck" style="cursor:pointer;">Highlight Padding Zone:</label>
+                    <label style="cursor:pointer;">Highlight Padding:</label>
                     <input type="checkbox" id="showPaddingCheck" checked onchange="draw()" style="cursor:pointer;">
+                </div>
+                <div class="control-item">
+                    <label style="cursor:pointer;">Show Court/Rim Overlays:</label>
+                    <input type="checkbox" id="showOverlaysCheck" checked onchange="draw()" style="cursor:pointer;">
                 </div>
             </div>
 
-            <h4>Data Log</h4>
-            <div class="log-container">
-                <ul id="log"></ul>
+            <div class="editor-header">
+                <h4>Manual JSON Overwrite</h4>
+                <div id="jsonStatus" style="color: #4caf50;">✅ Synced</div>
             </div>
+            <textarea id="jsonEditor" spellcheck="false" oninput="syncFromJson()"></textarea>
 
-            <div class="btn-group">
-                <button id="resetBtn" onclick="resetCalibration()">Reset</button>
-                <button id="saveBtn" disabled onclick="saveCalibration()">Save</button>
+            <div class="btn-matrix">
+                <div class="btn-row">
+                    <button id="okClearBtn" disabled onclick="confirmBallClassification('clear')">OK Clear</button>
+                    <button id="okCoveredBtn" disabled onclick="confirmBallClassification('covered')">OK Covered</button>
+                </div>
+                <div class="btn-row">
+                    <button id="skipBtn" disabled onclick="skipCurrentFrame()">Skip Frame</button>
+                    <button id="saveImmBtn" disabled onclick="saveCalibration()">Save Immediately</button>
+                </div>
+                <hr style="border-color: #444; margin: 4px 0;">
+                <div class="btn-row">
+                    <button id="resetBtn" onclick="resetCalibration()">Reset All</button>
+                    <button id="saveBtn" disabled onclick="saveCalibration()">Save Config</button>
+                </div>
             </div>
         </div>
 
-        <div class="viewer-workspace" id="workspace">
+        <div class="viewer-workspace">
             <canvas id="canvas" width="2720" height="1880"></canvas>
         </div>
     </div>
@@ -116,59 +120,187 @@
     <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
-        const showPaddingCheck = document.getElementById('showPaddingCheck');
         const zoomSelect = document.getElementById('zoomSelect');
+        const showPaddingCheck = document.getElementById('showPaddingCheck');
+        const showOverlaysCheck = document.getElementById('showOverlaysCheck');
+        const jsonEditor = document.getElementById('jsonEditor');
+        const jsonStatus = document.getElementById('jsonStatus');
 
-        const img = new Image();
-        img.src = '/frame.jpg';
+        // Buttons
+        const okClearBtn = document.getElementById('okClearBtn');
+        const okCoveredBtn = document.getElementById('okCoveredBtn');
+        const skipBtn = document.getElementById('skipBtn');
+        const saveImmBtn = document.getElementById('saveImmBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const ballStepText = document.getElementById('step_ball');
 
-        // 400px generous margin layout all around the 1920x1080 native frame
-        let offset = 400;
+        const OFFSET = 400;
+        let REQUIRED_SAMPLES = 5;
+        let POOL_SIZE = 10;
+
         let state = 'corners';
-        window.data = { court_corners: [], left_basket: null, right_basket: null };
+        let currentPoolFrame = 1;
 
-        let isDragging = false;
-        let dragStart = { x: 0, y: 0 };
-        let currentMouse = { x: 0, y: 0 };
+        let data = { court_corners: [], left_basket: null, right_basket: null, ball_samples: [] };
+        let tempBallBox = null; // Caches unconfirmed active ball drags
 
-        img.onload = () => {
-            updateZoom();
-            draw();
-        };
+        const bgImg = new Image(); bgImg.src = '/frame.jpg';
+        const sampleImages = [];
 
-        // Precision mapping formula factoring in live client CSS dimension changes via zoom scaling
+        fetch('/api/config')
+            .then(res => res.json())
+            .then(config => {
+                REQUIRED_SAMPLES = config.required_samples;
+                POOL_SIZE = config.pool_size;
+                for (let i = 1; i <= POOL_SIZE; i++) {
+                    const img = new Image(); img.src = `/ball_sample_${i}.jpg`;
+                    sampleImages.push(img);
+                }
+                evaluatePipelineWorkflowState();
+                updateTextarea();
+            });
+
+        bgImg.onload = () => { updateZoom(); draw(); };
+
+        function getActiveImageContext() {
+            if (state === 'ball_sampling' && sampleImages[currentPoolFrame - 1]) {
+                return sampleImages[currentPoolFrame - 1];
+            }
+            return bgImg;
+        }
+
         function getRelativeImageCoords(e) {
             const rect = canvas.getBoundingClientRect();
-            const canvasX = (e.clientX - rect.left) * (canvas.width / rect.width);
-            const canvasY = (e.clientY - rect.top) * (canvas.height / rect.height);
-
             return {
-                x: Math.round(canvasX - offset),
-                y: Math.round(canvasY - offset)
+                x: Math.round(((e.clientX - rect.left) * (canvas.width / rect.width)) - OFFSET),
+                y: Math.round(((e.clientY - rect.top) * (canvas.height / rect.height)) - OFFSET)
             };
         }
 
-        // Modifies the physical layout space of the canvas inside the overflow container wrapper
         function updateZoom() {
-            const zoomFactor = parseFloat(zoomSelect.value);
-            canvas.style.width = (canvas.width * zoomFactor) + 'px';
-            canvas.style.height = (canvas.height * zoomFactor) + 'px';
+            const z = parseFloat(zoomSelect.value);
+            canvas.style.width = (canvas.width * z) + 'px';
+            canvas.style.height = (canvas.height * z) + 'px';
         }
+
+        function syncFromJson() {
+            try {
+                const parsed = JSON.parse(jsonEditor.value);
+                if (!Array.isArray(parsed.court_corners) || !Array.isArray(parsed.ball_samples)) throw new Error();
+                data = parsed;
+                jsonStatus.textContent = "✅ Valid Data";
+                jsonStatus.style.color = "#4caf50";
+                currentPoolFrame = 1;
+                tempBallBox = null;
+                evaluatePipelineWorkflowState();
+                draw();
+            } catch (err) {
+                jsonStatus.textContent = "⚠️ Invalid JSON";
+                jsonStatus.style.color = "#f44336";
+            }
+        }
+
+        function updateTextarea() {
+            jsonEditor.value = JSON.stringify(data, null, 2);
+            jsonStatus.textContent = "✅ Synced";
+            jsonStatus.style.color = "#4caf50";
+        }
+
+        function evaluatePipelineWorkflowState() {
+            document.getElementById('step_corners').className = '';
+            document.getElementById('step_left').className = '';
+            document.getElementById('step_right').className = '';
+            ballStepText.className = '';
+
+            // Standard state lock wipes
+            okClearBtn.disabled = true; okCoveredBtn.disabled = true;
+            skipBtn.disabled = true; saveImmBtn.disabled = true; saveBtn.disabled = true;
+
+            if (data.court_corners.length < 4) {
+                state = 'corners';
+                document.getElementById('step_corners').className = 'active-step';
+                ballStepText.textContent = `4. Ball Sampling (Collect ${REQUIRED_SAMPLES} frames)`;
+            } else if (!data.left_basket) {
+                state = 'left_basket';
+                document.getElementById('step_corners').className = 'step-done';
+                document.getElementById('step_left').className = 'active-step';
+            } else if (!data.right_basket) {
+                state = 'right_basket';
+                document.getElementById('step_corners').className = 'step-done';
+                document.getElementById('step_left').className = 'step-done';
+                document.getElementById('step_right').className = 'active-step';
+            } else if (data.ball_samples.length < REQUIRED_SAMPLES) {
+                state = 'ball_sampling';
+                document.getElementById('step_corners').className = 'step-done';
+                document.getElementById('step_left').className = 'step-done';
+                document.getElementById('step_right').className = 'step-done';
+                ballStepText.className = 'active-step';
+
+                skipBtn.disabled = false;
+                if (data.ball_samples.length > 0) saveImmBtn.disabled = false;
+
+                // Unlock validation keys if a box has been dragged on screen
+                if (tempBallBox) {
+                    okClearBtn.disabled = false;
+                    okCoveredBtn.disabled = false;
+                }
+
+                const sampledFrames = data.ball_samples.map(s => s.sample_frame);
+                while (sampledFrames.includes(currentPoolFrame) && currentPoolFrame <= POOL_SIZE) {
+                    currentPoolFrame++;
+                }
+
+                if (currentPoolFrame > POOL_SIZE) {
+                    alert(`⚠️ Pool exhausted! Saving available data automatically.`);
+                    saveCalibration();
+                    return;
+                }
+
+                ballStepText.textContent = `4. Ball Sampling (Progress: ${data.ball_samples.length}/${REQUIRED_SAMPLES} | Frame: ${currentPoolFrame}/${POOL_SIZE})`;
+            } else {
+                state = 'ready';
+                document.querySelectorAll('#stepsPanel p').forEach(p => p.className = 'step-done');
+                ballStepText.textContent = `4. Ball Sampling Complete (${data.ball_samples.length} logged)`;
+                saveBtn.disabled = false;
+            }
+        }
+
+        function confirmBallClassification(statusType) {
+            if (!tempBallBox || state !== 'ball_sampling') return;
+
+            data.ball_samples.push({
+                sample_frame: currentPoolFrame,
+                x: tempBallBox.x, y: tempBallBox.y,
+                w: tempBallBox.w, h: tempBallBox.h,
+                status: statusType
+            });
+
+            tempBallBox = null;
+            currentPoolFrame++;
+            evaluatePipelineWorkflowState();
+            updateTextarea();
+            draw();
+        }
+
+        function skipCurrentFrame() {
+            if (state !== 'ball_sampling') return;
+            tempBallBox = null;
+            currentPoolFrame++;
+            evaluatePipelineWorkflowState();
+            updateTextarea();
+            draw();
+        }
+
+        let isDragging = false; let dragStart = {x:0, y:0}; let currentMouse = {x:0, y:0};
 
         canvas.addEventListener('mousedown', (e) => {
             const coords = getRelativeImageCoords(e);
             if (state === 'corners') {
-                window.data.court_corners.push(coords);
-                updateLog(`Corner ${window.data.court_corners.length}: X:${coords.x}, Y:${coords.y}`);
-                if (window.data.court_corners.length === 4) {
-                    state = 'left_basket';
-                    document.getElementById('step1').className = 'step-done';
-                    document.getElementById('step2').className = 'active-step';
-                }
-            } else if (state === 'left_basket' || state === 'right_basket') {
-                isDragging = true;
-                dragStart = coords;
-                currentMouse = coords;
+                data.court_corners.push(coords);
+                evaluatePipelineWorkflowState();
+                updateTextarea();
+            } else if (state === 'left_basket' || state === 'right_basket' || state === 'ball_sampling') {
+                isDragging = true; dragStart = coords; currentMouse = coords;
             }
             draw();
         });
@@ -183,119 +315,87 @@
             if (!isDragging) return;
             isDragging = false;
             const dragEnd = getRelativeImageCoords(e);
-
             const box = {
-                x: Math.min(dragStart.x, dragEnd.x),
-                y: Math.min(dragStart.y, dragEnd.y),
-                w: Math.abs(dragStart.x - dragEnd.x),
-                h: Math.abs(dragStart.y - dragEnd.y)
+                x: Math.min(dragStart.x, dragEnd.x), y: Math.min(dragStart.y, dragEnd.y),
+                w: Math.abs(dragStart.x - dragEnd.x), h: Math.abs(dragStart.y - dragEnd.y)
             };
 
-            if (state === 'left_basket') {
-                window.data.left_basket = box;
-                updateLog(`Left Basket Box Registered`);
-                state = 'right_basket';
-                document.getElementById('step2').className = 'step-done';
-                document.getElementById('step3').className = 'active-step';
-            } else if (state === 'right_basket') {
-                window.data.right_basket = box;
-                updateLog(`Right Basket Box Registered`);
-                state = 'done';
-                document.getElementById('step3').className = 'step-done';
-                document.getElementById('saveBtn').disabled = false;
+            if (state === 'left_basket') { data.left_basket = box; evaluatePipelineWorkflowState(); updateTextarea(); }
+            else if (state === 'right_basket') { data.right_basket = box; evaluatePipelineWorkflowState(); updateTextarea(); }
+            else if (state === 'ball_sampling') {
+                tempBallBox = box; // Hold box in validation state
+                evaluatePipelineWorkflowState();
             }
             draw();
         });
 
-        function updateLog(msg) {
-            const li = document.createElement('li');
-            li.textContent = msg;
-            document.getElementById('log').appendChild(li);
-        }
-
         function resetCalibration() {
-            window.data = { court_corners: [], left_basket: null, right_basket: null };
-            state = 'corners';
-            document.getElementById('step1').className = 'active-step';
-            document.getElementById('step2').className = '';
-            document.getElementById('step3').className = '';
-            document.getElementById('saveBtn').disabled = true;
-            document.getElementById('log').innerHTML = '';
+            data = { court_corners: [], left_basket: null, right_basket: null, ball_samples: [] };
+            currentPoolFrame = 1; tempBallBox = null;
+            evaluatePipelineWorkflowState();
+            updateTextarea();
             draw();
         }
 
         function draw() {
-            // Toggles structural visibility context representation of the off-screen workspace boundary
-            if (showPaddingCheck.checked) {
-                offset = 400; // Retains the original generous padding layout for clear visual distinction
-                ctx.fillStyle = '#2c303b'; // Distinct shade mapping active padding field
-            } else {
-                offset = 0; // Collapses the workspace to the native frame dimensions for direct pixel-level calibration
-                ctx.fillStyle = '#111111'; // Blends directly to match default application viewport canvas
-            }
+            ctx.fillStyle = showPaddingCheck.checked ? '#2c303b' : '#111';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Draw baseline underlying frame context
-            ctx.drawImage(img, offset, offset, 1920, 1080);
+            const activeImg = getActiveImageContext();
+            if (activeImg && activeImg.complete) ctx.drawImage(activeImg, OFFSET, OFFSET, 1920, 1080);
 
-            // Render video frame boundary tracking marker
-            ctx.strokeStyle = '#666';
-            ctx.lineWidth = 2;
-            ctx.strokeRect(offset, offset, 1920, 1080);
+            ctx.strokeStyle = '#666'; ctx.lineWidth = 1;
+            ctx.strokeRect(OFFSET, OFFSET, 1920, 1080);
 
-            // Render Court Boundaries
-            if (window.data.court_corners.length > 0) {
-                ctx.strokeStyle = '#0070f3'; ctx.lineWidth = 4; ctx.fillStyle = '#0070f3';
-                window.data.court_corners.forEach((pt) => {
+            if (showOverlaysCheck.checked) {
+                if (data.court_corners && data.court_corners.length > 0) {
+                    ctx.strokeStyle = '#0070f3'; ctx.lineWidth = 3; ctx.fillStyle = '#0070f3';
+                    data.court_corners.forEach(pt => {
+                        ctx.beginPath(); ctx.arc(pt.x + OFFSET, pt.y + OFFSET, 6, 0, 2*Math.PI); ctx.fill();
+                    });
                     ctx.beginPath();
-                    ctx.arc(pt.x + offset, pt.y + offset, 8, 0, 2 * Math.PI);
-                    ctx.fill();
+                    data.court_corners.forEach((pt, idx) => {
+                        if (idx === 0) ctx.moveTo(pt.x + OFFSET, pt.y + OFFSET);
+                        else ctx.lineTo(pt.x + OFFSET, pt.y + OFFSET);
+                    });
+                    if (data.court_corners.length === 4) ctx.closePath();
+                    ctx.stroke();
+                }
+
+                if (data.left_basket) {
+                    ctx.strokeStyle = '#4caf50'; ctx.lineWidth = 3;
+                    ctx.strokeRect(data.left_basket.x + OFFSET, data.left_basket.y + OFFSET, data.left_basket.w, data.left_basket.h);
+                }
+                if (data.right_basket) {
+                    ctx.strokeStyle = '#f44336'; ctx.lineWidth = 3;
+                    ctx.strokeRect(data.right_basket.x + OFFSET, data.right_basket.y + OFFSET, data.right_basket.w, data.right_basket.h);
+                }
+            }
+
+            // Confirmed Basketball boxes
+            if (data.ball_samples && data.ball_samples.length > 0) {
+                data.ball_samples.forEach(sample => {
+                    ctx.strokeStyle = sample.status === 'clear' ? '#28a745' : '#17a2b8';
+                    ctx.lineWidth = 3;
+                    ctx.strokeRect(sample.x + OFFSET, sample.y + OFFSET, sample.w, sample.h);
                 });
-
-                ctx.beginPath();
-                data.court_corners.forEach((pt, idx) => {
-                    if (idx === 0) ctx.moveTo(pt.x + offset, pt.y + offset);
-                    else ctx.lineTo(pt.x + offset, pt.y + offset);
-                });
-                if (data.court_corners.length === 4) ctx.closePath();
-                ctx.stroke();
             }
 
-            // Draw Basket Overlays
-            if (data.left_basket) {
-                ctx.strokeStyle = '#4caf50'; ctx.lineWidth = 4;
-                ctx.strokeRect(data.left_basket.x + offset, data.left_basket.y + offset, data.left_basket.w, data.left_basket.h);
-            }
-            if (data.right_basket) {
-                ctx.strokeStyle = '#f44336'; ctx.lineWidth = 4;
-                ctx.strokeRect(data.right_basket.x + offset, data.right_basket.y + offset, data.right_basket.w, data.right_basket.h);
+            // Unconfirmed Active Box Drag (Yellow)
+            if (tempBallBox && state === 'ball_sampling') {
+                ctx.strokeStyle = '#ffeb3b'; ctx.lineWidth = 3;
+                ctx.strokeRect(tempBallBox.x + OFFSET, tempBallBox.y + OFFSET, tempBallBox.w, tempBallBox.h);
             }
 
-            // Drag State Active Preview Box rendering engine logic
             if (isDragging) {
                 ctx.strokeStyle = '#ffeb3b'; ctx.lineWidth = 2;
-                ctx.strokeRect(
-                    Math.min(dragStart.x, currentMouse.x) + offset,
-                    Math.min(dragStart.y, currentMouse.y) + offset,
-                    Math.abs(currentMouse.x - dragStart.x),
-                    Math.abs(currentMouse.y - dragStart.y)
-                );
+                ctx.strokeRect(Math.min(dragStart.x, currentMouse.x)+OFFSET, Math.min(dragStart.y, currentMouse.y)+OFFSET, Math.abs(currentMouse.x-dragStart.x), Math.abs(currentMouse.y-dragStart.y));
             }
         }
 
         function saveCalibration() {
-            // Example data
-            // {"court_corners":[{"x":78,"y":599},{"x":691,"y":586},{"x":1670,"y":685},{"x":1170,"y":1600}],"left_basket":{"x":455,"y":486,"w":15,"h":4},"right_basket":{"x":1370,"y":415,"w":45,"h":10}}
-            fetch('/api/save', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            }).then(res => {
-                if(res.ok) {
-                    alert('Calibration layout parameters saved successfully!');
-                    window.close();
-                }
-            });
+            fetch('/api/save', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+            .then(res => { if(res.ok) { alert('Environment tracking criteria saved cleanly!'); window.close(); } });
         }
     </script>
 </body>

@@ -1,0 +1,506 @@
+{
+  "slice_window": {
+    "start_min": 0.0,
+    "duration_min": 1.0
+  },
+  "total_frames_processed": 1200,
+  "player_metrics": [
+    {
+      "track_id": 129,
+      "total_meters_run": 267.94,
+      "ui_hints": {
+        "avg_height_pixels": 160.9,
+        "avg_width_pixels": 52.2
+      }
+    },
+    {
+      "track_id": 337,
+      "total_meters_run": 159.86,
+      "ui_hints": {
+        "avg_height_pixels": 107.5,
+        "avg_width_pixels": 47.3
+      }
+    },
+    {
+      "track_id": 174,
+      "total_meters_run": 151.74,
+      "ui_hints": {
+        "avg_height_pixels": 76.7,
+        "avg_width_pixels": 25.4
+      }
+    },
+    {
+      "track_id": 523,
+      "total_meters_run": 147.91,
+      "ui_hints": {
+        "avg_height_pixels": 83.9,
+        "avg_width_pixels": 29.7
+      }
+    },
+    {
+      "track_id": 11,
+      "total_meters_run": 128.13,
+      "ui_hints": {
+        "avg_height_pixels": 74.9,
+        "avg_width_pixels": 27.4
+      }
+    },
+    {
+      "track_id": 50,
+      "total_meters_run": 102.03,
+      "ui_hints": {
+        "avg_height_pixels": 159.1,
+        "avg_width_pixels": 36.4
+      }
+    },
+    {
+      "track_id": 2,
+      "total_meters_run": 99.03,
+      "ui_hints": {
+        "avg_height_pixels": 197.7,
+        "avg_width_pixels": 78.0
+      }
+    },
+    {
+      "track_id": 292,
+      "total_meters_run": 95.8,
+      "ui_hints": {
+        "avg_height_pixels": 91.2,
+        "avg_width_pixels": 36.2
+      }
+    },
+    {
+      "track_id": 5,
+      "total_meters_run": 90.09,
+      "ui_hints": {
+        "avg_height_pixels": 109.9,
+        "avg_width_pixels": 42.5
+      }
+    },
+    {
+      "track_id": 7,
+      "total_meters_run": 81.42,
+      "ui_hints": {
+        "avg_height_pixels": 85.9,
+        "avg_width_pixels": 31.2
+      }
+    },
+    {
+      "track_id": 428,
+      "total_meters_run": 72.38,
+      "ui_hints": {
+        "avg_height_pixels": 121.3,
+        "avg_width_pixels": 45.7
+      }
+    },
+    {
+      "track_id": 348,
+      "total_meters_run": 68.81,
+      "ui_hints": {
+        "avg_height_pixels": 183.2,
+        "avg_width_pixels": 74.4
+      }
+    },
+    {
+      "track_id": 605,
+      "total_meters_run": 65.19,
+      "ui_hints": {
+        "avg_height_pixels": 104.7,
+        "avg_width_pixels": 37.7
+      }
+    },
+    {
+      "track_id": 297,
+      "total_meters_run": 62.43,
+      "ui_hints": {
+        "avg_height_pixels": 108.3,
+        "avg_width_pixels": 42.1
+      }
+    },
+    {
+      "track_id": 4,
+      "total_meters_run": 62.13,
+      "ui_hints": {
+        "avg_height_pixels": 168.6,
+        "avg_width_pixels": 63.1
+      }
+    },
+    {
+      "track_id": 396,
+      "total_meters_run": 57.41,
+      "ui_hints": {
+        "avg_height_pixels": 98.7,
+        "avg_width_pixels": 38.0
+      }
+    },
+    {
+      "track_id": 426,
+      "total_meters_run": 55.25,
+      "ui_hints": {
+        "avg_height_pixels": 145.2,
+        "avg_width_pixels": 64.7
+      }
+    },
+    {
+      "track_id": 303,
+      "total_meters_run": 54.27,
+      "ui_hints": {
+        "avg_height_pixels": 130.2,
+        "avg_width_pixels": 50.0
+      }
+    },
+    {
+      "track_id": 517,
+      "total_meters_run": 52.87,
+      "ui_hints": {
+        "avg_height_pixels": 71.2,
+        "avg_width_pixels": 28.8
+      }
+    },
+    {
+      "track_id": 500,
+      "total_meters_run": 52.5,
+      "ui_hints": {
+        "avg_height_pixels": 108.3,
+        "avg_width_pixels": 46.0
+      }
+    },
+    {
+      "track_id": 188,
+      "total_meters_run": 50.02,
+      "ui_hints": {
+        "avg_height_pixels": 113.9,
+        "avg_width_pixels": 45.1
+      }
+    },
+    {
+      "track_id": 246,
+      "total_meters_run": 47.89,
+      "ui_hints": {
+        "avg_height_pixels": 142.0,
+        "avg_width_pixels": 53.1
+      }
+    },
+    {
+      "track_id": 351,
+      "total_meters_run": 47.75,
+      "ui_hints": {
+        "avg_height_pixels": 143.0,
+        "avg_width_pixels": 60.4
+      }
+    },
+    {
+      "track_id": 253,
+      "total_meters_run": 46.01,
+      "ui_hints": {
+        "avg_height_pixels": 203.0,
+        "avg_width_pixels": 74.6
+      }
+    },
+    {
+      "track_id": 66,
+      "total_meters_run": 41.68,
+      "ui_hints": {
+        "avg_height_pixels": 118.1,
+        "avg_width_pixels": 44.0
+      }
+    },
+    {
+      "track_id": 16,
+      "total_meters_run": 40.26,
+      "ui_hints": {
+        "avg_height_pixels": 74.2,
+        "avg_width_pixels": 26.7
+      }
+    },
+    {
+      "track_id": 676,
+      "total_meters_run": 37.71,
+      "ui_hints": {
+        "avg_height_pixels": 148.1,
+        "avg_width_pixels": 47.5
+      }
+    },
+    {
+      "track_id": 422,
+      "total_meters_run": 35.47,
+      "ui_hints": {
+        "avg_height_pixels": 144.1,
+        "avg_width_pixels": 59.6
+      }
+    },
+    {
+      "track_id": 240,
+      "total_meters_run": 35.04,
+      "ui_hints": {
+        "avg_height_pixels": 90.4,
+        "avg_width_pixels": 33.8
+      }
+    },
+    {
+      "track_id": 483,
+      "total_meters_run": 30.29,
+      "ui_hints": {
+        "avg_height_pixels": 91.3,
+        "avg_width_pixels": 27.5
+      }
+    },
+    {
+      "track_id": 659,
+      "total_meters_run": 29.02,
+      "ui_hints": {
+        "avg_height_pixels": 126.7,
+        "avg_width_pixels": 48.4
+      }
+    },
+    {
+      "track_id": 207,
+      "total_meters_run": 28.68,
+      "ui_hints": {
+        "avg_height_pixels": 68.9,
+        "avg_width_pixels": 24.8
+      }
+    },
+    {
+      "track_id": 13,
+      "total_meters_run": 28.1,
+      "ui_hints": {
+        "avg_height_pixels": 166.2,
+        "avg_width_pixels": 59.6
+      }
+    },
+    {
+      "track_id": 622,
+      "total_meters_run": 25.26,
+      "ui_hints": {
+        "avg_height_pixels": 90.9,
+        "avg_width_pixels": 35.6
+      }
+    },
+    {
+      "track_id": 190,
+      "total_meters_run": 21.69,
+      "ui_hints": {
+        "avg_height_pixels": 103.3,
+        "avg_width_pixels": 35.1
+      }
+    },
+    {
+      "track_id": 626,
+      "total_meters_run": 20.25,
+      "ui_hints": {
+        "avg_height_pixels": 92.6,
+        "avg_width_pixels": 34.3
+      }
+    },
+    {
+      "track_id": 509,
+      "total_meters_run": 18.68,
+      "ui_hints": {
+        "avg_height_pixels": 68.6,
+        "avg_width_pixels": 21.6
+      }
+    },
+    {
+      "track_id": 312,
+      "total_meters_run": 16.92,
+      "ui_hints": {
+        "avg_height_pixels": 106.6,
+        "avg_width_pixels": 49.4
+      }
+    },
+    {
+      "track_id": 682,
+      "total_meters_run": 16.82,
+      "ui_hints": {
+        "avg_height_pixels": 129.3,
+        "avg_width_pixels": 43.3
+      }
+    },
+    {
+      "track_id": 535,
+      "total_meters_run": 16.73,
+      "ui_hints": {
+        "avg_height_pixels": 72.0,
+        "avg_width_pixels": 25.4
+      }
+    },
+    {
+      "track_id": 53,
+      "total_meters_run": 15.69,
+      "ui_hints": {
+        "avg_height_pixels": 96.4,
+        "avg_width_pixels": 38.2
+      }
+    },
+    {
+      "track_id": 367,
+      "total_meters_run": 15.01,
+      "ui_hints": {
+        "avg_height_pixels": 135.2,
+        "avg_width_pixels": 61.1
+      }
+    },
+    {
+      "track_id": 695,
+      "total_meters_run": 13.58,
+      "ui_hints": {
+        "avg_height_pixels": 153.0,
+        "avg_width_pixels": 64.5
+      }
+    },
+    {
+      "track_id": 137,
+      "total_meters_run": 12.81,
+      "ui_hints": {
+        "avg_height_pixels": 75.8,
+        "avg_width_pixels": 32.0
+      }
+    },
+    {
+      "track_id": 322,
+      "total_meters_run": 12.19,
+      "ui_hints": {
+        "avg_height_pixels": 130.4,
+        "avg_width_pixels": 46.5
+      }
+    },
+    {
+      "track_id": 202,
+      "total_meters_run": 11.81,
+      "ui_hints": {
+        "avg_height_pixels": 84.8,
+        "avg_width_pixels": 34.1
+      }
+    },
+    {
+      "track_id": 624,
+      "total_meters_run": 11.4,
+      "ui_hints": {
+        "avg_height_pixels": 140.6,
+        "avg_width_pixels": 82.1
+      }
+    },
+    {
+      "track_id": 223,
+      "total_meters_run": 11.27,
+      "ui_hints": {
+        "avg_height_pixels": 79.7,
+        "avg_width_pixels": 24.2
+      }
+    },
+    {
+      "track_id": 74,
+      "total_meters_run": 10.57,
+      "ui_hints": {
+        "avg_height_pixels": 143.9,
+        "avg_width_pixels": 39.5
+      }
+    },
+    {
+      "track_id": 9,
+      "total_meters_run": 9.86,
+      "ui_hints": {
+        "avg_height_pixels": 134.9,
+        "avg_width_pixels": 44.1
+      }
+    },
+    {
+      "track_id": 600,
+      "total_meters_run": 9.8,
+      "ui_hints": {
+        "avg_height_pixels": 69.0,
+        "avg_width_pixels": 31.8
+      }
+    },
+    {
+      "track_id": 538,
+      "total_meters_run": 8.83,
+      "ui_hints": {
+        "avg_height_pixels": 85.6,
+        "avg_width_pixels": 36.5
+      }
+    },
+    {
+      "track_id": 216,
+      "total_meters_run": 8.59,
+      "ui_hints": {
+        "avg_height_pixels": 78.2,
+        "avg_width_pixels": 30.0
+      }
+    },
+    {
+      "track_id": 108,
+      "total_meters_run": 7.68,
+      "ui_hints": {
+        "avg_height_pixels": 102.6,
+        "avg_width_pixels": 30.6
+      }
+    },
+    {
+      "track_id": 126,
+      "total_meters_run": 7.32,
+      "ui_hints": {
+        "avg_height_pixels": 115.7,
+        "avg_width_pixels": 35.6
+      }
+    },
+    {
+      "track_id": 340,
+      "total_meters_run": 7.24,
+      "ui_hints": {
+        "avg_height_pixels": 100.7,
+        "avg_width_pixels": 46.4
+      }
+    },
+    {
+      "track_id": 231,
+      "total_meters_run": 6.91,
+      "ui_hints": {
+        "avg_height_pixels": 81.8,
+        "avg_width_pixels": 29.6
+      }
+    },
+    {
+      "track_id": 143,
+      "total_meters_run": 6.74,
+      "ui_hints": {
+        "avg_height_pixels": 156.0,
+        "avg_width_pixels": 63.5
+      }
+    },
+    {
+      "track_id": 45,
+      "total_meters_run": 6.32,
+      "ui_hints": {
+        "avg_height_pixels": 86.3,
+        "avg_width_pixels": 22.0
+      }
+    },
+    {
+      "track_id": 542,
+      "total_meters_run": 5.06,
+      "ui_hints": {
+        "avg_height_pixels": 98.0,
+        "avg_width_pixels": 51.4
+      }
+    },
+    {
+      "track_id": 3,
+      "total_meters_run": 2.31,
+      "ui_hints": {
+        "avg_height_pixels": 149.7,
+        "avg_width_pixels": 63.9
+      }
+    },
+    {
+      "track_id": 176,
+      "total_meters_run": 2.27,
+      "ui_hints": {
+        "avg_height_pixels": 60.2,
+        "avg_width_pixels": 30.0
+      }
+    }
+  ],
+  "tracked_events": []
+}
