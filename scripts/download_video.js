@@ -19,7 +19,7 @@ if (!videoUrl || !savePath) {
 // Path to yt-dlp executable
 const ytDlpPath = path.join(__dirname, '../bin', 'yt-dlp.exe');
 // Construct the command to download the video
-const command = `"${ytDlpPath}" -o "${savePath}" "${videoUrl}"`;
+const command = `"${ytDlpPath}" -o "${savePath}" "${videoUrl}"  -f "bv*[height=1080][fps=60]+ba/b[height=1080]" --merge-output-format mp4`;
 exec(command, (error, stdout, stderr) => {
     if (error) {
         console.error(`Error downloading video: ${error}`);
