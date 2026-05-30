@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "download": "node scripts/download_video.js"
+    "download": "node scripts/download_video.js",
+    "downframe": "node scripts/video_convert.js"
   },
   "repository": {
     "type": "git",
