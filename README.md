@@ -59,7 +59,9 @@ The Python backend script runs without user intervention. Using your AMD GPU via
 
 ```bash
 # (one time) install Python's core computer vision and machine learning libraries
-pip install ultralytics opencv-python numpy onnxruntime-directml
+pip install ultralytics opencv-python numpy onnxruntime-directml tqdm
+pip uninstall -y onnxruntime onnxruntime-directml
+pip install onnxruntime-directml
 
 python scripts/ai_tracker.py
 ```
