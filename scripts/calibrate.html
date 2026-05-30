@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bstats - Court Calibration</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            height: calc(100vh - 40px);
+            display: flex;
+            flex-direction: column;
+        }
+        h1 { margin-top: 0; margin-bottom: 15px; font-size: 24px; }
+        .container { display: flex; gap: 20px; flex: 1; min-height: 0; }
+
+        .sidebar {
+            width: 320px;
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-sizing: border-box;
+        }
+        .instructions p { margin: 5px 0; font-size: 14px; line-height: 1.4; }
+        .active-step { color: #0070f3; font-weight: bold; }
+        .step-done { color: #4caf50; text-decoration: line-through; opacity: 0.6; }
+
+        .control-group {
+            background: #222;
+            padding: 12px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .control-item { display: flex; align-items: center; justify-content: space-between; font-size: 14px; }
+        select { background: #333; color: white; border: 1px solid #444; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+
+        .log-container { flex: 1; overflow-y: auto; background: #1f1f1f; border-radius: 6px; padding: 10px; border: 1px solid #333; }
+        ul { padding-left: 20px; margin: 0; font-size: 13px; line-height: 1.6; color: #ccc; }
+
+        .btn-group { display: flex; gap: 10px; }
+        button { color: white; border: none; padding: 12px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; flex: 1; font-size: 14px; }
+        #saveBtn { background: #0070f3; }
+        #saveBtn:hover { background: #0051a8; }
+        #saveBtn:disabled { background: #555; cursor: not-allowed; }
+        #resetBtn { background: #dc3545; }
+        #resetBtn:hover { background: #bd2130; }
+
+        /* Scrollable viewer workspace wrapper */
+        .viewer-workspace {
+            flex: 1;
+            background: #111;
+            border-radius: 8px;
+            border: 2px dashed #444;
+            overflow: auto; /* Enables scrollbars when canvas content expands */
+            position: relative;
+            display: block;
+        }
+        canvas {
+            display: block;
+            cursor: crosshair;
+            transform-origin: top left;
+        }
+    </style>
+</head>
+<body>
+    <h1>🏀 bstats Court Calibration</h1>
+    <div class="container">
+        <div class="sidebar">
+            <div class="instructions">
+                <h3>Instructions</h3>
+                <p id="step1" class="active-step">1. Click 4 corners of court boundary (Clockwise from Top-Left).</p>
+                <p id="step2">2. Click and drag a box around the LEFT basket/rim.</p>
+                <p id="step3">3. Click and drag a box around the RIGHT basket/rim.</p>
+            </div>
+
+            <div class="control-group">
+                <div class="control-item">
+                    <label for="zoomSelect">Workspace Zoom:</label>
+                    <select id="zoomSelect" onchange="updateZoom()">
+                        <option value="0.5">0.5x</option>
+                        <option value="1" selected>1.0x (Default)</option>
+                        <option value="2">2.0x</option>
+                        <option value="4">4.0x</option>
+                    </select>
+                </div>
+                <div class="control-item">
+                    <label for="showPaddingCheck" style="cursor:pointer;">Highlight Padding Zone:</label>
+                    <input type="checkbox" id="showPaddingCheck" checked onchange="draw()" style="cursor:pointer;">
+                </div>
+            </div>
+
+            <h4>Data Log</h4>
+            <div class="log-container">
+                <ul id="log"></ul>
+            </div>
+
+            <div class="btn-group">
+                <button id="resetBtn" onclick="resetCalibration()">Reset</button>
+                <button id="saveBtn" disabled onclick="saveCalibration()">Save</button>
+            </div>
+        </div>
+
+        <div class="viewer-workspace" id="workspace">
+            <canvas id="canvas" width="2720" height="1880"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const showPaddingCheck = document.getElementById('showPaddingCheck');
+        const zoomSelect = document.getElementById('zoomSelect');
+
+        const img = new Image();
+        img.src = '/frame.jpg';
+
+        // 400px generous margin layout all around the 1920x1080 native frame
+        let offset = 400;
+        let state = 'corners';
+        window.data = { court_corners: [], left_basket: null, right_basket: null };
+
+        let isDragging = false;
+        let dragStart = { x: 0, y: 0 };
+        let currentMouse = { x: 0, y: 0 };
+
+        img.onload = () => {
+            updateZoom();
+            draw();
+        };
+
+        // Precision mapping formula factoring in live client CSS dimension changes via zoom scaling
+        function getRelativeImageCoords(e) {
+            const rect = canvas.getBoundingClientRect();
+            const canvasX = (e.clientX - rect.left) * (canvas.width / rect.width);
+            const canvasY = (e.clientY - rect.top) * (canvas.height / rect.height);
+
+            return {
+                x: Math.round(canvasX - offset),
+                y: Math.round(canvasY - offset)
+            };
+        }
+
+        // Modifies the physical layout space of the canvas inside the overflow container wrapper
+        function updateZoom() {
+            const zoomFactor = parseFloat(zoomSelect.value);
+            canvas.style.width = (canvas.width * zoomFactor) + 'px';
+            canvas.style.height = (canvas.height * zoomFactor) + 'px';
+        }
+
+        canvas.addEventListener('mousedown', (e) => {
+            const coords = getRelativeImageCoords(e);
+            if (state === 'corners') {
+                window.data.court_corners.push(coords);
+                updateLog(`Corner ${window.data.court_corners.length}: X:${coords.x}, Y:${coords.y}`);
+                if (window.data.court_corners.length === 4) {
+                    state = 'left_basket';
+                    document.getElementById('step1').className = 'step-done';
+                    document.getElementById('step2').className = 'active-step';
+                }
+            } else if (state === 'left_basket' || state === 'right_basket') {
+                isDragging = true;
+                dragStart = coords;
+                currentMouse = coords;
+            }
+            draw();
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            currentMouse = getRelativeImageCoords(e);
+            draw();
+        });
+
+        canvas.addEventListener('mouseup', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            const dragEnd = getRelativeImageCoords(e);
+
+            const box = {
+                x: Math.min(dragStart.x, dragEnd.x),
+                y: Math.min(dragStart.y, dragEnd.y),
+                w: Math.abs(dragStart.x - dragEnd.x),
+                h: Math.abs(dragStart.y - dragEnd.y)
+            };
+
+            if (state === 'left_basket') {
+                window.data.left_basket = box;
+                updateLog(`Left Basket Box Registered`);
+                state = 'right_basket';
+                document.getElementById('step2').className = 'step-done';
+                document.getElementById('step3').className = 'active-step';
+            } else if (state === 'right_basket') {
+                window.data.right_basket = box;
+                updateLog(`Right Basket Box Registered`);
+                state = 'done';
+                document.getElementById('step3').className = 'step-done';
+                document.getElementById('saveBtn').disabled = false;
+            }
+            draw();
+        });
+
+        function updateLog(msg) {
+            const li = document.createElement('li');
+            li.textContent = msg;
+            document.getElementById('log').appendChild(li);
+        }
+
+        function resetCalibration() {
+            window.data = { court_corners: [], left_basket: null, right_basket: null };
+            state = 'corners';
+            document.getElementById('step1').className = 'active-step';
+            document.getElementById('step2').className = '';
+            document.getElementById('step3').className = '';
+            document.getElementById('saveBtn').disabled = true;
+            document.getElementById('log').innerHTML = '';
+            draw();
+        }
+
+        function draw() {
+            // Toggles structural visibility context representation of the off-screen workspace boundary
+            if (showPaddingCheck.checked) {
+                offset = 400; // Retains the original generous padding layout for clear visual distinction
+                ctx.fillStyle = '#2c303b'; // Distinct shade mapping active padding field
+            } else {
+                offset = 0; // Collapses the workspace to the native frame dimensions for direct pixel-level calibration
+                ctx.fillStyle = '#111111'; // Blends directly to match default application viewport canvas
+            }
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw baseline underlying frame context
+            ctx.drawImage(img, offset, offset, 1920, 1080);
+
+            // Render video frame boundary tracking marker
+            ctx.strokeStyle = '#666';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(offset, offset, 1920, 1080);
+
+            // Render Court Boundaries
+            if (window.data.court_corners.length > 0) {
+                ctx.strokeStyle = '#0070f3'; ctx.lineWidth = 4; ctx.fillStyle = '#0070f3';
+                window.data.court_corners.forEach((pt) => {
+                    ctx.beginPath();
+                    ctx.arc(pt.x + offset, pt.y + offset, 8, 0, 2 * Math.PI);
+                    ctx.fill();
+                });
+
+                ctx.beginPath();
+                data.court_corners.forEach((pt, idx) => {
+                    if (idx === 0) ctx.moveTo(pt.x + offset, pt.y + offset);
+                    else ctx.lineTo(pt.x + offset, pt.y + offset);
+                });
+                if (data.court_corners.length === 4) ctx.closePath();
+                ctx.stroke();
+            }
+
+            // Draw Basket Overlays
+            if (data.left_basket) {
+                ctx.strokeStyle = '#4caf50'; ctx.lineWidth = 4;
+                ctx.strokeRect(data.left_basket.x + offset, data.left_basket.y + offset, data.left_basket.w, data.left_basket.h);
+            }
+            if (data.right_basket) {
+                ctx.strokeStyle = '#f44336'; ctx.lineWidth = 4;
+                ctx.strokeRect(data.right_basket.x + offset, data.right_basket.y + offset, data.right_basket.w, data.right_basket.h);
+            }
+
+            // Drag State Active Preview Box rendering engine logic
+            if (isDragging) {
+                ctx.strokeStyle = '#ffeb3b'; ctx.lineWidth = 2;
+                ctx.strokeRect(
+                    Math.min(dragStart.x, currentMouse.x) + offset,
+                    Math.min(dragStart.y, currentMouse.y) + offset,
+                    Math.abs(currentMouse.x - dragStart.x),
+                    Math.abs(currentMouse.y - dragStart.y)
+                );
+            }
+        }
+
+        function saveCalibration() {
+            // Example data
+            // {"court_corners":[{"x":78,"y":599},{"x":691,"y":586},{"x":1670,"y":685},{"x":1170,"y":1600}],"left_basket":{"x":455,"y":486,"w":15,"h":4},"right_basket":{"x":1370,"y":415,"w":45,"h":10}}
+            fetch('/api/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(res => {
+                if(res.ok) {
+                    alert('Calibration layout parameters saved successfully!');
+                    window.close();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

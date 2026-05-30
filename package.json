@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "download": "node scripts/download_video.js",
-    "downframe": "node scripts/video_convert.js"
+    "downframe": "node scripts/video_convert.js",
+    "calibrate": "node scripts/calibrate.js"
   },
   "repository": {
     "type": "git",
