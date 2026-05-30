@@ -29,14 +29,14 @@ To achieve high-accuracy statistics from an amateur, single-camera setup, `bstat
 ### 1. Download Video
 Pull the raw match footage (`60fps`) from your source URL into the local `/download` directory.
 ```bash
-npm run download -- <url> ./download/raw_match.mp4
+npm run download -- <url> ./videos/raw_match.mp4
 ```
 
 ### 2. Encode and Optimize Video
 Normalize the footage down to a strict 20fps constant frame rate. This optimizes the file structure for sequential frame decoding and drastically speeds up the machine learning inference phase.
 
 ```bash
-npm run downframe -- ./download/raw_match.mp4 ./download/processed_match_20fps.mp4
+npm run downframe -- ./videos/raw_match.mp4 ./videos/processed_match_20fps.mp4
 ```
 
 ### 3. Interactive Court Calibration (Manual User Input)
@@ -75,7 +75,7 @@ bstats/
 ├── bin/
 │   ├── ffmpeg.exe          # FFmpeg executable for video encoding
 │   └── yt-dlp.exe          # YouTube-DL interface for asset fetching
-├── download/               # Target directory for raw downloaded videos
+├── videos/                 # Target directory for raw downloaded videos
 ├── scripts/
 │   ├── download_video.js   # Script wrapper for video fetching
 │   └── video_convert.js    # Script wrapper for 20 FPS video processing
