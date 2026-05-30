@@ -8,6 +8,21 @@
     {
       "track_id": 129,
       "total_meters_run": 267.94,
+      "minutes_played": 0.75,
+      "minutes_rested": 0.25,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 303,
+          "time": "00:15"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1200,
+          "time": "01:00"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 160.9,
         "avg_width_pixels": 52.2
@@ -16,6 +31,21 @@
     {
       "track_id": 337,
       "total_meters_run": 159.86,
+      "minutes_played": 0.38,
+      "minutes_rested": 0.62,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 744,
+          "time": "00:37"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1200,
+          "time": "01:00"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 107.5,
         "avg_width_pixels": 47.3
@@ -24,6 +54,21 @@
     {
       "track_id": 174,
       "total_meters_run": 151.74,
+      "minutes_played": 0.22,
+      "minutes_rested": 0.78,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 385,
+          "time": "00:19"
+        },
+        {
+          "type": "sub_out",
+          "frame": 643,
+          "time": "00:32"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 76.7,
         "avg_width_pixels": 25.4
@@ -32,6 +77,21 @@
     {
       "track_id": 523,
       "total_meters_run": 147.91,
+      "minutes_played": 0.1,
+      "minutes_rested": 0.9,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 992,
+          "time": "00:49"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1113,
+          "time": "00:55"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 83.9,
         "avg_width_pixels": 29.7
@@ -40,6 +100,21 @@
     {
       "track_id": 11,
       "total_meters_run": 128.13,
+      "minutes_played": 0.18,
+      "minutes_rested": 0.82,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 1,
+          "time": "00:00"
+        },
+        {
+          "type": "sub_out",
+          "frame": 214,
+          "time": "00:10"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 74.9,
         "avg_width_pixels": 27.4
@@ -48,6 +123,21 @@
     {
       "track_id": 50,
       "total_meters_run": 102.03,
+      "minutes_played": 0.45,
+      "minutes_rested": 0.55,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 95,
+          "time": "00:04"
+        },
+        {
+          "type": "sub_out",
+          "frame": 636,
+          "time": "00:31"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 159.1,
         "avg_width_pixels": 36.4
@@ -56,6 +146,21 @@
     {
       "track_id": 2,
       "total_meters_run": 99.03,
+      "minutes_played": 0.82,
+      "minutes_rested": 0.17,
+      "possession_seconds": 0.2,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 1,
+          "time": "00:00"
+        },
+        {
+          "type": "sub_out",
+          "frame": 990,
+          "time": "00:49"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 197.7,
         "avg_width_pixels": 78.0
@@ -64,6 +169,21 @@
     {
       "track_id": 292,
       "total_meters_run": 95.8,
+      "minutes_played": 0.16,
+      "minutes_rested": 0.84,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 645,
+          "time": "00:32"
+        },
+        {
+          "type": "sub_out",
+          "frame": 840,
+          "time": "00:42"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 91.2,
         "avg_width_pixels": 36.2
@@ -72,6 +192,21 @@
     {
       "track_id": 5,
       "total_meters_run": 90.09,
+      "minutes_played": 0.43,
+      "minutes_rested": 0.57,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 1,
+          "time": "00:00"
+        },
+        {
+          "type": "sub_out",
+          "frame": 517,
+          "time": "00:25"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 109.9,
         "avg_width_pixels": 42.5
@@ -80,6 +215,21 @@
     {
       "track_id": 7,
       "total_meters_run": 81.42,
+      "minutes_played": 0.32,
+      "minutes_rested": 0.68,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 1,
+          "time": "00:00"
+        },
+        {
+          "type": "sub_out",
+          "frame": 382,
+          "time": "00:19"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 85.9,
         "avg_width_pixels": 31.2
@@ -88,6 +238,21 @@
     {
       "track_id": 428,
       "total_meters_run": 72.38,
+      "minutes_played": 0.26,
+      "minutes_rested": 0.74,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 886,
+          "time": "00:44"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1200,
+          "time": "01:00"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 121.3,
         "avg_width_pixels": 45.7
@@ -96,6 +261,21 @@
     {
       "track_id": 348,
       "total_meters_run": 68.81,
+      "minutes_played": 0.13,
+      "minutes_rested": 0.86,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 768,
+          "time": "00:38"
+        },
+        {
+          "type": "sub_out",
+          "frame": 929,
+          "time": "00:46"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 183.2,
         "avg_width_pixels": 74.4
@@ -104,6 +284,21 @@
     {
       "track_id": 605,
       "total_meters_run": 65.19,
+      "minutes_played": 0.1,
+      "minutes_rested": 0.9,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 1075,
+          "time": "00:53"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1196,
+          "time": "00:59"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 104.7,
         "avg_width_pixels": 37.7
@@ -112,6 +307,21 @@
     {
       "track_id": 297,
       "total_meters_run": 62.43,
+      "minutes_played": 0.17,
+      "minutes_rested": 0.82,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 650,
+          "time": "00:32"
+        },
+        {
+          "type": "sub_out",
+          "frame": 859,
+          "time": "00:42"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 108.3,
         "avg_width_pixels": 42.1
@@ -120,6 +330,21 @@
     {
       "track_id": 4,
       "total_meters_run": 62.13,
+      "minutes_played": 0.38,
+      "minutes_rested": 0.62,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 1,
+          "time": "00:00"
+        },
+        {
+          "type": "sub_out",
+          "frame": 460,
+          "time": "00:23"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 168.6,
         "avg_width_pixels": 63.1
@@ -128,6 +353,21 @@
     {
       "track_id": 396,
       "total_meters_run": 57.41,
+      "minutes_played": 0.04,
+      "minutes_rested": 0.96,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 843,
+          "time": "00:42"
+        },
+        {
+          "type": "sub_out",
+          "frame": 887,
+          "time": "00:44"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 98.7,
         "avg_width_pixels": 38.0
@@ -136,6 +376,21 @@
     {
       "track_id": 426,
       "total_meters_run": 55.25,
+      "minutes_played": 0.15,
+      "minutes_rested": 0.85,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 884,
+          "time": "00:44"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1067,
+          "time": "00:53"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 145.2,
         "avg_width_pixels": 64.7
@@ -144,6 +399,21 @@
     {
       "track_id": 303,
       "total_meters_run": 54.27,
+      "minutes_played": 0.17,
+      "minutes_rested": 0.83,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 665,
+          "time": "00:33"
+        },
+        {
+          "type": "sub_out",
+          "frame": 866,
+          "time": "00:43"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 130.2,
         "avg_width_pixels": 50.0
@@ -152,6 +422,21 @@
     {
       "track_id": 517,
       "total_meters_run": 52.87,
+      "minutes_played": 0.05,
+      "minutes_rested": 0.95,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 989,
+          "time": "00:49"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1051,
+          "time": "00:52"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 71.2,
         "avg_width_pixels": 28.8
@@ -160,6 +445,21 @@
     {
       "track_id": 500,
       "total_meters_run": 52.5,
+      "minutes_played": 0.18,
+      "minutes_rested": 0.82,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 969,
+          "time": "00:48"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1183,
+          "time": "00:59"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 108.3,
         "avg_width_pixels": 46.0
@@ -168,6 +468,21 @@
     {
       "track_id": 188,
       "total_meters_run": 50.02,
+      "minutes_played": 0.26,
+      "minutes_rested": 0.74,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 423,
+          "time": "00:21"
+        },
+        {
+          "type": "sub_out",
+          "frame": 738,
+          "time": "00:36"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 113.9,
         "avg_width_pixels": 45.1
@@ -176,6 +491,21 @@
     {
       "track_id": 246,
       "total_meters_run": 47.89,
+      "minutes_played": 0.18,
+      "minutes_rested": 0.82,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 582,
+          "time": "00:29"
+        },
+        {
+          "type": "sub_out",
+          "frame": 795,
+          "time": "00:39"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 142.0,
         "avg_width_pixels": 53.1
@@ -184,6 +514,21 @@
     {
       "track_id": 351,
       "total_meters_run": 47.75,
+      "minutes_played": 0.19,
+      "minutes_rested": 0.81,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 776,
+          "time": "00:38"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1001,
+          "time": "00:50"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 143.0,
         "avg_width_pixels": 60.4
@@ -192,6 +537,21 @@
     {
       "track_id": 253,
       "total_meters_run": 46.01,
+      "minutes_played": 0.36,
+      "minutes_rested": 0.64,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 590,
+          "time": "00:29"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1017,
+          "time": "00:50"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 203.0,
         "avg_width_pixels": 74.6
@@ -200,6 +560,21 @@
     {
       "track_id": 66,
       "total_meters_run": 41.68,
+      "minutes_played": 0.27,
+      "minutes_rested": 0.73,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 132,
+          "time": "00:06"
+        },
+        {
+          "type": "sub_out",
+          "frame": 449,
+          "time": "00:22"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 118.1,
         "avg_width_pixels": 44.0
@@ -208,6 +583,21 @@
     {
       "track_id": 16,
       "total_meters_run": 40.26,
+      "minutes_played": 0.08,
+      "minutes_rested": 0.92,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 19,
+          "time": "00:00"
+        },
+        {
+          "type": "sub_out",
+          "frame": 116,
+          "time": "00:05"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 74.2,
         "avg_width_pixels": 26.7
@@ -216,6 +606,21 @@
     {
       "track_id": 676,
       "total_meters_run": 37.71,
+      "minutes_played": 0.03,
+      "minutes_rested": 0.97,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 1167,
+          "time": "00:58"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1200,
+          "time": "01:00"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 148.1,
         "avg_width_pixels": 47.5
@@ -224,6 +629,21 @@
     {
       "track_id": 422,
       "total_meters_run": 35.47,
+      "minutes_played": 0.06,
+      "minutes_rested": 0.94,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 882,
+          "time": "00:44"
+        },
+        {
+          "type": "sub_out",
+          "frame": 958,
+          "time": "00:47"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 144.1,
         "avg_width_pixels": 59.6
@@ -232,6 +652,21 @@
     {
       "track_id": 240,
       "total_meters_run": 35.04,
+      "minutes_played": 0.12,
+      "minutes_rested": 0.88,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 569,
+          "time": "00:28"
+        },
+        {
+          "type": "sub_out",
+          "frame": 718,
+          "time": "00:35"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 90.4,
         "avg_width_pixels": 33.8
@@ -240,6 +675,21 @@
     {
       "track_id": 483,
       "total_meters_run": 30.29,
+      "minutes_played": 0.09,
+      "minutes_rested": 0.91,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 946,
+          "time": "00:47"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1055,
+          "time": "00:52"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 91.3,
         "avg_width_pixels": 27.5
@@ -248,6 +698,21 @@
     {
       "track_id": 659,
       "total_meters_run": 29.02,
+      "minutes_played": 0.05,
+      "minutes_rested": 0.95,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 1137,
+          "time": "00:56"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1200,
+          "time": "01:00"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 126.7,
         "avg_width_pixels": 48.4
@@ -256,6 +721,21 @@
     {
       "track_id": 207,
       "total_meters_run": 28.68,
+      "minutes_played": 0.07,
+      "minutes_rested": 0.93,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 472,
+          "time": "00:23"
+        },
+        {
+          "type": "sub_out",
+          "frame": 551,
+          "time": "00:27"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 68.9,
         "avg_width_pixels": 24.8
@@ -264,6 +744,21 @@
     {
       "track_id": 13,
       "total_meters_run": 28.1,
+      "minutes_played": 0.31,
+      "minutes_rested": 0.69,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 6,
+          "time": "00:00"
+        },
+        {
+          "type": "sub_out",
+          "frame": 372,
+          "time": "00:18"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 166.2,
         "avg_width_pixels": 59.6
@@ -272,6 +767,21 @@
     {
       "track_id": 622,
       "total_meters_run": 25.26,
+      "minutes_played": 0.05,
+      "minutes_rested": 0.95,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 1096,
+          "time": "00:54"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1149,
+          "time": "00:57"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 90.9,
         "avg_width_pixels": 35.6
@@ -280,6 +790,21 @@
     {
       "track_id": 190,
       "total_meters_run": 21.69,
+      "minutes_played": 0.1,
+      "minutes_rested": 0.9,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 425,
+          "time": "00:21"
+        },
+        {
+          "type": "sub_out",
+          "frame": 549,
+          "time": "00:27"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 103.3,
         "avg_width_pixels": 35.1
@@ -288,6 +813,21 @@
     {
       "track_id": 626,
       "total_meters_run": 20.25,
+      "minutes_played": 0.08,
+      "minutes_rested": 0.92,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 1103,
+          "time": "00:55"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1200,
+          "time": "01:00"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 92.6,
         "avg_width_pixels": 34.3
@@ -296,6 +836,21 @@
     {
       "track_id": 509,
       "total_meters_run": 18.68,
+      "minutes_played": 0.01,
+      "minutes_rested": 0.99,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 984,
+          "time": "00:49"
+        },
+        {
+          "type": "sub_out",
+          "frame": 997,
+          "time": "00:49"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 68.6,
         "avg_width_pixels": 21.6
@@ -304,6 +859,21 @@
     {
       "track_id": 312,
       "total_meters_run": 16.92,
+      "minutes_played": 0.06,
+      "minutes_rested": 0.94,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 687,
+          "time": "00:34"
+        },
+        {
+          "type": "sub_out",
+          "frame": 755,
+          "time": "00:37"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 106.6,
         "avg_width_pixels": 49.4
@@ -312,6 +882,21 @@
     {
       "track_id": 682,
       "total_meters_run": 16.82,
+      "minutes_played": 0.02,
+      "minutes_rested": 0.98,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 1172,
+          "time": "00:58"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1191,
+          "time": "00:59"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 129.3,
         "avg_width_pixels": 43.3
@@ -320,6 +905,21 @@
     {
       "track_id": 535,
       "total_meters_run": 16.73,
+      "minutes_played": 0.01,
+      "minutes_rested": 0.99,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 1009,
+          "time": "00:50"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1025,
+          "time": "00:51"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 72.0,
         "avg_width_pixels": 25.4
@@ -328,6 +928,21 @@
     {
       "track_id": 53,
       "total_meters_run": 15.69,
+      "minutes_played": 0.06,
+      "minutes_rested": 0.94,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 99,
+          "time": "00:04"
+        },
+        {
+          "type": "sub_out",
+          "frame": 167,
+          "time": "00:08"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 96.4,
         "avg_width_pixels": 38.2
@@ -336,6 +951,21 @@
     {
       "track_id": 367,
       "total_meters_run": 15.01,
+      "minutes_played": 0.04,
+      "minutes_rested": 0.96,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 802,
+          "time": "00:40"
+        },
+        {
+          "type": "sub_out",
+          "frame": 853,
+          "time": "00:42"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 135.2,
         "avg_width_pixels": 61.1
@@ -344,6 +974,21 @@
     {
       "track_id": 695,
       "total_meters_run": 13.58,
+      "minutes_played": 0.01,
+      "minutes_rested": 0.99,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 1185,
+          "time": "00:59"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1199,
+          "time": "00:59"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 153.0,
         "avg_width_pixels": 64.5
@@ -352,6 +997,21 @@
     {
       "track_id": 137,
       "total_meters_run": 12.81,
+      "minutes_played": 0.03,
+      "minutes_rested": 0.97,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 320,
+          "time": "00:16"
+        },
+        {
+          "type": "sub_out",
+          "frame": 354,
+          "time": "00:17"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 75.8,
         "avg_width_pixels": 32.0
@@ -360,6 +1020,21 @@
     {
       "track_id": 322,
       "total_meters_run": 12.19,
+      "minutes_played": 0.04,
+      "minutes_rested": 0.96,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 721,
+          "time": "00:36"
+        },
+        {
+          "type": "sub_out",
+          "frame": 769,
+          "time": "00:38"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 130.4,
         "avg_width_pixels": 46.5
@@ -368,6 +1043,21 @@
     {
       "track_id": 202,
       "total_meters_run": 11.81,
+      "minutes_played": 0.04,
+      "minutes_rested": 0.96,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 457,
+          "time": "00:22"
+        },
+        {
+          "type": "sub_out",
+          "frame": 503,
+          "time": "00:25"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 84.8,
         "avg_width_pixels": 34.1
@@ -376,6 +1066,21 @@
     {
       "track_id": 624,
       "total_meters_run": 11.4,
+      "minutes_played": 0.08,
+      "minutes_rested": 0.92,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 1100,
+          "time": "00:55"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1200,
+          "time": "01:00"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 140.6,
         "avg_width_pixels": 82.1
@@ -384,6 +1089,21 @@
     {
       "track_id": 223,
       "total_meters_run": 11.27,
+      "minutes_played": 0.04,
+      "minutes_rested": 0.96,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 519,
+          "time": "00:25"
+        },
+        {
+          "type": "sub_out",
+          "frame": 562,
+          "time": "00:28"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 79.7,
         "avg_width_pixels": 24.2
@@ -392,6 +1112,21 @@
     {
       "track_id": 74,
       "total_meters_run": 10.57,
+      "minutes_played": 0.13,
+      "minutes_rested": 0.87,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 155,
+          "time": "00:07"
+        },
+        {
+          "type": "sub_out",
+          "frame": 313,
+          "time": "00:15"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 143.9,
         "avg_width_pixels": 39.5
@@ -400,6 +1135,21 @@
     {
       "track_id": 9,
       "total_meters_run": 9.86,
+      "minutes_played": 0.07,
+      "minutes_rested": 0.93,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 1,
+          "time": "00:00"
+        },
+        {
+          "type": "sub_out",
+          "frame": 82,
+          "time": "00:04"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 134.9,
         "avg_width_pixels": 44.1
@@ -408,6 +1158,21 @@
     {
       "track_id": 600,
       "total_meters_run": 9.8,
+      "minutes_played": 0.02,
+      "minutes_rested": 0.98,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 1067,
+          "time": "00:53"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1089,
+          "time": "00:54"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 69.0,
         "avg_width_pixels": 31.8
@@ -416,6 +1181,21 @@
     {
       "track_id": 538,
       "total_meters_run": 8.83,
+      "minutes_played": 0.05,
+      "minutes_rested": 0.95,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 1015,
+          "time": "00:50"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1078,
+          "time": "00:53"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 85.6,
         "avg_width_pixels": 36.5
@@ -424,6 +1204,21 @@
     {
       "track_id": 216,
       "total_meters_run": 8.59,
+      "minutes_played": 0.06,
+      "minutes_rested": 0.94,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 500,
+          "time": "00:25"
+        },
+        {
+          "type": "sub_out",
+          "frame": 573,
+          "time": "00:28"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 78.2,
         "avg_width_pixels": 30.0
@@ -432,6 +1227,21 @@
     {
       "track_id": 108,
       "total_meters_run": 7.68,
+      "minutes_played": 0.02,
+      "minutes_rested": 0.98,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 282,
+          "time": "00:14"
+        },
+        {
+          "type": "sub_out",
+          "frame": 305,
+          "time": "00:15"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 102.6,
         "avg_width_pixels": 30.6
@@ -440,6 +1250,21 @@
     {
       "track_id": 126,
       "total_meters_run": 7.32,
+      "minutes_played": 0.02,
+      "minutes_rested": 0.98,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 296,
+          "time": "00:14"
+        },
+        {
+          "type": "sub_out",
+          "frame": 317,
+          "time": "00:15"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 115.7,
         "avg_width_pixels": 35.6
@@ -448,6 +1273,21 @@
     {
       "track_id": 340,
       "total_meters_run": 7.24,
+      "minutes_played": 0.01,
+      "minutes_rested": 0.99,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 747,
+          "time": "00:37"
+        },
+        {
+          "type": "sub_out",
+          "frame": 752,
+          "time": "00:37"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 100.7,
         "avg_width_pixels": 46.4
@@ -456,6 +1296,21 @@
     {
       "track_id": 231,
       "total_meters_run": 6.91,
+      "minutes_played": 0.03,
+      "minutes_rested": 0.97,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 541,
+          "time": "00:27"
+        },
+        {
+          "type": "sub_out",
+          "frame": 575,
+          "time": "00:28"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 81.8,
         "avg_width_pixels": 29.6
@@ -464,6 +1319,21 @@
     {
       "track_id": 143,
       "total_meters_run": 6.74,
+      "minutes_played": 0.02,
+      "minutes_rested": 0.98,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 327,
+          "time": "00:16"
+        },
+        {
+          "type": "sub_out",
+          "frame": 347,
+          "time": "00:17"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 156.0,
         "avg_width_pixels": 63.5
@@ -472,6 +1342,21 @@
     {
       "track_id": 45,
       "total_meters_run": 6.32,
+      "minutes_played": 0.01,
+      "minutes_rested": 0.99,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 91,
+          "time": "00:04"
+        },
+        {
+          "type": "sub_out",
+          "frame": 101,
+          "time": "00:05"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 86.3,
         "avg_width_pixels": 22.0
@@ -480,6 +1365,21 @@
     {
       "track_id": 542,
       "total_meters_run": 5.06,
+      "minutes_played": 0.01,
+      "minutes_rested": 0.99,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 1017,
+          "time": "00:50"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1024,
+          "time": "00:51"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 98.0,
         "avg_width_pixels": 51.4
@@ -488,6 +1388,21 @@
     {
       "track_id": 3,
       "total_meters_run": 2.31,
+      "minutes_played": 0.02,
+      "minutes_rested": 0.98,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 1,
+          "time": "00:00"
+        },
+        {
+          "type": "sub_out",
+          "frame": 19,
+          "time": "00:00"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 149.7,
         "avg_width_pixels": 63.9
@@ -496,6 +1411,21 @@
     {
       "track_id": 176,
       "total_meters_run": 2.27,
+      "minutes_played": 0.0,
+      "minutes_rested": 1.0,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 392,
+          "time": "00:19"
+        },
+        {
+          "type": "sub_out",
+          "frame": 394,
+          "time": "00:19"
+        }
+      ],
       "ui_hints": {
         "avg_height_pixels": 60.2,
         "avg_width_pixels": 30.0

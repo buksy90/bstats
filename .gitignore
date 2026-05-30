@@ -4,3 +4,5 @@ videos/*.jpg
 # Ignore YOLO files which can be auto generated
 *.pt
 *.onnx
+
+scripts/__pycache__

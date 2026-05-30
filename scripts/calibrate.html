@@ -126,7 +126,6 @@
         const jsonEditor = document.getElementById('jsonEditor');
         const jsonStatus = document.getElementById('jsonStatus');
 
-        // Buttons
         const okClearBtn = document.getElementById('okClearBtn');
         const okCoveredBtn = document.getElementById('okCoveredBtn');
         const skipBtn = document.getElementById('skipBtn');
@@ -142,7 +141,7 @@
         let currentPoolFrame = 1;
 
         let data = { court_corners: [], left_basket: null, right_basket: null, ball_samples: [] };
-        let tempBallBox = null; // Caches unconfirmed active ball drags
+        let tempBallBox = null;
 
         const bgImg = new Image(); bgImg.src = '/frame.jpg';
         const sampleImages = [];
@@ -212,7 +211,6 @@
             document.getElementById('step_right').className = '';
             ballStepText.className = '';
 
-            // Standard state lock wipes
             okClearBtn.disabled = true; okCoveredBtn.disabled = true;
             skipBtn.disabled = true; saveImmBtn.disabled = true; saveBtn.disabled = true;
 
@@ -239,7 +237,6 @@
                 skipBtn.disabled = false;
                 if (data.ball_samples.length > 0) saveImmBtn.disabled = false;
 
-                // Unlock validation keys if a box has been dragged on screen
                 if (tempBallBox) {
                     okClearBtn.disabled = false;
                     okCoveredBtn.disabled = false;
@@ -323,7 +320,7 @@
             if (state === 'left_basket') { data.left_basket = box; evaluatePipelineWorkflowState(); updateTextarea(); }
             else if (state === 'right_basket') { data.right_basket = box; evaluatePipelineWorkflowState(); updateTextarea(); }
             else if (state === 'ball_sampling') {
-                tempBallBox = box; // Hold box in validation state
+                tempBallBox = box;
                 evaluatePipelineWorkflowState();
             }
             draw();
@@ -372,16 +369,17 @@
                 }
             }
 
-            // Confirmed Basketball boxes
+            // 🔥 FIXED: Only draw the ball boxes that belong strictly to the frame being viewed right now
             if (data.ball_samples && data.ball_samples.length > 0) {
                 data.ball_samples.forEach(sample => {
-                    ctx.strokeStyle = sample.status === 'clear' ? '#28a745' : '#17a2b8';
-                    ctx.lineWidth = 3;
-                    ctx.strokeRect(sample.x + OFFSET, sample.y + OFFSET, sample.w, sample.h);
+                    if (state !== 'ball_sampling' || sample.sample_frame === currentPoolFrame) {
+                        ctx.strokeStyle = sample.status === 'clear' ? '#28a745' : '#17a2b8';
+                        ctx.lineWidth = 3;
+                        ctx.strokeRect(sample.x + OFFSET, sample.y + OFFSET, sample.w, sample.h);
+                    }
                 });
             }
 
-            // Unconfirmed Active Box Drag (Yellow)
             if (tempBallBox && state === 'ball_sampling') {
                 ctx.strokeStyle = '#ffeb3b'; ctx.lineWidth = 3;
                 ctx.strokeRect(tempBallBox.x + OFFSET, tempBallBox.y + OFFSET, tempBallBox.w, tempBallBox.h);
