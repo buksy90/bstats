@@ -57,6 +57,14 @@ The Python backend script runs without user intervention. Using your AMD GPU via
 - Logs the exact coordinate path of the basketball.
 - Flags automated events (e.g., ball entering a rim zone, sudden change of ball vector between different player IDs indicating a pass, steal, or turnover).
 
+```bash
+# (one time) install Python's core computer vision and machine learning libraries
+pip install ultralytics opencv-python numpy onnxruntime-directml
+
+python scripts/ai_tracker.py
+```
+
+
 ### 5. Player & Team Labeling (Manual User Input)
 Because players cross paths, sub out, or get blocked out of view by other players, the AI's temporary tracking IDs will occasionally break. The local web UI will present a clean review screen to resolve this:
 - Assign Teams: The AI will automatically group the players into two distinct clusters using the color histograms of their shirts (separating light shirts from dark shirts). You simply toggle which cluster is "Team Light" and which is "Team Dark".
