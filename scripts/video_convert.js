@@ -31,6 +31,8 @@ try {
     // NVIDIA uses 'h264_nvenc' and Intel uses 'h264_qsv'.
     if (encodersOutput.includes('h264_amf')) {
         useGpu = true;
+        console.log("");
+        console.log("AMF hardware encoder detected. Using GPU acceleration for video conversion.");
     }
 } catch (error) {
     // Fallback to CPU if the ffmpeg command fails or isn't found
