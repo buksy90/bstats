@@ -15,6 +15,7 @@ from ultralytics import YOLO
 def main():
     print(f"\n[Core Pipeline] Starting Inference Engine Workspace for file: {config.VIDEO_FILENAME}")
 
+    # 1. Initialize Video Frame metadata dimensions
     cap = cv2.VideoCapture(config.VIDEO_PATH)
     video_fps = cap.get(cv2.CAP_PROP_FPS) or 20.0
     total_video_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -29,11 +30,17 @@ def main():
     target_frames = end_frame - start_frame
     render_step = max(1, int(config.RENDER_EVERY_N_SECONDS * video_fps))
 
+    # 2. Extract Automated Empty Court Background Model
     bg_gray = generate_static_background(start_frame, end_frame)
 
+    # 3. Boot Tracking Engines and Model Architecture Layers
     print("[AI Engine] Loading YOLOv8 Model Asset layers...")
     onnx_model = YOLO("yolov8m.onnx", task="detect")
     ball_engine = HeuristicBallTracker(config.CALIBRATION, video_fps)
+
+    # Build internal identity mapping reference from user pre-seeding info
+    player_seeds = config.CALIBRATION.get("player_seeds", [])
+    sub_zone = config.CALIBRATION.get("substitution_zone", None)
 
     cap = cv2.VideoCapture(config.VIDEO_PATH)
     cap.set(cv2.CAP_PROP_POS_FRAMES, start_frame)
@@ -41,11 +48,12 @@ def main():
 
     track_history = {}
     possession_logs = {}
-    event_log = []
+    frame_momentum_history = {} # Stores macroscopic team velocity changes per frame step
+    last_player_positions = {} # { track_id: (mx, my) }
 
-    progress_bar = tqdm(total=target_frames, desc="[AI Engine] Tracking Match Data", unit="fr")
+    progress_bar = tqdm(total=target_frames, desc="[AI Engine] Analyzing Match Timeline", unit="fr")
 
-    WINDOW_TITLE = "bstats Core Analytics Pipeline"
+    WINDOW_TITLE = "bstats Debug Tracking Canvas"
     cv2.namedWindow(WINDOW_TITLE, cv2.WINDOW_NORMAL)
 
     while cap.isOpened():
@@ -60,6 +68,7 @@ def main():
 
         current_frame_players = {}
         yolo_ball_box = None
+        player_displacements = []
 
         if results[0].boxes.id is not None:
             boxes = results[0].boxes.xyxy.cpu().numpy()
@@ -69,54 +78,66 @@ def main():
             for box, track_id, cls in zip(boxes, ids, clss):
                 x1, y1, x2, y2 = box.astype(int)
 
-                if cls == 0:
-                    m_x, m_y = config.get_court_meters(int((x1 + x2) / 2), y2)
-                    if 0 <= m_x <= 28 and 0 <= m_y <= 15:
-                        current_frame_players[track_id] = (m_x, m_y)
+                if cls == 0:  # Player Analytics Block
+                    # STRATEGY ENFORCEMENT: Ground track position directly to player foot center coordinates
+                    foot_x = int((x1 + x2) / 2)
+                    foot_y = y2
+                    m_x, m_y = config.get_court_meters(foot_x, foot_y)
 
-                        if track_id not in track_history:
-                            track_history[track_id] = {
-                                "first_seen_frame": frame_idx, "last_seen_frame": frame_idx,
-                                "first_pos": (m_x, m_y), "last_pos": (m_x, m_y), "distance": 0.0,
-                                "heights": [y2 - y1], "widths": [x2 - x1], "color_profiles": [],
-                                "raw_presence_frames": []
-                            }
+                    current_frame_players[track_id] = (m_x, m_y)
 
-                        hist = track_history[track_id]
-                        last_x, last_y = hist["last_pos"]
-                        step_dist = np.sqrt((m_x - last_x)**2 + (m_y - last_y)**2)
+                    # Track macroscopic horizontal velocities to catch whole court momentum shifts
+                    if track_id in last_player_positions:
+                        dx = m_x - last_player_positions[track_id][0]
+                        dy = m_y - last_player_positions[track_id][1]
+                        player_displacements.append((dx, dy))
+                    last_player_positions[track_id] = (m_x, m_y)
 
-                        if step_dist > 0.05: hist["distance"] += step_dist
-                        hist["last_seen_frame"] = frame_idx
-                        hist["last_pos"] = (m_x, m_y)
-                        hist["heights"].append(y2 - y1)
-                        hist["widths"].append(x2 - x1)
-                        hist["raw_presence_frames"].append(frame_idx)
+                    if track_id not in track_history:
+                        track_history[track_id] = {
+                            "first_seen_frame": frame_idx, "last_seen_frame": frame_idx,
+                            "first_pos": (m_x, m_y), "last_pos": (m_x, m_y), "distance": 0.0,
+                            "heights": [y2 - y1], "widths": [x2 - x1], "color_profiles": [],
+                            "raw_presence_frames": [], "frame_positions": {}
+                        }
 
-                        if frame_idx % 5 == 0:
-                            crop = frame[max(0, y1):min(frame.shape[0], y2), max(0, x1):min(frame.shape[1], x2)]
-                            profile = config.extract_color_profile(crop)
-                            if profile and profile["shirt"] is not None:
-                                hist["color_profiles"].append(profile)
+                    hist = track_history[track_id]
+                    lx, ly = hist["last_pos"]
+                    step_dist = np.sqrt((m_x - lx)**2 + (m_y - ly)**2)
 
-                elif cls == 32:
+                    if step_dist > 0.05: hist["distance"] += step_dist
+                    hist["last_seen_frame"] = frame_idx
+                    hist["last_pos"] = (m_x, m_y)
+                    hist["heights"].append(y2 - y1)
+                    hist["widths"].append(x2 - x1)
+                    hist["raw_presence_frames"].append(frame_idx)
+                    hist["frame_positions"][frame_idx] = (m_x, m_y)
+
+                    if frame_idx % 6 == 0:
+                        crop = frame[max(0, y1):min(frame.shape[0], y2), max(0, x1):min(frame.shape[1], x2)]
+                        profile = config.extract_color_profile(crop)
+                        if profile and profile["shirt"] is not None:
+                            hist["color_profiles"].append(profile)
+
+                elif cls == 32:  # Ball Object Detection Bounding Anchor
                     yolo_ball_box = box
 
+        # Compute current frame macroscopic team union velocity vector mean
+        if player_displacements:
+            mean_momentum = np.mean(player_displacements, axis=0)
+            frame_momentum_history[frame_idx] = (float(mean_momentum[0]), float(mean_momentum[1]))
+        else:
+            frame_momentum_history[frame_idx] = (0.0, 0.0)
+
+        # 4. Trigger Secondary Core Ball Tracker Engine
         b_pixel, b_meters = ball_engine.track_ball_frame(frame, bg_gray, yolo_ball_box, config.get_court_meters, frame_idx)
 
         if b_pixel is not None:
-            bx, by = b_pixel
-            lb, rb = config.CALIBRATION['left_basket'], config.CALIBRATION['right_basket']
-            if lb['x'] <= bx <= lb['x'] + lb['w'] and lb['y'] <= by <= lb['y'] + lb['h']:
-                event_log.append({"frame": frame_idx, "time": f"{frame_idx//int(video_fps)}s", "event": "Ball near Left Rim"})
-            elif rb['x'] <= bx <= rb['x'] + rb['w'] and rb['y'] <= by <= rb['y'] + rb['h']:
-                event_log.append({"frame": frame_idx, "time": f"{frame_idx//int(video_fps)}s", "event": "Ball near Right Rim"})
-
+            # Map Proximity Ball Handler Ground Truth
             if current_frame_players:
                 closest_pid = None
                 min_d = float('inf')
                 for pid, p_pos in current_frame_players.items():
-                    # 🔥 FIXED: Changed bitwise XOR (^) to exponent power (**)
                     d = np.sqrt((b_meters[0] - p_pos[0])**2 + (b_meters[1] - p_pos[1])**2)
                     if d < min_d:
                         min_d = d
@@ -124,11 +145,55 @@ def main():
                 if min_d <= config.POSSESSION_DISTANCE_THRESHOLD_METERS:
                     possession_logs[frame_idx] = closest_pid
 
+        # 5. Render Enhanced Visual Debug Preview Layout Layer
         if frame_idx % render_step == 0:
-            annotated_frame = results[0].plot()
+            preview_canvas = frame.copy()
+
+            # Loop visible bodies to draw custom team plates
+            if results[0].boxes.id is not None:
+                boxes = results[0].boxes.xyxy.cpu().numpy()
+                ids = results[0].boxes.id.cpu().numpy().astype(int)
+                clss = results[0].boxes.cls.cpu().numpy().astype(int)
+
+                for box, track_id, cls in zip(boxes, ids, clss):
+                    x1, y1, x2, y2 = box.astype(int)
+                    if cls == 0:
+                        # Determine human-assigned name and team identity upfront
+                        p_name = f"ID_{track_id}"
+                        p_team = "light"
+                        for seed in player_seeds:
+                            if seed["name"] == p_name or abs(frame_idx/video_fps - seed["box"]["timestamp"]) < 10.0:
+                                # Quick context name projection mapping fallback
+                                if p_name == f"ID_{track_id}": p_name = seed["name"]
+                                p_team = seed["team"]
+
+                        # STRATEGY ENFORCEMENT: Prefix name with '#' if feet reside outside borders or inside bench box
+                        f_mx, f_my = config.get_court_meters(int((x1+x2)/2), y2)
+                        is_outside = not config.is_inside_court_boundaries(f_mx, f_my)
+                        is_in_bench = config.is_point_in_box(f_mx, f_my, sub_zone) if sub_zone else False
+
+                        if is_outside or is_in_bench:
+                            p_name = f"#{p_name}"
+
+                        # Team Color Code Rules: Team Light = Green (0,255,0) | Team Dark = Red (0,0,255)
+                        draw_color = (0, 255, 0) if p_team == "light" else (0, 0, 255)
+                        if p_team == "spectator": draw_color = (0, 255, 255) # Yellow for Whitelisted Spectators
+
+                        cv2.rectangle(preview_canvas, (x1, y1), (x2, y2), draw_color, 2)
+                        cv2.putText(preview_canvas, p_name, (x1, y1 - 6), cv2.FONT_HERSHEY_SIMPLEX, 0.5, draw_color, 2)
+
+            # STRATEGY ENFORCEMENT: Draw Ball using Orange (0, 165, 255) bounding parameters
             if b_pixel is not None:
-                cv2.circle(annotated_frame, b_pixel, 12, (0, 165, 255), -1)
-            cv2.imshow(WINDOW_TITLE, cv2.resize(annotated_frame, (960, 540)))
+                bx, by = b_pixel
+                cv2.rectangle(preview_canvas, (bx - 12, by - 12), (bx + 12, by + 12), (0, 165, 255), 2)
+                cv2.putText(preview_canvas, "BALL", (bx - 15, by - 16), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 165, 255), 2)
+
+            # Render active ground calibration overlay markers for quick visual tracking checks
+            if sub_zone:
+                sz_x1, sz_y1 = int(sub_zone['x']), int(sub_zone['y'])
+                cv2.rectangle(preview_canvas, (sz_x1, sz_y1), (sz_x1 + int(sub_zone['w']), sz_y1 + int(sub_zone['h'])), (240, 50, 240), 2)
+
+            cv2.imshow(WINDOW_TITLE, cv2.resize(preview_canvas, (960, 540)))
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 
@@ -136,19 +201,22 @@ def main():
     cv2.destroyAllWindows()
     progress_bar.close()
 
-    player_metrics = merge_and_compile_analytics(track_history, possession_logs, video_fps, target_frames)
+    # 6. Execute Advanced Spatial Track Analytics compilation pass
+    player_metrics, possessions_timeline = merge_and_compile_analytics(
+        track_history, possession_logs, frame_momentum_history, config.CALIBRATION, video_fps, target_frames
+    )
 
     final_payload = {
         "slice_window": {"start_min": config.START_MINUTE, "duration_min": config.DURATION_MINUTES},
         "total_frames_processed": target_frames,
-        "player_metrics": player_metrics,
-        "tracked_events": event_log
+        "possessions": possessions_timeline,
+        "player_metrics": player_metrics
     }
 
     with open(config.OUTPUT_LOG_PATH, 'w') as f:
         json.dump(final_payload, f, indent=2)
 
-    print(f"\n[Core Pipeline] Inference completely processed. Data compiled to:\n-> {config.OUTPUT_LOG_PATH}")
+    print(f"\n[Core Pipeline] Processing completely finished. Advanced tracking metrics compiled to:\n-> {config.OUTPUT_LOG_PATH}")
 
 if __name__ == "__main__":
     main()

@@ -2,558 +2,210 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>bstats - Deep Workspace Calibration</title>
+    <title>bstats - Interactive Video Calibration Workspace</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #1a1a1a; color: #fff; margin: 0; padding: 20px; height: calc(100vh - 40px); display: flex; flex-direction: column; }
-        h1 { margin: 0 0 15px 0; font-size: 24px; }
-        .container { display: flex; gap: 20px; flex: 1; min-height: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #121212; color: #fff; margin: 0; padding: 20px; height: calc(100vh - 40px); display: flex; flex-direction: column; }
+        h1 { margin: 0 0 10px 0; font-size: 22px; display: flex; align-items: center; gap: 10px; }
+        .container { display: flex; gap: 20px; flex: 1; min-height: 0; width: 100%; }
 
-        .sidebar {
-            width: 360px;
-            background: #2a2a2a;
-            padding: 15px;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            box-sizing: border-box;
-        }
-        .instructions p { margin: 4px 0; font-size: 12px; color: #aaa; line-height: 1.3; }
-        .active-step { color: #0070f3 !important; font-weight: bold; }
-        .step-done { color: #4caf50 !important; text-decoration: line-through; opacity: 0.5; }
+        /* Sidebar Static Constraints Configuration */
+        .sidebar { width: 370px; flex-shrink: 0; background: #1e1e1e; padding: 15px; border-radius: 8px; display: flex; flex-direction: column; gap: 12px; box-sizing: border-box; overflow-y: auto; }
 
-        .control-group { background: #222; padding: 12px; border-radius: 6px; display: flex; flex-direction: column; gap: 8px; }
-        .control-item { display: flex; align-items: center; justify-content: space-between; font-size: 13px; }
-        select, input[type="text"] { background: #333; color: white; border: 1px solid #444; padding: 5px; border-radius: 4px; outline: none; }
-        input[type="text"]:focus { border-color: #0070f3; }
+        .phase-selector { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; background: #2a2a2a; padding: 6px; border-radius: 6px; }
+        .phase-btn { background: #3a3a3a; border: none; color: #aaa; padding: 6px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; }
+        .phase-btn.active { background: #0070f3; color: white; }
 
-        /* 🛠️ Dynamic Input Request Styles */
-        .request-container { display: flex; gap: 6px; background: #222; padding: 8px; border-radius: 6px; align-items: center; }
-        .request-container input { flex: 1; font-family: monospace; font-size: 13px; padding: 6px; }
-        .request-container button { padding: 6px 10px; background: #0070f3; font-size: 12px; border-radius: 4px; border: none; font-weight: bold; cursor: pointer; color: white; }
-        .request-container button:hover { background: #0060d3; }
+        .panel-box { background: #252525; padding: 10px; border-radius: 6px; border: 1px solid #333; font-size: 12px; }
+        .panel-title { font-weight: bold; margin-bottom: 6px; color: #0070f3; display: flex; justify-content: space-between; align-items: center; }
 
-        .hsv-diagnostic { background: #151515; padding: 10px; border-radius: 6px; border: 1px solid #333; display: flex; flex-direction: column; gap: 6px; }
-        .hsv-row { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-family: monospace; }
-        .color-swatch { width: 40px; height: 18px; border-radius: 3px; border: 1px solid #555; }
+        .court-minimap { width: 100%; height: 160px; background: #153d15; border: 2px solid #fff; border-radius: 4px; position: relative; margin-top: 5px; box-sizing: border-box; cursor: pointer; }
+        .court-line { position: absolute; border: 1px solid rgba(255,255,255,0.4); pointer-events: none; }
+        .minimap-corner-tag { position: absolute; font-size: 10px; font-weight: bold; background: #0070f3; color: white; width: 14px; height: 14px; border-radius: 5px; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+        .preliminary-dot { position: absolute; width: 12px; height: 12px; background: #ff9f43; border-radius: 50%; border: 2px solid white; transform: translate(-50%, -50%); display: none; box-shadow: 0 0 6px rgba(0,0,0,0.8); }
 
-        .editor-header { display: flex; justify-content: space-between; align-items: center; margin: 0; }
-        #jsonStatus { font-size: 11px; font-weight: bold; }
-        textarea {
-            flex: 1;
-            background: #151515;
-            color: #00ff66;
-            border: 1px solid #333;
-            border-radius: 6px;
-            padding: 10px;
-            font-family: monospace;
-            font-size: 11px;
-            line-height: 1.3;
-            resize: none;
-            box-sizing: border-box;
-            outline: none;
-        }
+        .seeding-list { max-height: 140px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; margin-top: 6px; }
+        .seeding-item { background: #2e2e2e; padding: 6px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; cursor: pointer; border-left: 3px solid #555; }
+        .seeding-item:hover { background: #383838; }
+        .seeding-item.active-sample { border-right: 3px solid #ff00ff; background: #333; }
+        .seeding-item.team-light { border-left-color: #28a745; }
+        .seeding-item.team-dark { border-left-color: #dc3545; }
+        .seeding-item.spectator { border-left-color: #ffc107; }
+        .delete-box-btn { background: none; border: none; color: #ff4d4d; font-weight: bold; cursor: pointer; font-size: 12px; padding: 0 4px; }
 
-        .btn-matrix { display: flex; flex-direction: column; gap: 6px; }
+        .hsv-row { display: flex; align-items: center; justify-content: space-between; font-size: 11px; font-family: monospace; margin-top: 4px; }
+        .color-swatch { width: 35px; height: 16px; border-radius: 3px; border: 1px solid #555; }
+
+        /* Workspace Block Fluid Remaining Space Allocation */
+        .workspace-block { flex: 1; min-width: 0; background: #111; border-radius: 8px; display: flex; flex-direction: column; position: relative; }
+        .viewer-workspace-scroll { flex: 1; overflow: auto; background: #0f0f0f; display: flex; align-items: flex-start; justify-content: flex-start; padding: 10px; box-sizing: border-box; }
+        .video-container { position: relative; background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        video { width: 100%; height: 100%; object-fit: contain; position: absolute; top: 0; left: 0; pointer-events: none; }
+        canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: crosshair; }
+
+        .media-controls { background: #1e1e1e; padding: 10px; border-top: 1px solid #333; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        .ctrl-btn { background: #2a2a2a; border: 1px solid #444; color: white; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; }
+        .ctrl-btn:hover { background: #3a3a3a; }
+        .timeline-slider { flex: 1; min-width: 150px; cursor: pointer; accent-color: #0070f3; }
+        .time-lbl { font-family: monospace; font-size: 12px; color: #ccc; min-width: 85px; text-align: center; }
+
+        .btn-matrix { display: flex; flex-direction: column; gap: 6px; margin-top: auto; }
         .btn-row { display: flex; gap: 6px; }
-        button { color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold; flex: 1; font-size: 12px; }
-
-        #okClearBtn { background: #28a745; } #okClearBtn:disabled { background: #555; cursor: not-allowed; opacity: 0.3; }
-        #okCoveredBtn { background: #17a2b8; } #okCoveredBtn:disabled { background: #555; cursor: not-allowed; opacity: 0.3; }
-        #skipBtn { background: #e67e22; } #skipBtn:disabled { background: #555; cursor: not-allowed; opacity: 0.3; }
-        #saveImmBtn { background: #6f42c1; } #saveImmBtn:disabled { background: #555; cursor: not-allowed; opacity: 0.3; }
+        .action-btn { color: white; border: none; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px; flex: 1; text-align: center; text-decoration: none; }
+        #saveBtn { background: #0070f3; }
         #resetBtn { background: #dc3545; }
-        #saveBtn { background: #0070f3; } #saveBtn:disabled { background: #555; cursor: not-allowed; }
+        select { background: #333; color: white; border: 1px solid #444; padding: 5px; border-radius: 4px; font-size: 11px; outline: none; }
 
-        .viewer-workspace { flex: 1; background: #111; border-radius: 8px; border: 2px dashed #444; overflow: auto; }
-        canvas { display: block; cursor: crosshair; transform-origin: top left; }
+        #jsonEditor { width: 100%; min-height: 300px; max-height: 500px; background: #111; color: #00ff66; border: 1px solid #333; border-radius: 4px; font-family: monospace; font-size: 10px; padding: 6px; outline: none; resize: vertical; box-sizing: border-box; }
     </style>
 </head>
 <body>
-    <h1>🏀 Deep Court & Ball Calibration</h1>
+    <h1>🏀 Deep Court Interactive Production Dashboard</h1>
     <div class="container">
         <div class="sidebar">
-            <div class="instructions" id="stepsPanel">
-                <h3>Workflow Steps</h3>
-                <p id="step_corners" class="active-step">1. Click 4 corners of court boundary.</p>
-                <p id="step_left">2. Drag box around LEFT rim.</p>
-                <p id="step_right">3. Drag box around RIGHT rim.</p>
-                <p id="step_ball" style="color: #aaa;">4. Ball Sampling (Awaiting components...)</p>
+            <div class="phase-selector">
+                <button id="pbtn_boundaries" class="phase-btn active" onclick="switchPhase('boundaries')">1. Boundaries</button>
+                <button id="pbtn_rims" class="phase-btn" onclick="switchPhase('rims')">2. Rims</button>
+                <button id="pbtn_seeding" class="phase-btn" onclick="switchPhase('seeding')">3. Seed Profiles</button>
+                <button id="pbtn_ball" class="phase-btn" onclick="switchPhase('ball')">4. Ball Samples</button>
             </div>
 
-            <div class="control-group">
-                <div class="control-item">
-                    <label>Workspace Zoom:</label>
-                    <select id="zoomSelect" onchange="updateZoom()">
-                        <option value="0.5">0.5x</option>
-                        <option value="1" selected>1.0x</option>
-                        <option value="2">2.0x</option>
+            <div class="panel-box" id="videoMetaPanel">
+                <div class="panel-title">Active Video Stream Telemetry</div>
+                <div id="metaTelemetryContent" style="color: #aaa; font-family: monospace; font-size: 11px; line-height: 1.4;">
+                    Querying FFprobe metadata...
+                </div>
+            </div>
+
+            <div class="panel-box">
+                <div class="panel-title" style="margin: 0; display: flex; justify-content: space-between; align-items: center;">
+                    <label>Workspace Precision Zoom:</label>
+                    <select id="zoomSelect" onchange="resizeCanvas()">
+                        <option value="0.5">0.5x Scale</option>
+                        <option value="1.0" selected>1.0x (Default)</option>
+                        <option value="2.0">2.0x High Res</option>
+                        <option value="4.0">4.0x Pixel Zoom</option>
                     </select>
                 </div>
-                <div class="control-item">
-                    <label style="cursor:pointer;">Highlight Padding:</label>
-                    <input type="checkbox" id="showPaddingCheck" checked onchange="draw()" style="cursor:pointer;">
-                </div>
-                <div class="control-item">
-                    <label style="cursor:pointer;">Show Court/Rim Overlays:</label>
-                    <input type="checkbox" id="showOverlaysCheck" checked onchange="draw()" style="cursor:pointer;">
+            </div>
+
+            <div class="panel-box" id="instructionPanel">
+                <div class="panel-title" id="instructionTitle">Phase 1: Court & Substitution Setup</div>
+                <div id="instructionText" style="color: #ccc; line-height: 1.3;">
+                    Click 4 corners sequentially directly on the video view matching the numbered map points below. Afterward, drag a box mapping the team substitution bench area.
                 </div>
             </div>
 
-            <div class="request-container">
-                <input type="text" id="txtTimestamp" placeholder="01:25.1" title="Format: MM:SS.f">
-                <button id="btnRequestFrame" onclick="requestDynamicTimestampFrame()">Request Frame</button>
+            <div class="panel-box" id="basketPanel" style="display: none;">
+                <div class="panel-title">Tactical Rim Assignments</div>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span>Near Rim Attacked By:</span>
+                        <select id="selNearAttackedBy" onchange="updateBasketTeamAssignments()">
+                            <option value="light">Team Light</option>
+                            <option value="dark" selected>Team Dark</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span>Far Rim Attacked By:</span>
+                        <select id="selFarAttackedBy" onchange="updateBasketTeamAssignments()">
+                            <option value="light" selected>Team Light</option>
+                            <option value="dark">Team Dark</option>
+                        </select>
+                    </div>
+                    <button class="ctrl-btn" style="background: #333; margin-top: 4px;" onclick="clearBasketBoxes()">Clear Rim Boxes</button>
+                </div>
             </div>
 
-            <div class="hsv-diagnostic">
-                <div style="font-size: 11px; font-weight: bold; color: #aaa; margin-bottom: 2px;">Active Ball HSV Range Swatches (Clear Only)</div>
+            <div class="panel-box">
+                <div class="panel-title">2D Playground Reference Matrix</div>
+                <div class="court-minimap" id="minimapContainer" onclick="handleMinimapClickOverride(event)">
+                    <div class="court-line" style="top:0; left:50%; bottom:0;"></div>
+                    <div class="court-line" style="top:50%; left:0; right:0; height:0;"></div>
+                    <div class="minimap-corner-tag" style="top: 2px; left: 2px;">1</div>
+                    <div class="minimap-corner-tag" style="top: 2px; right: 2px;">2</div>
+                    <div class="minimap-corner-tag" style="bottom: 2px; right: 2px;">3</div>
+                    <div class="minimap-corner-tag" style="bottom: 2px; left: 2px;">4</div>
+                    <div id="minimapDot" class="preliminary-dot"></div>
+                </div>
+            </div>
+
+            <div class="panel-box" id="registryPanel" style="display: none;">
+                <div class="panel-title">Identity Registry Management</div>
+                <div id="identityForm" style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 4px;">
+                    <div style="display: flex; gap: 4px; align-items: center;">
+                        <select id="selPlayerSeed" onchange="handlePlayerSelectChange()" style="flex: 1;"></select>
+                        <button id="btnNewPlayerSeed" class="ctrl-btn" style="background: #0070f3; border: none; padding: 5px 10px;" onclick="addNewPlayerSeedPrompt()">New</button>
+                        <button id="btnDeletePlayerSeed" class="ctrl-btn" style="background: #dc3545; border: none; padding: 5px 10px;" onclick="deleteEntireCharacter()">Delete</button>
+                    </div>
+                    <div style="display: flex; gap: 4px; align-items: center; margin-top: 2px;">
+                        <span style="font-size: 11px; color: #aaa;">Team/Flag:</span>
+                        <select id="selTeam" onchange="handlePlayerTeamChange()" style="flex: 1;">
+                            <option value="light">Team Light</option>
+                            <option value="dark">Team Dark</option>
+                            <option value="spectator">Spectator</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="font-size: 11px; color: #0070f3; font-weight: bold; margin-top: 8px;">Stored Character Box Samples:</div>
+                <div class="seeding-list" id="seedingRegistryList"></div>
+            </div>
+
+            <div class="panel-box" id="ballPanel" style="display: none;">
+                <div class="panel-title" id="ballPanelTitle">Spatial HSV Range Swatches (Clear Only)</div>
+                <div style="display: flex; gap: 4px; align-items: center; margin-bottom: 6px;">
+                    <select id="selBallSample" onchange="handleBallSelectChange()" style="flex: 1;"></select>
+                    <button id="btnAddBallSample" class="ctrl-btn" style="background: #0070f3; border: none; padding: 5px 10px;" onclick="addNewBlankBallSample()">Add</button>
+                </div>
+                <div id="ballActions" style="display: flex; gap: 6px; margin-bottom: 8px;">
+                    <button id="okClearBtn" class="ctrl-btn" style="flex:1; background:#28a745; border:none;" onclick="confirmBallClassification('clear')">Clear</button>
+                    <button id="okCoveredBtn" class="ctrl-btn" style="flex:1; background:#17a2b8; border:none;" onclick="confirmBallClassification('covered')">Covered</button>
+                    <button id="deleteBallBtn" class="ctrl-btn" style="background:#dc3545; border:none;" onclick="deleteCurrentEditedBall()">Delete</button>
+                </div>
                 <div class="hsv-row">
-                    <span>Lower Bounds: <span id="lblLower">N/A</span></span>
+                    <span>Lower Bounds: <span id="lblLower" style="color: #00ff66;">N/A</span></span>
                     <div id="swatchLower" class="color-swatch" style="background-color: #333;"></div>
                 </div>
                 <div class="hsv-row">
-                    <span>Upper Bounds: <span id="lblUpper">N/A</span></span>
+                    <span>Upper Bounds: <span id="lblUpper" style="color: #00ff66;">N/A</span></span>
                     <div id="swatchUpper" class="color-swatch" style="background-color: #333;"></div>
                 </div>
             </div>
 
-            <div class="editor-header">
-                <h4>Manual JSON Overwrite</h4>
-                <div id="jsonStatus" style="color: #4caf50;">✅ Synced</div>
+            <div class="panel-box" style="flex: 1; display: flex; flex-direction: column;">
+                <div class="panel-title">Live JSON Profile Configuration</div>
+                <textarea id="jsonEditor" spellcheck="false" oninput="syncFromJson()"></textarea>
             </div>
-            <textarea id="jsonEditor" spellcheck="false" oninput="syncFromJson()"></textarea>
 
             <div class="btn-matrix">
                 <div class="btn-row">
-                    <button id="okClearBtn" disabled onclick="confirmBallClassification('clear')">OK Clear</button>
-                    <button id="okCoveredBtn" disabled onclick="confirmBallClassification('covered')">OK Covered</button>
-                </div>
-                <div class="btn-row">
-                    <button id="skipBtn" disabled onclick="skipCurrentFrame()">Skip Frame</button>
-                    <button id="saveImmBtn" disabled onclick="saveCalibration()">Save Immediately</button>
-                </div>
-                <hr style="border-color: #444; margin: 4px 0;">
-                <div class="btn-row">
-                    <button id="resetBtn" onclick="resetCalibration()">Reset All</button>
-                    <button id="saveBtn" disabled onclick="saveCalibration()">Save Config</button>
+                    <button id="resetBtn" class="action-btn" onclick="resetCalibration()">Reset All</button>
+                    <button id="saveBtn" class="action-btn" onclick="saveCalibration()">Save Config</button>
                 </div>
             </div>
         </div>
 
-        <div class="viewer-workspace">
-            <canvas id="canvas" width="2720" height="1880"></canvas>
+        <div class="workspace-block">
+            <div class="viewer-workspace-scroll">
+                <div class="video-container" id="videoWrapper">
+                    <video id="videoCore" src="/video_stream.mp4" preload="auto"></video>
+                    <canvas id="overlayCanvas"></canvas>
+                </div>
+            </div>
+
+            <div class="media-controls">
+                <button class="ctrl-btn" onclick="togglePlayback()" id="playBtn">Play</button>
+                <button class="ctrl-btn" onclick="adjustTime(-5)">-5s</button>
+                <button class="ctrl-btn" onclick="adjustTime(-0.5)">-0.5s</button>
+                <button class="ctrl-btn" onclick="adjustTime(-0.1)">-0.1s</button>
+                <button class="ctrl-btn" onclick="adjustTime(5)">+5s</button>
+                <input type="range" id="timelineSlider" class="timeline-slider" min="0" max="100" value="0" step="0.1" oninput="seekVideo()">
+                <div class="time-lbl" id="timeDisplay">00:00 / 00:00</div>
+            </div>
         </div>
     </div>
 
-    <script>
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        const zoomSelect = document.getElementById('zoomSelect');
-        const showPaddingCheck = document.getElementById('showPaddingCheck');
-        const showOverlaysCheck = document.getElementById('showOverlaysCheck');
-        const jsonEditor = document.getElementById('jsonEditor');
-        const jsonStatus = document.getElementById('jsonStatus');
-
-        const okClearBtn = document.getElementById('okClearBtn');
-        const okCoveredBtn = document.getElementById('okCoveredBtn');
-        const skipBtn = document.getElementById('skipBtn');
-        const saveImmBtn = document.getElementById('saveImmBtn');
-        const saveBtn = document.getElementById('saveBtn');
-        const ballStepText = document.getElementById('step_ball');
-        const txtTimestamp = document.getElementById('txtTimestamp');
-
-        const lblLower = document.getElementById('lblLower');
-        const lblUpper = document.getElementById('lblUpper');
-        const swatchLower = document.getElementById('swatchLower');
-        const swatchUpper = document.getElementById('swatchUpper');
-
-        const OFFSET = 400;
-        let REQUIRED_SAMPLES = 5;
-        let POOL_SIZE = 10;
-
-        let state = 'corners';
-        let currentPoolFrame = 1;
-
-        let data = { court_corners: [], left_basket: null, right_basket: null, ball_samples: [] };
-        let tempBallBox = null;
-
-        const bgImg = new Image(); bgImg.src = '/frame.jpg';
-        const sampleImages = [];
-
-        // Unique key matching active video name to track skips across sessions
-        const SKIP_STORAGE_KEY = `bstats_skipped_frames_${window.location.search || 'default'}`;
-
-        fetch('/api/config')
-            .then(res => res.json())
-            .then(config => {
-                REQUIRED_SAMPLES = config.required_samples;
-                POOL_SIZE = config.pool_size;
-                for (let i = 1; i <= POOL_SIZE; i++) {
-                    const img = new Image(); img.src = `/ball_sample_${i}.jpg`;
-                    sampleImages.push(img);
-                }
-                evaluatePipelineWorkflowState();
-                updateTextarea();
-            });
-
-        bgImg.onload = () => { updateZoom(); draw(); };
-
-        function getActiveImageContext() {
-            if (state === 'ball_sampling' && sampleImages[currentPoolFrame - 1]) {
-                return sampleImages[currentPoolFrame - 1];
-            }
-            return bgImg;
-        }
-
-        function getRelativeImageCoords(e) {
-            const rect = canvas.getBoundingClientRect();
-            return {
-                x: Math.round(((e.clientX - rect.left) * (canvas.width / rect.width)) - OFFSET),
-                y: Math.round(((e.clientY - rect.top) * (canvas.height / rect.height)) - OFFSET)
-            };
-        }
-
-        function updateZoom() {
-            const z = parseFloat(zoomSelect.value);
-            canvas.style.width = (canvas.width * z) + 'px';
-            canvas.style.height = (canvas.height * z) + 'px';
-        }
-
-        function getSkippedFrames() {
-            return JSON.parse(localStorage.getItem(SKIP_STORAGE_KEY) || '[]');
-        }
-
-        function registerFrameSkip(idx) {
-            const currentSkips = getSkippedFrames();
-            if (!currentSkips.includes(idx)) {
-                currentSkips.push(idx);
-                localStorage.setItem(SKIP_STORAGE_KEY, JSON.stringify(currentSkips));
-            }
-        }
-
-        function rgbToHsv(r, g, b) {
-            r /= 255; g /= 255; b /= 255;
-            let max = Math.max(r, g, b), min = Math.min(r, g, b);
-            let h, s, v = max;
-            let d = max - min;
-            s = max === 0 ? 0 : d / max;
-            if (max === min) { h = 0; }
-            else {
-                switch (max) {
-                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-                    case g: h = (b - r) / d + 2; break;
-                    case b: h = (r - g) / d + 4; break;
-                }
-                h /= 6;
-            }
-            return [Math.round(h * 180), Math.round(s * 255), Math.round(v * 255)];
-        }
-
-        function hsvToRgb(h, s, v) {
-            h /= 180; s /= 255; v /= 255;
-            let i = Math.floor(h * 6); let f = h * 6 - i;
-            let p = v * (1 - s); let q = v * (1 - f * s); let t = v * (1 - (1 - f) * s);
-            let r, g, b;
-            switch (i % 6) {
-                case 0: r = v; g = t; b = p; break;
-                case 1: r = q; g = v; b = p; break;
-                case 2: r = p; g = v; b = t; break;
-                case 3: r = p; g = q; b = v; break;
-                case 4: r = t; g = p; b = v; break;
-                case 5: r = v; g = p; b = q; break;
-            }
-            return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
-        }
-
-        // 🔥 MODIFIED: Diagnostic engine now processes only clear targets
-        function recalculateHsvDiagnosticsFromClearSamples() {
-            let clearSamples = data.ball_samples.filter(s => s.status === 'clear');
-            if (clearSamples.length === 0) {
-                lblLower.textContent = "N/A"; lblUpper.textContent = "N/A";
-                swatchLower.style.backgroundColor = "#333"; swatchUpper.style.backgroundColor = "#333";
-                return;
-            }
-            // Logic parses existing clear parameters to draw static swatches
-            lblLower.textContent = "Computing...";
-        }
-
-        function updateLiveHsvDiagnostics(box) {
-            if (!box || box.w < 4 || box.h < 4) return;
-            const insetX = Math.round(box.x + OFFSET + (box.w * 0.15));
-            const insetY = Math.round(box.y + OFFSET + (box.h * 0.15));
-            const insetW = Math.round(box.w * 0.7); const insetH = Math.round(box.h * 0.7);
-            try {
-                const imgData = ctx.getImageData(insetX, insetY, insetW, insetH).data;
-                let minH = 180, minS = 255, minV = 255; let maxH = 0, maxS = 0, maxV = 0;
-                for (let i = 0; i < imgData.length; i += 4) {
-                    let hsv = rgbToHsv(imgData[i], imgData[i+1], imgData[i+2]);
-                    if (hsv[0] < minH) minH = hsv[0]; if (hsv[0] > maxH) maxH = hsv[0];
-                    if (hsv[1] < minS) minS = hsv[1]; if (hsv[1] > maxS) maxS = hsv[1];
-                    if (hsv[2] < minV) minV = hsv[2]; if (hsv[2] > maxV) maxV = hsv[2];
-                }
-                lblLower.textContent = `[${minH}, ${minS}, ${minV}]`;
-                lblUpper.textContent = `[${maxH}, ${maxS}, ${maxV}]`;
-                const rgbL = hsvToRgb(minH, minS, minV); const rgbU = hsvToRgb(maxH, maxS, maxV);
-                swatchLower.style.backgroundColor = `rgb(${rgbL[0]},${rgbL[1]},${rgbL[2]})`;
-                swatchUpper.style.backgroundColor = `rgb(${rgbU[0]},${rgbU[1]},${rgbU[2]})`;
-            } catch (e) {}
-        }
-
-        // 🔥 NEW: Request On-Demand Frame Injection Core
-        function requestDynamicTimestampFrame() {
-            const timestampValue = txtTimestamp.value.trim();
-            if (!/^\d{2}:\d{2}(\.\d+)?$/.test(timestampValue)) {
-                alert("⚠️ Invalid format pattern. Please use standard MM:SS or MM:SS.m rules (e.g., 01:25.1)");
-                return;
-            }
-
-            if (state !== 'ball_sampling') {
-                alert("⚠️ Manual frame injection is only active during Step 4 (Ball Sampling).");
-                return;
-            }
-
-            fetch('/api/request_frame', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ time: timestampValue, index: currentPoolFrame })
-            })
-            .then(res => res.json())
-            .then(resData => {
-                if (resData.status === 'success') {
-                    // Force clean canvas redraw pass using re-extracted source image
-                    const updatedImg = new Image();
-                    updatedImg.src = resData.path;
-                    updatedImg.onload = () => {
-                        sampleImages[currentPoolFrame - 1] = updatedImg;
-                        tempBallBox = null;
-                        draw();
-                    };
-                } else {
-                    alert("Error extracting target timestamp.");
-                }
-            });
-        }
-
-        function syncFromJson() {
-            try {
-                const parsed = JSON.parse(jsonEditor.value);
-                if (!Array.isArray(parsed.court_corners) || !Array.isArray(parsed.ball_samples)) throw new Error();
-                data = parsed;
-                jsonStatus.textContent = "✅ Valid Data";
-                jsonStatus.style.color = "#4caf50";
-                currentPoolFrame = 1; tempBallBox = null;
-                evaluatePipelineWorkflowState();
-                draw();
-            } catch (err) {
-                jsonStatus.textContent = "⚠️ Invalid JSON";
-                jsonStatus.style.color = "#f44336";
-            }
-        }
-
-        function updateTextarea() {
-            jsonEditor.value = JSON.stringify(data, null, 2);
-            jsonStatus.textContent = "✅ Synced";
-            jsonStatus.style.color = "#4caf50";
-        }
-
-        function evaluatePipelineWorkflowState() {
-            document.getElementById('step_corners').className = '';
-            document.getElementById('step_left').className = '';
-            document.getElementById('step_right').className = '';
-            ballStepText.className = '';
-
-            okClearBtn.disabled = true; okCoveredBtn.disabled = true;
-            skipBtn.disabled = true; saveImmBtn.disabled = true; saveBtn.disabled = true;
-
-            if (data.court_corners.length < 4) {
-                state = 'corners';
-                document.getElementById('step_corners').className = 'active-step';
-                ballStepText.textContent = `4. Ball Sampling (Collect ${REQUIRED_SAMPLES} frames)`;
-            } else if (!data.left_basket) {
-                state = 'left_basket';
-                document.getElementById('step_corners').className = 'step-done';
-                document.getElementById('step_left').className = 'active-step';
-            } else if (!data.right_basket) {
-                state = 'right_basket';
-                document.getElementById('step_corners').className = 'step-done';
-                document.getElementById('step_left').className = 'step-done';
-                document.getElementById('step_right').className = 'active-step';
-            } else if (data.ball_samples.length < REQUIRED_SAMPLES) {
-                state = 'ball_sampling';
-                document.getElementById('step_corners').className = 'step-done';
-                document.getElementById('step_left').className = 'step-done';
-                document.getElementById('step_right').className = 'step-done';
-                ballStepText.className = 'active-step';
-
-                skipBtn.disabled = false;
-                if (data.ball_samples.length > 0) saveImmBtn.disabled = false;
-
-                if (tempBallBox) {
-                    okClearBtn.disabled = false;
-                    okCoveredBtn.disabled = false;
-                }
-
-                const sampledFrames = data.ball_samples.map(s => s.sample_frame);
-                const skippedFrames = getSkippedFrames();
-
-                // 🔥 MODIFIED: Advance past frames that are logged as sampled OR saved in LocalStorage skips list
-                while ((sampledFrames.includes(currentPoolFrame) || skippedFrames.includes(currentPoolFrame)) && currentPoolFrame <= POOL_SIZE) {
-                    currentPoolFrame++;
-                }
-
-                if (currentPoolFrame > POOL_SIZE) {
-                    alert(`⚠️ Candidate pool exhausted! If you need more frames, use the timestamp request box to manually fetch specific game clips.`);
-                    saveCalibration();
-                    return;
-                }
-
-                ballStepText.textContent = `4. Ball Sampling (Progress: ${data.ball_samples.length}/${REQUIRED_SAMPLES} | Frame: ${currentPoolFrame}/${POOL_SIZE})`;
-            } else {
-                state = 'ready';
-                document.querySelectorAll('#stepsPanel p').forEach(p => p.className = 'step-done');
-                ballStepText.textContent = `4. Ball Sampling Complete (${data.ball_samples.length} logged)`;
-                saveBtn.disabled = false;
-            }
-        }
-
-        function confirmBallClassification(statusType) {
-            if (!tempBallBox || state !== 'ball_sampling') return;
-
-            data.ball_samples.push({
-                sample_frame: currentPoolFrame,
-                x: tempBallBox.x, y: tempBallBox.y,
-                w: tempBallBox.w, h: tempBallBox.h,
-                status: statusType
-            });
-
-            tempBallBox = null;
-            currentPoolFrame++;
-            evaluatePipelineWorkflowState();
-            updateTextarea();
-            draw();
-        }
-
-        function skipCurrentFrame() {
-            if (state !== 'ball_sampling') return;
-            // 🔥 NEW: Store skip action permanently inside client local storage array logs
-            registerFrameSkip(currentPoolFrame);
-            tempBallBox = null;
-            currentPoolFrame++;
-            evaluatePipelineWorkflowState();
-            updateTextarea();
-            draw();
-        }
-
-        let isDragging = false; let dragStart = {x:0, y:0}; let currentMouse = {x:0, y:0};
-
-        canvas.addEventListener('mousedown', (e) => {
-            const coords = getRelativeImageCoords(e);
-            if (state === 'corners') {
-                data.court_corners.push(coords);
-                evaluatePipelineWorkflowState();
-                updateTextarea();
-            } else if (state === 'left_basket' || state === 'right_basket' || state === 'ball_sampling') {
-                isDragging = true; dragStart = coords; currentMouse = coords;
-            }
-            draw();
-        });
-
-        canvas.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            currentMouse = getRelativeImageCoords(e);
-            draw();
-        });
-
-        canvas.addEventListener('mouseup', (e) => {
-            if (!isDragging) return;
-            isDragging = false;
-            const dragEnd = getRelativeImageCoords(e);
-            const box = {
-                x: Math.min(dragStart.x, dragEnd.x), y: Math.min(dragStart.y, dragEnd.y),
-                w: Math.abs(dragStart.x - dragEnd.x), h: Math.abs(dragStart.y - dragEnd.y)
-            };
-
-            if (state === 'left_basket') { data.left_basket = box; evaluatePipelineWorkflowState(); updateTextarea(); }
-            else if (state === 'right_basket') { data.right_basket = box; evaluatePipelineWorkflowState(); updateTextarea(); }
-            else if (state === 'ball_sampling') {
-                tempBallBox = box;
-                evaluatePipelineWorkflowState();
-            }
-            draw();
-        });
-
-        function resetCalibration() {
-            data = { court_corners: [], left_basket: null, right_basket: null, ball_samples: [] };
-            currentPoolFrame = 1; tempBallBox = null;
-            localStorage.removeItem(SKIP_STORAGE_KEY); // Wipe cached skip data lists
-            lblLower.textContent = "N/A"; lblUpper.textContent = "N/A";
-            swatchLower.style.backgroundColor = "#333"; swatchUpper.style.backgroundColor = "#333";
-            evaluatePipelineWorkflowState();
-            updateTextarea();
-            draw();
-        }
-
-        function draw() {
-            ctx.fillStyle = showPaddingCheck.checked ? '#2c303b' : '#111';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            const activeImg = getActiveImageContext();
-            if (activeImg && activeImg.complete) ctx.drawImage(activeImg, OFFSET, OFFSET, 1920, 1080);
-
-            ctx.strokeStyle = '#666'; ctx.lineWidth = 1;
-            ctx.strokeRect(OFFSET, OFFSET, 1920, 1080);
-
-            if (showOverlaysCheck.checked) {
-                if (data.court_corners && data.court_corners.length > 0) {
-                    ctx.strokeStyle = '#0070f3'; ctx.lineWidth = 3; ctx.fillStyle = '#0070f3';
-                    data.court_corners.forEach(pt => {
-                        ctx.beginPath(); ctx.arc(pt.x + OFFSET, pt.y + OFFSET, 6, 0, 2*Math.PI); ctx.fill();
-                    });
-                    ctx.beginPath();
-                    data.court_corners.forEach((pt, idx) => {
-                        if (idx === 0) ctx.moveTo(pt.x + OFFSET, pt.y + OFFSET);
-                        else ctx.lineTo(pt.x + OFFSET, pt.y + OFFSET);
-                    });
-                    if (data.court_corners.length === 4) ctx.closePath();
-                    ctx.stroke();
-                }
-
-                if (data.left_basket) {
-                    ctx.strokeStyle = '#4caf50'; ctx.lineWidth = 3;
-                    ctx.strokeRect(data.left_basket.x + OFFSET, data.left_basket.y + OFFSET, data.left_basket.w, data.left_basket.h);
-                }
-                if (data.right_basket) {
-                    ctx.strokeStyle = '#f44336'; ctx.lineWidth = 3;
-                    ctx.strokeRect(data.right_basket.x + OFFSET, data.right_basket.y + OFFSET, data.right_basket.w, data.right_basket.h);
-                }
-            }
-
-            if (data.ball_samples && data.ball_samples.length > 0) {
-                data.ball_samples.forEach(sample => {
-                    if (state !== 'ball_sampling' || sample.sample_frame === currentPoolFrame) {
-                        ctx.strokeStyle = sample.status === 'clear' ? '#28a745' : '#17a2b8';
-                        ctx.lineWidth = 3;
-                        ctx.strokeRect(sample.x + OFFSET, sample.y + OFFSET, sample.w, sample.h);
-                    }
-                });
-            }
-
-            if (tempBallBox && state === 'ball_sampling') {
-                ctx.strokeStyle = '#ffeb3b'; ctx.lineWidth = 3;
-                ctx.strokeRect(tempBallBox.x + OFFSET, tempBallBox.y + OFFSET, tempBallBox.w, tempBallBox.h);
-                updateLiveHsvDiagnostics(tempBallBox);
-            }
-
-            if (isDragging) {
-                ctx.strokeStyle = '#ffeb3b'; ctx.lineWidth = 2;
-                ctx.strokeRect(Math.min(dragStart.x, currentMouse.x)+OFFSET, Math.min(dragStart.y, currentMouse.y)+OFFSET, Math.abs(currentMouse.x-dragStart.x), Math.abs(currentMouse.y-dragStart.y));
-            }
-        }
-
-        function saveCalibration() {
-            fetch('/api/save', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
-            .then(res => { if(res.ok) { alert('Environment tracking criteria saved cleanly!'); window.close(); } });
-        }
-    </script>
+    <script src="calibrate/engine.js"></script>
+    <script src="calibrate/ui.js"></script>
+    <script src="calibrate/main.js"></script>
 </body>
 </html>
