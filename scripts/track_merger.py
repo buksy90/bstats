@@ -3,7 +3,7 @@
 
 import numpy as np
 import cv2
-from config import AUTO_MERGE_MAX_SECONDS, AUTO_MERGE_MAX_METERS, COLOR_SIMILARITY_THRESHOLD, SUB_TIMEOUT_SECONDS, is_point_in_box, is_inside_court_boundaries
+from config import AUTO_MERGE_MAX_SECONDS, AUTO_MERGE_MAX_METERS, COLOR_SIMILARITY_THRESHOLD, SUB_TIMEOUT_SECONDS, is_point_in_substitution_zone, is_inside_court_boundaries
 
 def merge_and_compile_analytics(track_history, possession_logs, frame_momentum_history, calibration, video_fps, total_processed_frames):
     print("[Post-Processor] Launching multi-factor fusion track auto-merger...")
@@ -21,7 +21,7 @@ def merge_and_compile_analytics(track_history, possession_logs, frame_momentum_h
     for seed in player_seeds:
         seed_profiles[seed["name"]] = {
             "team": seed["team"],
-            "boxes": seed["box"]
+            "boxes": seed.get("boxes", [])
         }
 
     # 2. Sequential Structural Cluster Merger Loop
@@ -74,10 +74,11 @@ def merge_and_compile_analytics(track_history, possession_logs, frame_momentum_h
 
         # Cross check if this track fits any user-marked boxes from calibration data
         for seed in player_seeds:
-            if abs(metrics["first_seen_frame"]/video_fps - seed["box"]["timestamp"]) < 1.0:
-                assigned_name = seed["name"]
-                assigned_team = seed["team"]
-                break
+            if "boxes" in seed and len(seed["boxes"]) > 0:
+                if abs(metrics["first_seen_frame"]/video_fps - seed["boxes"][0]["timestamp"]) < 5.0:
+                    assigned_name = seed["name"]
+                    assigned_team = seed["team"]
+                    break
 
         track_to_name_map[tid] = assigned_name
 
@@ -110,9 +111,7 @@ def merge_and_compile_analytics(track_history, possession_logs, frame_momentum_h
         ts = int(f // video_fps)
         return f"{ts // 60:02d}:{ts % 60:02d}"
 
-    # 4. Ground-Plane Substitution State Machine + 20s Retroactive Filter
     player_metrics_output = []
-    sub_zone = calibration.get("substitution_zone", None)
     timeout_frames = int(SUB_TIMEOUT_SECONDS * video_fps)
     inbound_play_frames_limit = int(20.0 * video_fps) # 20 Second Playmaker filter threshold
 
@@ -133,8 +132,8 @@ def merge_and_compile_analytics(track_history, possession_logs, frame_momentum_h
                 # Read foot location at last visible point to verify if inside the bench box matrix
                 last_pos = p["frame_positions"].get(seg_prev, (0, 0))
 
-                # Check if feet landed in substitution zone or left boundary bounds
-                is_in_sub_box = is_point_in_box(last_pos[0], last_pos[1], sub_zone) if sub_zone else True
+                # FIXED: Relational point verification queries swapped seamlessly onto python contours
+                is_in_sub_box = is_point_in_substitution_zone(last_pos[0], last_pos[1])
                 is_outside_court = not is_inside_court_boundaries(last_pos[0], last_pos[1])
 
                 if is_outside_court or is_in_sub_box:

@@ -53,7 +53,7 @@
     {
       "name": "Zachy",
       "team": "dark",
-      "total_meters_run": 602.53,
+      "total_meters_run": 698.41,
       "minutes_played": 2.0,
       "minutes_rested": 0.0,
       "possession_seconds": 0.1,
@@ -75,81 +75,9 @@
       }
     },
     {
-      "name": "Player_45",
-      "team": "light",
-      "total_meters_run": 9.65,
-      "minutes_played": 0.01,
-      "minutes_rested": 1.99,
-      "possession_seconds": 0.0,
-      "sub_events": [
-        {
-          "type": "sub_in",
-          "frame": 91,
-          "time": "00:04"
-        },
-        {
-          "type": "sub_out",
-          "frame": 101,
-          "time": "00:05"
-        }
-      ],
-      "ui_hints": {
-        "avg_height_pixels": 86.3,
-        "avg_width_pixels": 22.0
-      }
-    },
-    {
-      "name": "Player_50",
-      "team": "light",
-      "total_meters_run": 97.03,
-      "minutes_played": 0.45,
-      "minutes_rested": 1.55,
-      "possession_seconds": 0.0,
-      "sub_events": [
-        {
-          "type": "sub_in",
-          "frame": 95,
-          "time": "00:04"
-        },
-        {
-          "type": "sub_out",
-          "frame": 636,
-          "time": "00:31"
-        }
-      ],
-      "ui_hints": {
-        "avg_height_pixels": 159.1,
-        "avg_width_pixels": 36.4
-      }
-    },
-    {
-      "name": "Player_7",
-      "team": "light",
-      "total_meters_run": 13.33,
-      "minutes_played": 0.06,
-      "minutes_rested": 1.94,
-      "possession_seconds": 0.0,
-      "sub_events": [
-        {
-          "type": "sub_in",
-          "frame": 99,
-          "time": "00:04"
-        },
-        {
-          "type": "sub_out",
-          "frame": 167,
-          "time": "00:08"
-        }
-      ],
-      "ui_hints": {
-        "avg_height_pixels": 96.4,
-        "avg_width_pixels": 38.2
-      }
-    },
-    {
       "name": "Player_56",
       "team": "light",
-      "total_meters_run": 46.25,
+      "total_meters_run": 48.53,
       "minutes_played": 0.23,
       "minutes_rested": 1.77,
       "possession_seconds": 0.0,
@@ -173,7 +101,7 @@
     {
       "name": "Player_66",
       "team": "light",
-      "total_meters_run": 48.22,
+      "total_meters_run": 49.3,
       "minutes_played": 0.27,
       "minutes_rested": 1.73,
       "possession_seconds": 0.1,
@@ -195,9 +123,33 @@
       }
     },
     {
+      "name": "Player_50",
+      "team": "light",
+      "total_meters_run": 49.51,
+      "minutes_played": 0.41,
+      "minutes_rested": 1.59,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 144,
+          "time": "00:07"
+        },
+        {
+          "type": "sub_out",
+          "frame": 636,
+          "time": "00:31"
+        }
+      ],
+      "ui_hints": {
+        "avg_height_pixels": 135.0,
+        "avg_width_pixels": 42.4
+      }
+    },
+    {
       "name": "Player_70",
       "team": "light",
-      "total_meters_run": 98.47,
+      "total_meters_run": 110.46,
       "minutes_played": 0.06,
       "minutes_rested": 1.94,
       "possession_seconds": 0.0,
@@ -221,9 +173,9 @@
     {
       "name": "Player_73",
       "team": "light",
-      "total_meters_run": 194.36,
-      "minutes_played": 0.27,
-      "minutes_rested": 1.73,
+      "total_meters_run": 13.71,
+      "minutes_played": 0.03,
+      "minutes_rested": 1.98,
       "possession_seconds": 0.0,
       "sub_events": [
         {
@@ -233,8 +185,8 @@
         },
         {
           "type": "sub_out",
-          "frame": 479,
-          "time": "00:23"
+          "frame": 183,
+          "time": "00:09"
         }
       ],
       "ui_hints": {
@@ -245,7 +197,7 @@
     {
       "name": "Player_74",
       "team": "light",
-      "total_meters_run": 6.9,
+      "total_meters_run": 6.91,
       "minutes_played": 0.13,
       "minutes_rested": 1.87,
       "possession_seconds": 0.0,
@@ -269,7 +221,7 @@
     {
       "name": "Player_82",
       "team": "light",
-      "total_meters_run": 9.37,
+      "total_meters_run": 8.82,
       "minutes_played": 0.36,
       "minutes_rested": 1.65,
       "possession_seconds": 0.0,
@@ -291,9 +243,33 @@
       }
     },
     {
+      "name": "Player_90",
+      "team": "light",
+      "total_meters_run": 93.55,
+      "minutes_played": 0.21,
+      "minutes_rested": 1.79,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 226,
+          "time": "00:11"
+        },
+        {
+          "type": "sub_out",
+          "frame": 479,
+          "time": "00:23"
+        }
+      ],
+      "ui_hints": {
+        "avg_height_pixels": 85.4,
+        "avg_width_pixels": 37.8
+      }
+    },
+    {
       "name": "Player_5",
       "team": "light",
-      "total_meters_run": 78.85,
+      "total_meters_run": 82.47,
       "minutes_played": 0.39,
       "minutes_rested": 1.61,
       "possession_seconds": 0.0,
@@ -317,7 +293,7 @@
     {
       "name": "Player_108",
       "team": "light",
-      "total_meters_run": 6.66,
+      "total_meters_run": 6.99,
       "minutes_played": 0.02,
       "minutes_rested": 1.98,
       "possession_seconds": 0.0,
@@ -341,7 +317,7 @@
     {
       "name": "Player_126",
       "team": "light",
-      "total_meters_run": 5.98,
+      "total_meters_run": 6.11,
       "minutes_played": 0.02,
       "minutes_rested": 1.98,
       "possession_seconds": 0.0,
@@ -365,7 +341,7 @@
     {
       "name": "Player_129",
       "team": "light",
-      "total_meters_run": 134.18,
+      "total_meters_run": 137.2,
       "minutes_played": 0.55,
       "minutes_rested": 1.45,
       "possession_seconds": 0.0,
@@ -389,7 +365,7 @@
     {
       "name": "Player_137",
       "team": "light",
-      "total_meters_run": 22.71,
+      "total_meters_run": 25.37,
       "minutes_played": 0.05,
       "minutes_rested": 1.95,
       "possession_seconds": 0.0,
@@ -413,7 +389,7 @@
     {
       "name": "Player_143",
       "team": "light",
-      "total_meters_run": 10.31,
+      "total_meters_run": 10.3,
       "minutes_played": 0.02,
       "minutes_rested": 1.98,
       "possession_seconds": 0.0,
@@ -437,7 +413,7 @@
     {
       "name": "Player_174",
       "team": "light",
-      "total_meters_run": 225.43,
+      "total_meters_run": 250.59,
       "minutes_played": 0.22,
       "minutes_rested": 1.78,
       "possession_seconds": 0.0,
@@ -461,7 +437,7 @@
     {
       "name": "Player_176",
       "team": "light",
-      "total_meters_run": 1.91,
+      "total_meters_run": 2.18,
       "minutes_played": 0.0,
       "minutes_rested": 2.0,
       "possession_seconds": 0.0,
@@ -483,9 +459,33 @@
       }
     },
     {
+      "name": "Player_182",
+      "team": "light",
+      "total_meters_run": 1.66,
+      "minutes_played": 0.01,
+      "minutes_rested": 1.99,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 412,
+          "time": "00:20"
+        },
+        {
+          "type": "sub_out",
+          "frame": 418,
+          "time": "00:20"
+        }
+      ],
+      "ui_hints": {
+        "avg_height_pixels": 63.1,
+        "avg_width_pixels": 28.0
+      }
+    },
+    {
       "name": "Player_188",
       "team": "light",
-      "total_meters_run": 55.47,
+      "total_meters_run": 57.52,
       "minutes_played": 0.31,
       "minutes_rested": 1.69,
       "possession_seconds": 0.0,
@@ -509,7 +509,7 @@
     {
       "name": "Player_190",
       "team": "light",
-      "total_meters_run": 17.42,
+      "total_meters_run": 17.98,
       "minutes_played": 0.1,
       "minutes_rested": 1.9,
       "possession_seconds": 0.0,
@@ -533,7 +533,7 @@
     {
       "name": "Player_202",
       "team": "light",
-      "total_meters_run": 12.43,
+      "total_meters_run": 13.21,
       "minutes_played": 0.04,
       "minutes_rested": 1.96,
       "possession_seconds": 0.0,
@@ -557,7 +557,7 @@
     {
       "name": "Player_207",
       "team": "light",
-      "total_meters_run": 43.78,
+      "total_meters_run": 47.65,
       "minutes_played": 0.08,
       "minutes_rested": 1.92,
       "possession_seconds": 0.0,
@@ -581,7 +581,7 @@
     {
       "name": "Player_216",
       "team": "light",
-      "total_meters_run": 9.23,
+      "total_meters_run": 9.87,
       "minutes_played": 0.06,
       "minutes_rested": 1.94,
       "possession_seconds": 0.0,
@@ -605,7 +605,7 @@
     {
       "name": "Player_221",
       "team": "light",
-      "total_meters_run": 43.29,
+      "total_meters_run": 44.82,
       "minutes_played": 0.08,
       "minutes_rested": 1.92,
       "possession_seconds": 0.0,
@@ -629,7 +629,7 @@
     {
       "name": "Player_230",
       "team": "light",
-      "total_meters_run": 5.29,
+      "total_meters_run": 5.74,
       "minutes_played": 0.01,
       "minutes_rested": 1.99,
       "possession_seconds": 0.0,
@@ -653,7 +653,7 @@
     {
       "name": "Player_231",
       "team": "light",
-      "total_meters_run": 9.72,
+      "total_meters_run": 10.3,
       "minutes_played": 0.03,
       "minutes_rested": 1.97,
       "possession_seconds": 0.0,
@@ -677,7 +677,7 @@
     {
       "name": "Player_233",
       "team": "light",
-      "total_meters_run": 2.13,
+      "total_meters_run": 2.17,
       "minutes_played": 0.02,
       "minutes_rested": 1.98,
       "possession_seconds": 0.0,
@@ -701,7 +701,7 @@
     {
       "name": "Player_246",
       "team": "light",
-      "total_meters_run": 137.99,
+      "total_meters_run": 142.36,
       "minutes_played": 0.35,
       "minutes_rested": 1.65,
       "possession_seconds": 0.0,
@@ -725,7 +725,7 @@
     {
       "name": "Player_253",
       "team": "light",
-      "total_meters_run": 58.41,
+      "total_meters_run": 59.4,
       "minutes_played": 0.36,
       "minutes_rested": 1.64,
       "possession_seconds": 0.0,
@@ -749,7 +749,7 @@
     {
       "name": "Player_275",
       "team": "light",
-      "total_meters_run": 89.39,
+      "total_meters_run": 92.51,
       "minutes_played": 0.31,
       "minutes_rested": 1.69,
       "possession_seconds": 0.0,
@@ -773,7 +773,7 @@
     {
       "name": "Player_292",
       "team": "light",
-      "total_meters_run": 67.53,
+      "total_meters_run": 71.67,
       "minutes_played": 0.16,
       "minutes_rested": 1.84,
       "possession_seconds": 0.0,
@@ -797,7 +797,7 @@
     {
       "name": "Player_297",
       "team": "light",
-      "total_meters_run": 48.47,
+      "total_meters_run": 50.23,
       "minutes_played": 0.17,
       "minutes_rested": 1.82,
       "possession_seconds": 0.0,
@@ -821,7 +821,7 @@
     {
       "name": "Player_299",
       "team": "light",
-      "total_meters_run": 7.51,
+      "total_meters_run": 7.76,
       "minutes_played": 0.02,
       "minutes_rested": 1.98,
       "possession_seconds": 0.0,
@@ -845,7 +845,7 @@
     {
       "name": "Player_303",
       "team": "light",
-      "total_meters_run": 134.59,
+      "total_meters_run": 138.27,
       "minutes_played": 0.34,
       "minutes_rested": 1.66,
       "possession_seconds": 0.0,
@@ -869,7 +869,7 @@
     {
       "name": "Player_312",
       "team": "light",
-      "total_meters_run": 10.33,
+      "total_meters_run": 10.7,
       "minutes_played": 0.06,
       "minutes_rested": 1.94,
       "possession_seconds": 0.0,
@@ -893,7 +893,7 @@
     {
       "name": "Player_315",
       "team": "light",
-      "total_meters_run": 5.01,
+      "total_meters_run": 4.89,
       "minutes_played": 0.04,
       "minutes_rested": 1.96,
       "possession_seconds": 0.0,
@@ -917,7 +917,7 @@
     {
       "name": "Player_322",
       "team": "light",
-      "total_meters_run": 8.26,
+      "total_meters_run": 8.46,
       "minutes_played": 0.04,
       "minutes_rested": 1.96,
       "possession_seconds": 0.0,
@@ -941,7 +941,7 @@
     {
       "name": "Player_327",
       "team": "light",
-      "total_meters_run": 8.01,
+      "total_meters_run": 7.72,
       "minutes_played": 0.06,
       "minutes_rested": 1.94,
       "possession_seconds": 0.0,
@@ -965,7 +965,7 @@
     {
       "name": "Player_332",
       "team": "light",
-      "total_meters_run": 450.36,
+      "total_meters_run": 458.81,
       "minutes_played": 1.19,
       "minutes_rested": 0.81,
       "possession_seconds": 0.0,
@@ -989,7 +989,7 @@
     {
       "name": "Player_340",
       "team": "light",
-      "total_meters_run": 4.48,
+      "total_meters_run": 4.75,
       "minutes_played": 0.01,
       "minutes_rested": 2.0,
       "possession_seconds": 0.0,
@@ -1013,7 +1013,7 @@
     {
       "name": "Player_348",
       "team": "light",
-      "total_meters_run": 51.94,
+      "total_meters_run": 53.02,
       "minutes_played": 0.13,
       "minutes_rested": 1.86,
       "possession_seconds": 0.0,
@@ -1037,7 +1037,7 @@
     {
       "name": "Player_349",
       "team": "light",
-      "total_meters_run": 34.44,
+      "total_meters_run": 35.34,
       "minutes_played": 0.23,
       "minutes_rested": 1.77,
       "possession_seconds": 0.0,
@@ -1061,7 +1061,7 @@
     {
       "name": "Player_367",
       "team": "light",
-      "total_meters_run": 9.53,
+      "total_meters_run": 9.63,
       "minutes_played": 0.04,
       "minutes_rested": 1.96,
       "possession_seconds": 0.0,
@@ -1085,7 +1085,7 @@
     {
       "name": "Player_391",
       "team": "light",
-      "total_meters_run": 98.16,
+      "total_meters_run": 99.15,
       "minutes_played": 0.41,
       "minutes_rested": 1.59,
       "possession_seconds": 0.0,
@@ -1109,7 +1109,7 @@
     {
       "name": "Player_393",
       "team": "light",
-      "total_meters_run": 24.79,
+      "total_meters_run": 23.54,
       "minutes_played": 0.63,
       "minutes_rested": 1.37,
       "possession_seconds": 0.0,
@@ -1133,7 +1133,7 @@
     {
       "name": "Player_396",
       "team": "light",
-      "total_meters_run": 46.42,
+      "total_meters_run": 50.13,
       "minutes_played": 0.04,
       "minutes_rested": 1.96,
       "possession_seconds": 0.0,
@@ -1157,7 +1157,7 @@
     {
       "name": "Player_428",
       "team": "light",
-      "total_meters_run": 36.53,
+      "total_meters_run": 37.2,
       "minutes_played": 0.19,
       "minutes_rested": 1.81,
       "possession_seconds": 0.0,
@@ -1181,7 +1181,7 @@
     {
       "name": "Player_483",
       "team": "light",
-      "total_meters_run": 35.16,
+      "total_meters_run": 37.39,
       "minutes_played": 0.09,
       "minutes_rested": 1.91,
       "possession_seconds": 0.0,
@@ -1205,7 +1205,7 @@
     {
       "name": "Player_500",
       "team": "light",
-      "total_meters_run": 58.16,
+      "total_meters_run": 60.26,
       "minutes_played": 0.18,
       "minutes_rested": 1.82,
       "possession_seconds": 0.0,
@@ -1229,7 +1229,7 @@
     {
       "name": "Player_509",
       "team": "light",
-      "total_meters_run": 20.07,
+      "total_meters_run": 22.44,
       "minutes_played": 0.01,
       "minutes_rested": 1.99,
       "possession_seconds": 0.0,
@@ -1253,7 +1253,7 @@
     {
       "name": "Player_517",
       "team": "light",
-      "total_meters_run": 215.09,
+      "total_meters_run": 241.01,
       "minutes_played": 0.1,
       "minutes_rested": 1.9,
       "possession_seconds": 0.0,
@@ -1277,7 +1277,7 @@
     {
       "name": "Player_523",
       "team": "light",
-      "total_meters_run": 156.09,
+      "total_meters_run": 166.73,
       "minutes_played": 0.17,
       "minutes_rested": 1.82,
       "possession_seconds": 0.0,
@@ -1301,7 +1301,7 @@
     {
       "name": "Player_529",
       "team": "light",
-      "total_meters_run": 3.8,
+      "total_meters_run": 3.82,
       "minutes_played": 0.05,
       "minutes_rested": 1.95,
       "possession_seconds": 0.0,
@@ -1325,7 +1325,7 @@
     {
       "name": "Player_535",
       "team": "light",
-      "total_meters_run": 19.57,
+      "total_meters_run": 21.47,
       "minutes_played": 0.01,
       "minutes_rested": 1.99,
       "possession_seconds": 0.0,
@@ -1349,7 +1349,7 @@
     {
       "name": "Player_538",
       "team": "light",
-      "total_meters_run": 11.89,
+      "total_meters_run": 12.34,
       "minutes_played": 0.05,
       "minutes_rested": 1.95,
       "possession_seconds": 0.0,
@@ -1373,7 +1373,7 @@
     {
       "name": "Player_542",
       "team": "light",
-      "total_meters_run": 8.36,
+      "total_meters_run": 8.6,
       "minutes_played": 0.01,
       "minutes_rested": 1.99,
       "possession_seconds": 0.0,
@@ -1397,7 +1397,7 @@
     {
       "name": "Player_552",
       "team": "light",
-      "total_meters_run": 18.16,
+      "total_meters_run": 18.71,
       "minutes_played": 0.19,
       "minutes_rested": 1.8,
       "possession_seconds": 0.0,
@@ -1421,7 +1421,7 @@
     {
       "name": "Player_587",
       "team": "light",
-      "total_meters_run": 14.19,
+      "total_meters_run": 16.12,
       "minutes_played": 0.07,
       "minutes_rested": 1.93,
       "possession_seconds": 0.0,
@@ -1445,7 +1445,7 @@
     {
       "name": "Player_600",
       "team": "light",
-      "total_meters_run": 12.82,
+      "total_meters_run": 13.69,
       "minutes_played": 0.02,
       "minutes_rested": 1.98,
       "possession_seconds": 0.0,
@@ -1469,7 +1469,7 @@
     {
       "name": "Player_622",
       "team": "light",
-      "total_meters_run": 29.96,
+      "total_meters_run": 31.3,
       "minutes_played": 0.05,
       "minutes_rested": 1.95,
       "possession_seconds": 0.0,
@@ -1493,7 +1493,7 @@
     {
       "name": "Player_624",
       "team": "light",
-      "total_meters_run": 17.86,
+      "total_meters_run": 17.62,
       "minutes_played": 0.12,
       "minutes_rested": 1.88,
       "possession_seconds": 0.0,
@@ -1517,7 +1517,7 @@
     {
       "name": "Player_626",
       "team": "light",
-      "total_meters_run": 33.52,
+      "total_meters_run": 34.74,
       "minutes_played": 0.12,
       "minutes_rested": 1.88,
       "possession_seconds": 0.0,
@@ -1541,7 +1541,7 @@
     {
       "name": "Player_652",
       "team": "light",
-      "total_meters_run": 60.12,
+      "total_meters_run": 60.29,
       "minutes_played": 0.26,
       "minutes_rested": 1.75,
       "possession_seconds": 0.2,
@@ -1565,7 +1565,7 @@
     {
       "name": "Player_654",
       "team": "light",
-      "total_meters_run": 4.67,
+      "total_meters_run": 5.28,
       "minutes_played": 0.01,
       "minutes_rested": 1.99,
       "possession_seconds": 0.0,
@@ -1589,7 +1589,7 @@
     {
       "name": "Player_659",
       "team": "light",
-      "total_meters_run": 23.4,
+      "total_meters_run": 24.18,
       "minutes_played": 0.06,
       "minutes_rested": 1.94,
       "possession_seconds": 0.0,
@@ -1613,7 +1613,7 @@
     {
       "name": "Player_674",
       "team": "light",
-      "total_meters_run": 1.84,
+      "total_meters_run": 1.88,
       "minutes_played": 0.04,
       "minutes_rested": 1.97,
       "possession_seconds": 0.0,
@@ -1637,7 +1637,7 @@
     {
       "name": "Player_676",
       "team": "light",
-      "total_meters_run": 28.52,
+      "total_meters_run": 29.66,
       "minutes_played": 0.03,
       "minutes_rested": 1.97,
       "possession_seconds": 0.0,
@@ -1661,7 +1661,7 @@
     {
       "name": "Player_682",
       "team": "light",
-      "total_meters_run": 11.74,
+      "total_meters_run": 12.12,
       "minutes_played": 0.02,
       "minutes_rested": 1.98,
       "possession_seconds": 0.0,
@@ -1685,7 +1685,7 @@
     {
       "name": "Player_695",
       "team": "light",
-      "total_meters_run": 19.06,
+      "total_meters_run": 20.55,
       "minutes_played": 0.01,
       "minutes_rested": 1.99,
       "possession_seconds": 0.0,
@@ -1709,7 +1709,7 @@
     {
       "name": "Player_710",
       "team": "light",
-      "total_meters_run": 7.56,
+      "total_meters_run": 8.48,
       "minutes_played": 0.02,
       "minutes_rested": 1.98,
       "possession_seconds": 0.0,
@@ -1733,7 +1733,7 @@
     {
       "name": "Player_714",
       "team": "light",
-      "total_meters_run": 2.14,
+      "total_meters_run": 2.32,
       "minutes_played": 0.0,
       "minutes_rested": 2.0,
       "possession_seconds": 0.0,
@@ -1757,7 +1757,7 @@
     {
       "name": "Player_717",
       "team": "light",
-      "total_meters_run": 82.3,
+      "total_meters_run": 84.19,
       "minutes_played": 0.45,
       "minutes_rested": 1.55,
       "possession_seconds": 0.1,
@@ -1781,7 +1781,7 @@
     {
       "name": "Player_718",
       "team": "light",
-      "total_meters_run": 115.43,
+      "total_meters_run": 124.6,
       "minutes_played": 0.4,
       "minutes_rested": 1.6,
       "possession_seconds": 0.1,
@@ -1805,7 +1805,7 @@
     {
       "name": "Player_730",
       "team": "light",
-      "total_meters_run": 21.52,
+      "total_meters_run": 21.85,
       "minutes_played": 0.05,
       "minutes_rested": 1.95,
       "possession_seconds": 0.0,
@@ -1829,7 +1829,7 @@
     {
       "name": "Player_744",
       "team": "light",
-      "total_meters_run": 47.56,
+      "total_meters_run": 49.03,
       "minutes_played": 0.23,
       "minutes_rested": 1.77,
       "possession_seconds": 0.0,
@@ -1853,7 +1853,7 @@
     {
       "name": "Player_746",
       "team": "light",
-      "total_meters_run": 47.77,
+      "total_meters_run": 49.99,
       "minutes_played": 0.08,
       "minutes_rested": 1.92,
       "possession_seconds": 0.0,
@@ -1877,7 +1877,7 @@
     {
       "name": "Player_767",
       "team": "light",
-      "total_meters_run": 33.96,
+      "total_meters_run": 35.48,
       "minutes_played": 0.1,
       "minutes_rested": 1.91,
       "possession_seconds": 0.0,
@@ -1901,7 +1901,7 @@
     {
       "name": "Player_773",
       "team": "light",
-      "total_meters_run": 7.38,
+      "total_meters_run": 8.54,
       "minutes_played": 0.01,
       "minutes_rested": 1.99,
       "possession_seconds": 0.0,
@@ -1925,7 +1925,7 @@
     {
       "name": "Player_779",
       "team": "light",
-      "total_meters_run": 20.55,
+      "total_meters_run": 20.44,
       "minutes_played": 0.18,
       "minutes_rested": 1.82,
       "possession_seconds": 0.3,
@@ -1949,7 +1949,7 @@
     {
       "name": "Player_816",
       "team": "light",
-      "total_meters_run": 99.16,
+      "total_meters_run": 107.0,
       "minutes_played": 0.16,
       "minutes_rested": 1.84,
       "possession_seconds": 0.0,
@@ -1973,7 +1973,7 @@
     {
       "name": "Player_819",
       "team": "light",
-      "total_meters_run": 2.19,
+      "total_meters_run": 2.18,
       "minutes_played": 0.01,
       "minutes_rested": 1.99,
       "possession_seconds": 0.0,
@@ -1997,7 +1997,7 @@
     {
       "name": "Player_833",
       "team": "light",
-      "total_meters_run": 24.58,
+      "total_meters_run": 25.49,
       "minutes_played": 0.09,
       "minutes_rested": 1.91,
       "possession_seconds": 0.0,
@@ -2021,7 +2021,7 @@
     {
       "name": "Player_846",
       "team": "light",
-      "total_meters_run": 26.79,
+      "total_meters_run": 28.61,
       "minutes_played": 0.02,
       "minutes_rested": 1.98,
       "possession_seconds": 0.0,
@@ -2045,7 +2045,7 @@
     {
       "name": "Player_870",
       "team": "light",
-      "total_meters_run": 107.86,
+      "total_meters_run": 115.2,
       "minutes_played": 0.35,
       "minutes_rested": 1.65,
       "possession_seconds": 0.0,
@@ -2069,9 +2069,9 @@
     {
       "name": "Player_874",
       "team": "light",
-      "total_meters_run": 610.29,
-      "minutes_played": 0.46,
-      "minutes_rested": 1.54,
+      "total_meters_run": 212.04,
+      "minutes_played": 0.12,
+      "minutes_rested": 1.88,
       "possession_seconds": 0.0,
       "sub_events": [
         {
@@ -2081,8 +2081,8 @@
         },
         {
           "type": "sub_out",
-          "frame": 1943,
-          "time": "01:37"
+          "frame": 1539,
+          "time": "01:16"
         }
       ],
       "ui_hints": {
@@ -2093,7 +2093,7 @@
     {
       "name": "Player_885",
       "team": "light",
-      "total_meters_run": 4.54,
+      "total_meters_run": 4.73,
       "minutes_played": 0.03,
       "minutes_rested": 1.97,
       "possession_seconds": 0.0,
@@ -2117,7 +2117,7 @@
     {
       "name": "Player_896",
       "team": "light",
-      "total_meters_run": 5.84,
+      "total_meters_run": 6.66,
       "minutes_played": 0.03,
       "minutes_rested": 1.97,
       "possession_seconds": 0.0,
@@ -2141,7 +2141,7 @@
     {
       "name": "Player_897",
       "team": "light",
-      "total_meters_run": 192.89,
+      "total_meters_run": 204.05,
       "minutes_played": 0.57,
       "minutes_rested": 1.43,
       "possession_seconds": 0.0,
@@ -2165,7 +2165,7 @@
     {
       "name": "Player_900",
       "team": "light",
-      "total_meters_run": 160.58,
+      "total_meters_run": 175.95,
       "minutes_played": 0.29,
       "minutes_rested": 1.71,
       "possession_seconds": 0.0,
@@ -2189,7 +2189,7 @@
     {
       "name": "Player_903",
       "team": "light",
-      "total_meters_run": 10.99,
+      "total_meters_run": 10.79,
       "minutes_played": 0.05,
       "minutes_rested": 1.95,
       "possession_seconds": 0.0,
@@ -2213,7 +2213,7 @@
     {
       "name": "Player_912",
       "team": "light",
-      "total_meters_run": 59.74,
+      "total_meters_run": 63.74,
       "minutes_played": 0.15,
       "minutes_rested": 1.85,
       "possession_seconds": 0.0,
@@ -2237,7 +2237,7 @@
     {
       "name": "Player_926",
       "team": "light",
-      "total_meters_run": 136.43,
+      "total_meters_run": 145.95,
       "minutes_played": 0.15,
       "minutes_rested": 1.85,
       "possession_seconds": 0.0,
@@ -2261,7 +2261,7 @@
     {
       "name": "Player_929",
       "team": "light",
-      "total_meters_run": 1.98,
+      "total_meters_run": 2.23,
       "minutes_played": 0.0,
       "minutes_rested": 2.0,
       "possession_seconds": 0.0,
@@ -2285,9 +2285,9 @@
     {
       "name": "Player_935",
       "team": "light",
-      "total_meters_run": 121.54,
-      "minutes_played": 0.27,
-      "minutes_rested": 1.73,
+      "total_meters_run": 42.67,
+      "minutes_played": 0.23,
+      "minutes_rested": 1.77,
       "possession_seconds": 0.0,
       "sub_events": [
         {
@@ -2297,8 +2297,8 @@
         },
         {
           "type": "sub_out",
-          "frame": 1872,
-          "time": "01:33"
+          "frame": 1829,
+          "time": "01:31"
         }
       ],
       "ui_hints": {
@@ -2307,9 +2307,33 @@
       }
     },
     {
+      "name": "Player_947",
+      "team": "light",
+      "total_meters_run": 237.36,
+      "minutes_played": 0.32,
+      "minutes_rested": 1.68,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 1564,
+          "time": "01:18"
+        },
+        {
+          "type": "sub_out",
+          "frame": 1943,
+          "time": "01:37"
+        }
+      ],
+      "ui_hints": {
+        "avg_height_pixels": 67.4,
+        "avg_width_pixels": 26.4
+      }
+    },
+    {
       "name": "Player_973",
       "team": "light",
-      "total_meters_run": 11.9,
+      "total_meters_run": 11.35,
       "minutes_played": 0.53,
       "minutes_rested": 1.47,
       "possession_seconds": 0.0,
@@ -2333,7 +2357,7 @@
     {
       "name": "Player_999",
       "team": "light",
-      "total_meters_run": 7.62,
+      "total_meters_run": 7.63,
       "minutes_played": 0.04,
       "minutes_rested": 1.96,
       "possession_seconds": 0.0,
@@ -2357,7 +2381,7 @@
     {
       "name": "Player_1020",
       "team": "light",
-      "total_meters_run": 2.95,
+      "total_meters_run": 3.17,
       "minutes_played": 0.03,
       "minutes_rested": 1.97,
       "possession_seconds": 0.0,
@@ -2381,7 +2405,7 @@
     {
       "name": "Player_1024",
       "team": "light",
-      "total_meters_run": 61.74,
+      "total_meters_run": 66.39,
       "minutes_played": 0.13,
       "minutes_rested": 1.87,
       "possession_seconds": 0.0,
@@ -2405,7 +2429,7 @@
     {
       "name": "Player_1029",
       "team": "light",
-      "total_meters_run": 34.03,
+      "total_meters_run": 37.49,
       "minutes_played": 0.01,
       "minutes_rested": 1.99,
       "possession_seconds": 0.0,
@@ -2429,9 +2453,9 @@
     {
       "name": "Player_1036",
       "team": "light",
-      "total_meters_run": 16.38,
-      "minutes_played": 0.08,
-      "minutes_rested": 1.92,
+      "total_meters_run": 103.48,
+      "minutes_played": 0.11,
+      "minutes_rested": 1.89,
       "possession_seconds": 0.0,
       "sub_events": [
         {
@@ -2441,8 +2465,8 @@
         },
         {
           "type": "sub_out",
-          "frame": 1829,
-          "time": "01:31"
+          "frame": 1872,
+          "time": "01:33"
         }
       ],
       "ui_hints": {
@@ -2453,7 +2477,7 @@
     {
       "name": "Player_1046",
       "team": "light",
-      "total_meters_run": 16.44,
+      "total_meters_run": 17.59,
       "minutes_played": 0.02,
       "minutes_rested": 1.98,
       "possession_seconds": 0.0,
@@ -2477,7 +2501,7 @@
     {
       "name": "Player_1063",
       "team": "light",
-      "total_meters_run": 27.99,
+      "total_meters_run": 31.39,
       "minutes_played": 0.03,
       "minutes_rested": 1.97,
       "possession_seconds": 0.0,
@@ -2501,7 +2525,7 @@
     {
       "name": "Player_1070",
       "team": "light",
-      "total_meters_run": 83.47,
+      "total_meters_run": 90.29,
       "minutes_played": 0.12,
       "minutes_rested": 1.88,
       "possession_seconds": 0.0,
@@ -2525,7 +2549,7 @@
     {
       "name": "Player_1086",
       "team": "light",
-      "total_meters_run": 90.73,
+      "total_meters_run": 95.94,
       "minutes_played": 0.18,
       "minutes_rested": 1.82,
       "possession_seconds": 0.0,
@@ -2549,7 +2573,7 @@
     {
       "name": "Player_1090",
       "team": "light",
-      "total_meters_run": 111.22,
+      "total_meters_run": 115.0,
       "minutes_played": 0.33,
       "minutes_rested": 1.67,
       "possession_seconds": 0.0,
@@ -2573,7 +2597,7 @@
     {
       "name": "Player_1109",
       "team": "light",
-      "total_meters_run": 6.27,
+      "total_meters_run": 6.79,
       "minutes_played": 0.0,
       "minutes_rested": 2.0,
       "possession_seconds": 0.0,
@@ -2597,7 +2621,7 @@
     {
       "name": "Player_1133",
       "team": "light",
-      "total_meters_run": 30.44,
+      "total_meters_run": 33.75,
       "minutes_played": 0.06,
       "minutes_rested": 1.94,
       "possession_seconds": 0.0,
@@ -2621,7 +2645,7 @@
     {
       "name": "Player_1143",
       "team": "light",
-      "total_meters_run": 25.87,
+      "total_meters_run": 27.92,
       "minutes_played": 0.07,
       "minutes_rested": 1.93,
       "possession_seconds": 0.0,
@@ -2645,7 +2669,7 @@
     {
       "name": "Player_1145",
       "team": "light",
-      "total_meters_run": 20.8,
+      "total_meters_run": 22.88,
       "minutes_played": 0.09,
       "minutes_rested": 1.91,
       "possession_seconds": 0.0,
@@ -2669,7 +2693,7 @@
     {
       "name": "Player_1162",
       "team": "light",
-      "total_meters_run": 45.33,
+      "total_meters_run": 47.3,
       "minutes_played": 0.15,
       "minutes_rested": 1.85,
       "possession_seconds": 0.0,
@@ -2693,7 +2717,7 @@
     {
       "name": "Player_1179",
       "team": "light",
-      "total_meters_run": 95.64,
+      "total_meters_run": 107.03,
       "minutes_played": 0.08,
       "minutes_rested": 1.92,
       "possession_seconds": 0.0,
@@ -2717,7 +2741,7 @@
     {
       "name": "Player_1182",
       "team": "light",
-      "total_meters_run": 127.79,
+      "total_meters_run": 131.58,
       "minutes_played": 0.27,
       "minutes_rested": 1.73,
       "possession_seconds": 0.0,
@@ -2741,7 +2765,7 @@
     {
       "name": "Player_1189",
       "team": "light",
-      "total_meters_run": 40.86,
+      "total_meters_run": 42.57,
       "minutes_played": 0.14,
       "minutes_rested": 1.86,
       "possession_seconds": 0.0,
@@ -2765,7 +2789,7 @@
     {
       "name": "Player_1194",
       "team": "light",
-      "total_meters_run": 5.05,
+      "total_meters_run": 5.51,
       "minutes_played": 0.01,
       "minutes_rested": 1.99,
       "possession_seconds": 0.0,
@@ -2789,7 +2813,7 @@
     {
       "name": "Player_1195",
       "team": "light",
-      "total_meters_run": 8.0,
+      "total_meters_run": 7.82,
       "minutes_played": 0.04,
       "minutes_rested": 1.97,
       "possession_seconds": 0.0,
@@ -2813,7 +2837,7 @@
     {
       "name": "Player_1198",
       "team": "light",
-      "total_meters_run": 2.18,
+      "total_meters_run": 2.21,
       "minutes_played": 0.04,
       "minutes_rested": 1.96,
       "possession_seconds": 0.0,
@@ -2837,7 +2861,7 @@
     {
       "name": "Player_1213",
       "team": "light",
-      "total_meters_run": 118.75,
+      "total_meters_run": 123.51,
       "minutes_played": 0.15,
       "minutes_rested": 1.85,
       "possession_seconds": 0.0,
@@ -2861,7 +2885,7 @@
     {
       "name": "Player_1227",
       "team": "light",
-      "total_meters_run": 124.08,
+      "total_meters_run": 128.39,
       "minutes_played": 0.24,
       "minutes_rested": 1.76,
       "possession_seconds": 0.0,
@@ -2885,7 +2909,7 @@
     {
       "name": "Player_1231",
       "team": "light",
-      "total_meters_run": 9.58,
+      "total_meters_run": 9.66,
       "minutes_played": 0.03,
       "minutes_rested": 1.97,
       "possession_seconds": 0.0,
@@ -2909,7 +2933,7 @@
     {
       "name": "Player_1239",
       "team": "light",
-      "total_meters_run": 11.88,
+      "total_meters_run": 12.38,
       "minutes_played": 0.05,
       "minutes_rested": 1.95,
       "possession_seconds": 0.0,
@@ -2933,9 +2957,9 @@
     {
       "name": "Player_1268",
       "team": "light",
-      "total_meters_run": 41.99,
-      "minutes_played": 0.13,
-      "minutes_rested": 1.87,
+      "total_meters_run": 7.33,
+      "minutes_played": 0.03,
+      "minutes_rested": 1.97,
       "possession_seconds": 0.0,
       "sub_events": [
         {
@@ -2945,8 +2969,8 @@
         },
         {
           "type": "sub_out",
-          "frame": 2186,
-          "time": "01:49"
+          "frame": 2074,
+          "time": "01:43"
         }
       ],
       "ui_hints": {
@@ -2957,7 +2981,7 @@
     {
       "name": "Player_1273",
       "team": "light",
-      "total_meters_run": 49.42,
+      "total_meters_run": 51.07,
       "minutes_played": 0.17,
       "minutes_rested": 1.83,
       "possession_seconds": 0.0,
@@ -2981,7 +3005,7 @@
     {
       "name": "Player_1286",
       "team": "light",
-      "total_meters_run": 32.52,
+      "total_meters_run": 32.53,
       "minutes_played": 0.16,
       "minutes_rested": 1.84,
       "possession_seconds": 0.0,
@@ -3005,7 +3029,7 @@
     {
       "name": "Player_1295",
       "team": "light",
-      "total_meters_run": 6.88,
+      "total_meters_run": 7.18,
       "minutes_played": 0.06,
       "minutes_rested": 1.94,
       "possession_seconds": 0.0,
@@ -3029,7 +3053,7 @@
     {
       "name": "Player_1304",
       "team": "light",
-      "total_meters_run": 23.93,
+      "total_meters_run": 24.34,
       "minutes_played": 0.07,
       "minutes_rested": 1.93,
       "possession_seconds": 0.0,
@@ -3053,7 +3077,7 @@
     {
       "name": "Player_1308",
       "team": "light",
-      "total_meters_run": 12.6,
+      "total_meters_run": 13.7,
       "minutes_played": 0.02,
       "minutes_rested": 1.98,
       "possession_seconds": 0.0,
@@ -3077,7 +3101,7 @@
     {
       "name": "Player_1316",
       "team": "light",
-      "total_meters_run": 3.49,
+      "total_meters_run": 3.68,
       "minutes_played": 0.01,
       "minutes_rested": 1.99,
       "possession_seconds": 0.0,
@@ -3101,7 +3125,7 @@
     {
       "name": "Player_1325",
       "team": "light",
-      "total_meters_run": 39.83,
+      "total_meters_run": 41.18,
       "minutes_played": 0.1,
       "minutes_rested": 1.9,
       "possession_seconds": 0.0,
@@ -3125,7 +3149,7 @@
     {
       "name": "Player_1332",
       "team": "light",
-      "total_meters_run": 16.91,
+      "total_meters_run": 16.64,
       "minutes_played": 0.05,
       "minutes_rested": 1.95,
       "possession_seconds": 0.0,
@@ -3149,7 +3173,7 @@
     {
       "name": "Player_1357",
       "team": "light",
-      "total_meters_run": 1.72,
+      "total_meters_run": 1.73,
       "minutes_played": 0.01,
       "minutes_rested": 1.99,
       "possession_seconds": 0.0,
@@ -3173,7 +3197,7 @@
     {
       "name": "Player_1360",
       "team": "light",
-      "total_meters_run": 5.43,
+      "total_meters_run": 5.87,
       "minutes_played": 0.0,
       "minutes_rested": 2.0,
       "possession_seconds": 0.0,
@@ -3195,9 +3219,33 @@
       }
     },
     {
+      "name": "Player_1363",
+      "team": "light",
+      "total_meters_run": 18.6,
+      "minutes_played": 0.03,
+      "minutes_rested": 1.97,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 2151,
+          "time": "01:47"
+        },
+        {
+          "type": "sub_out",
+          "frame": 2186,
+          "time": "01:49"
+        }
+      ],
+      "ui_hints": {
+        "avg_height_pixels": 85.3,
+        "avg_width_pixels": 29.2
+      }
+    },
+    {
       "name": "Player_1367",
       "team": "light",
-      "total_meters_run": 2.58,
+      "total_meters_run": 2.65,
       "minutes_played": 0.02,
       "minutes_rested": 1.98,
       "possession_seconds": 0.0,
@@ -3221,7 +3269,7 @@
     {
       "name": "Player_1383",
       "team": "light",
-      "total_meters_run": 54.39,
+      "total_meters_run": 57.46,
       "minutes_played": 0.19,
       "minutes_rested": 1.81,
       "possession_seconds": 0.0,
@@ -3245,7 +3293,7 @@
     {
       "name": "Player_1388",
       "team": "light",
-      "total_meters_run": 11.0,
+      "total_meters_run": 11.63,
       "minutes_played": 0.03,
       "minutes_rested": 1.97,
       "possession_seconds": 0.0,
@@ -3269,7 +3317,7 @@
     {
       "name": "Player_1392",
       "team": "light",
-      "total_meters_run": 188.76,
+      "total_meters_run": 210.89,
       "minutes_played": 0.17,
       "minutes_rested": 1.83,
       "possession_seconds": 0.0,
@@ -3293,7 +3341,7 @@
     {
       "name": "Player_1395",
       "team": "light",
-      "total_meters_run": 2.71,
+      "total_meters_run": 2.85,
       "minutes_played": 0.0,
       "minutes_rested": 2.0,
       "possession_seconds": 0.0,
@@ -3317,7 +3365,7 @@
     {
       "name": "Player_1396",
       "team": "light",
-      "total_meters_run": 86.23,
+      "total_meters_run": 91.57,
       "minutes_played": 0.17,
       "minutes_rested": 1.83,
       "possession_seconds": 0.0,
@@ -3341,7 +3389,7 @@
     {
       "name": "Player_1405",
       "team": "light",
-      "total_meters_run": 28.42,
+      "total_meters_run": 29.71,
       "minutes_played": 0.09,
       "minutes_rested": 1.91,
       "possession_seconds": 0.0,
@@ -3365,7 +3413,7 @@
     {
       "name": "Player_1419",
       "team": "light",
-      "total_meters_run": 45.77,
+      "total_meters_run": 49.23,
       "minutes_played": 0.07,
       "minutes_rested": 1.93,
       "possession_seconds": 0.0,
@@ -3389,7 +3437,7 @@
     {
       "name": "Player_1426",
       "team": "light",
-      "total_meters_run": 72.99,
+      "total_meters_run": 79.37,
       "minutes_played": 0.14,
       "minutes_rested": 1.86,
       "possession_seconds": 0.0,
@@ -3413,7 +3461,7 @@
     {
       "name": "Player_1428",
       "team": "light",
-      "total_meters_run": 52.21,
+      "total_meters_run": 56.92,
       "minutes_played": 0.09,
       "minutes_rested": 1.91,
       "possession_seconds": 0.0,
@@ -3437,7 +3485,7 @@
     {
       "name": "Player_1438",
       "team": "light",
-      "total_meters_run": 69.11,
+      "total_meters_run": 78.75,
       "minutes_played": 0.13,
       "minutes_rested": 1.87,
       "possession_seconds": 0.0,
@@ -3461,7 +3509,7 @@
     {
       "name": "Player_1446",
       "team": "light",
-      "total_meters_run": 7.2,
+      "total_meters_run": 7.49,
       "minutes_played": 0.02,
       "minutes_rested": 1.98,
       "possession_seconds": 0.0,
@@ -3485,7 +3533,7 @@
     {
       "name": "Player_1466",
       "team": "light",
-      "total_meters_run": 27.96,
+      "total_meters_run": 30.04,
       "minutes_played": 0.09,
       "minutes_rested": 1.91,
       "possession_seconds": 0.0,
@@ -3507,9 +3555,33 @@
       }
     },
     {
+      "name": "Player_1472",
+      "team": "light",
+      "total_meters_run": 1.58,
+      "minutes_played": 0.0,
+      "minutes_rested": 2.0,
+      "possession_seconds": 0.0,
+      "sub_events": [
+        {
+          "type": "sub_in",
+          "frame": 2300,
+          "time": "01:55"
+        },
+        {
+          "type": "sub_out",
+          "frame": 2303,
+          "time": "01:55"
+        }
+      ],
+      "ui_hints": {
+        "avg_height_pixels": 68.8,
+        "avg_width_pixels": 27.6
+      }
+    },
+    {
       "name": "Player_1478",
       "team": "light",
-      "total_meters_run": 12.71,
+      "total_meters_run": 13.72,
       "minutes_played": 0.08,
       "minutes_rested": 1.92,
       "possession_seconds": 0.0,
@@ -3533,7 +3605,7 @@
     {
       "name": "Player_1480",
       "team": "light",
-      "total_meters_run": 39.94,
+      "total_meters_run": 44.14,
       "minutes_played": 0.07,
       "minutes_rested": 1.93,
       "possession_seconds": 0.0,
@@ -3557,7 +3629,7 @@
     {
       "name": "Player_1489",
       "team": "light",
-      "total_meters_run": 39.8,
+      "total_meters_run": 44.31,
       "minutes_played": 0.07,
       "minutes_rested": 1.93,
       "possession_seconds": 0.0,
@@ -3581,7 +3653,7 @@
     {
       "name": "Player_1497",
       "team": "light",
-      "total_meters_run": 36.05,
+      "total_meters_run": 40.01,
       "minutes_played": 0.03,
       "minutes_rested": 1.98,
       "possession_seconds": 0.0,

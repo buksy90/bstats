@@ -31,13 +31,17 @@ if (videoCoreElement) {
         if (currentPhase === 'ball' && editingBallIdx !== null && data.ball_samples[editingBallIdx]) {
             data.ball_samples[editingBallIdx].timestamp = videoCoreElement.currentTime;
             updateTextarea();
-        }
-        else if (currentPhase === 'seeding' && editingPlayerIdx !== null && data.player_seeds[editingPlayerIdx]) {
-            data.player_seeds[editingPlayerIdx].box.timestamp = videoCoreElement.currentTime;
+        } else if (currentPhase === 'seeding' && editingPlayerIdx !== null && editingPlayerBoxIdx !== null && data.player_seeds[editingPlayerIdx].boxes[editingPlayerBoxIdx]) {
+            data.player_seeds[editingPlayerIdx].boxes[editingPlayerBoxIdx].timestamp = videoCoreElement.currentTime;
             updateTextarea();
         }
         updatePlaybackTimeline();
     });
+}
+
+function evaluateUIState() {
+    if (currentPhase === 'seeding') renderIdentityList();
+    if (currentPhase === 'ball') recomputeGlobalHsv();
 }
 
 const targetOverlayCanvas = document.getElementById('overlayCanvas');
@@ -48,10 +52,21 @@ if (targetOverlayCanvas) {
         if (videoElement) videoElement.pause();
         if (playbackButton) playbackButton.textContent = "Play";
         const coords = getRelativeImageCoords(e);
+
+        // FIXED: Direct sequential coordinate point flow handling block
         if (currentPhase === 'boundaries') {
-            if (data.court_corners.length >= 4) { data.court_corners = []; }
-            data.court_corners.push({ x: coords.x, y: coords.y }); updateTextarea(); draw(); return;
+            if (data.court_corners.length < 4) {
+                data.court_corners.push({ x: coords.x, y: coords.y });
+            } else if (data.substitution_zone.length < 4) {
+                data.substitution_zone.push({ x: coords.x, y: coords.y });
+            } else {
+                // If user clicks again after both are fully calibrated, wipe and rebuild from scratch
+                data.court_corners = [{ x: coords.x, y: coords.y }];
+                data.substitution_zone = [];
+            }
+            updateTextarea(); draw(); return;
         }
+
         isDrawing = true; dragStart = coords; currentMouse = { x: coords.x, y: coords.y };
     });
 
@@ -70,8 +85,7 @@ if (targetOverlayCanvas) {
         };
         if (box.w < 3 || box.h < 3) return;
 
-        if (currentPhase === 'boundaries') { data.substitution_zone = box; }
-        else if (currentPhase === 'rims') {
+        if (currentPhase === 'rims') {
             if (!data.near_basket) {
                 box.attacked_by = document.getElementById('selNearAttackedBy').value;
                 data.near_basket = box;
@@ -80,9 +94,7 @@ if (targetOverlayCanvas) {
                 box.attacked_by = document.getElementById('selFarAttackedBy').value;
                 data.far_basket = box;
             }
-        }
-        // Snippet reference replacement target for mouseup event layer inside main.js:
-        else if (currentPhase === 'seeding') {
+        } else if (currentPhase === 'seeding') {
             if (editingPlayerIdx !== null && data.player_seeds[editingPlayerIdx]) {
                 const targetChar = data.player_seeds[editingPlayerIdx];
                 if (!targetChar.boxes) targetChar.boxes = [];
@@ -91,7 +103,7 @@ if (targetOverlayCanvas) {
                 targetChar.boxes.push(box);
                 editingPlayerBoxIdx = targetChar.boxes.length - 1;
             } else {
-                alert("Please click 'New' inside the Identity panel to create or select a character profile parent node first.");
+                alert("Click 'New' inside the Identity Registry panel to register or select a character first.");
                 return;
             }
         }

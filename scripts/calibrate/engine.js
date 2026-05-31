@@ -4,7 +4,7 @@
 let currentPhase = 'boundaries';
 let data = {
     court_corners: [],
-    substitution_zone: null,
+    substitution_zone: [],
     near_basket: null,
     far_basket: null,
     player_seeds: [], // Schema: [{ name, team, boxes: [{x,y,w,h,timestamp}] }]
@@ -26,7 +26,7 @@ let viewGeom = { offsetX: 0, offsetY: 0, dispW: 0, dispH: 0, nativeW: 1920, nati
 // 🛠️ DATA ENGINE & SYNCHRONIZATION UTILITIES
 // =====================================================================
 function resetDataStructure() {
-    data = { court_corners: [], substitution_zone: null, near_basket: null, far_basket: null, player_seeds: [], ball_samples: [] };
+    data = { court_corners: [], substitution_zone: [], near_basket: null, far_basket: null, player_seeds: [], ball_samples: [] };
     editingBallIdx = null;
     editingPlayerIdx = null;
     editingPlayerBoxIdx = null;

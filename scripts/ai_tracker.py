@@ -5,6 +5,15 @@ import cv2
 import json
 import numpy as np
 from tqdm import tqdm
+import onnxruntime as ort
+
+available_providers = ort.get_available_providers()
+print("\n[AI Environment] Registering available hardware execution layers:")
+for provider in available_providers: print(f" -> Found: {provider}")
+if 'DmlExecutionProvider' not in available_providers:
+    print("\n⚠️ WARNING: 'DmlExecutionProvider' was not detected by ONNX Runtime. CPU fallback mode activated.\n")
+else:
+    print("🚀 SUCCESS: AMD DirectML acceleration layer hooked successfully!\n")
 
 import config
 from background_model import generate_static_background
@@ -29,32 +38,24 @@ def main():
 
     target_frames = end_frame - start_frame
     render_step = max(1, int(config.RENDER_EVERY_N_SECONDS * video_fps))
-
-    # 2. Extract Automated Empty Court Background Model
     bg_gray = generate_static_background(start_frame, end_frame)
 
-    # 3. Boot Tracking Engines and Model Architecture Layers
     print("[AI Engine] Loading YOLOv8 Model Asset layers...")
     onnx_model = YOLO("yolov8m.onnx", task="detect")
     ball_engine = HeuristicBallTracker(config.CALIBRATION, video_fps)
 
-    # Build internal identity mapping reference from user pre-seeding info
     player_seeds = config.CALIBRATION.get("player_seeds", [])
-    sub_zone = config.CALIBRATION.get("substitution_zone", None)
+    sub_zone = config.CALIBRATION.get("substitution_zone", [])
 
     cap = cv2.VideoCapture(config.VIDEO_PATH)
     cap.set(cv2.CAP_PROP_POS_FRAMES, start_frame)
     frame_idx = start_frame
 
-    track_history = {}
-    possession_logs = {}
-    frame_momentum_history = {} # Stores macroscopic team velocity changes per frame step
-    last_player_positions = {} # { track_id: (mx, my) }
-
+    track_history, possession_logs, frame_momentum_history, last_player_positions = {}, {}, {}, {}
     progress_bar = tqdm(total=target_frames, desc="[AI Engine] Analyzing Match Timeline", unit="fr")
 
     WINDOW_TITLE = "bstats Debug Tracking Canvas"
-    cv2.namedWindow(WINDOW_TITLE, cv2.WINDOW_NORMAL)
+    cv2.namedWindow(WINDOW_TITLE, cv2.WINDOW_AUTOSIZE)
 
     while cap.isOpened():
         ret, frame = cap.read()
@@ -65,10 +66,7 @@ def main():
         progress_bar.update(1)
 
         results = onnx_model.track(frame, persist=True, tracker="bytetrack.yaml", classes=[0, 32], verbose=False)
-
-        current_frame_players = {}
-        yolo_ball_box = None
-        player_displacements = []
+        current_frame_players, yolo_ball_box, player_displacements = {}, None, []
 
         if results[0].boxes.id is not None:
             boxes = results[0].boxes.xyxy.cpu().numpy()
@@ -77,16 +75,12 @@ def main():
 
             for box, track_id, cls in zip(boxes, ids, clss):
                 x1, y1, x2, y2 = box.astype(int)
-
-                if cls == 0:  # Player Analytics Block
-                    # STRATEGY ENFORCEMENT: Ground track position directly to player foot center coordinates
+                if cls == 0:
                     foot_x = int((x1 + x2) / 2)
                     foot_y = y2
                     m_x, m_y = config.get_court_meters(foot_x, foot_y)
-
                     current_frame_players[track_id] = (m_x, m_y)
 
-                    # Track macroscopic horizontal velocities to catch whole court momentum shifts
                     if track_id in last_player_positions:
                         dx = m_x - last_player_positions[track_id][0]
                         dy = m_y - last_player_positions[track_id][1]
@@ -122,7 +116,6 @@ def main():
                 elif cls == 32:  # Ball Object Detection Bounding Anchor
                     yolo_ball_box = box
 
-        # Compute current frame macroscopic team union velocity vector mean
         if player_displacements:
             mean_momentum = np.mean(player_displacements, axis=0)
             frame_momentum_history[frame_idx] = (float(mean_momentum[0]), float(mean_momentum[1]))
@@ -133,67 +126,51 @@ def main():
         b_pixel, b_meters = ball_engine.track_ball_frame(frame, bg_gray, yolo_ball_box, config.get_court_meters, frame_idx)
 
         if b_pixel is not None:
-            # Map Proximity Ball Handler Ground Truth
             if current_frame_players:
-                closest_pid = None
-                min_d = float('inf')
+                closest_pid, min_d = None, float('inf')
                 for pid, p_pos in current_frame_players.items():
                     d = np.sqrt((b_meters[0] - p_pos[0])**2 + (b_meters[1] - p_pos[1])**2)
-                    if d < min_d:
-                        min_d = d
-                        closest_pid = pid
-                if min_d <= config.POSSESSION_DISTANCE_THRESHOLD_METERS:
-                    possession_logs[frame_idx] = closest_pid
+                    if d < min_d: min_d = d; closest_pid = pid
+                if min_d <= config.POSSESSION_DISTANCE_THRESHOLD_METERS: possession_logs[frame_idx] = closest_pid
 
-        # 5. Render Enhanced Visual Debug Preview Layout Layer
         if frame_idx % render_step == 0:
             preview_canvas = frame.copy()
-
-            # Loop visible bodies to draw custom team plates
             if results[0].boxes.id is not None:
-                boxes = results[0].boxes.xyxy.cpu().numpy()
-                ids = results[0].boxes.id.cpu().numpy().astype(int)
-                clss = results[0].boxes.cls.cpu().numpy().astype(int)
-
+                boxes = results[0].boxes.xyxy.cpu().numpy(); ids = results[0].boxes.id.cpu().numpy().astype(int); clss = results[0].boxes.cls.cpu().numpy().astype(int)
                 for box, track_id, cls in zip(boxes, ids, clss):
                     x1, y1, x2, y2 = box.astype(int)
                     if cls == 0:
-                        # Determine human-assigned name and team identity upfront
                         p_name = f"ID_{track_id}"
                         p_team = "light"
                         for seed in player_seeds:
-                            if seed["name"] == p_name or abs(frame_idx/video_fps - seed["box"]["timestamp"]) < 10.0:
-                                # Quick context name projection mapping fallback
-                                if p_name == f"ID_{track_id}": p_name = seed["name"]
-                                p_team = seed["team"]
+                            if "boxes" in seed and len(seed["boxes"]) > 0:
+                                if abs(frame_idx/video_fps - seed["boxes"][0]["timestamp"]) < 15.0:
+                                    p_team = seed["team"]
 
-                        # STRATEGY ENFORCEMENT: Prefix name with '#' if feet reside outside borders or inside bench box
                         f_mx, f_my = config.get_court_meters(int((x1+x2)/2), y2)
                         is_outside = not config.is_inside_court_boundaries(f_mx, f_my)
-                        is_in_bench = config.is_point_in_box(f_mx, f_my, sub_zone) if sub_zone else False
 
-                        if is_outside or is_in_bench:
-                            p_name = f"#{p_name}"
+                        # FIXED: Linked character flag validations directly onto polygon contour maps
+                        is_in_bench = config.is_point_in_substitution_zone(f_mx, f_my)
+                        if is_outside or is_in_bench: p_name = f"#{p_name}"
 
-                        # Team Color Code Rules: Team Light = Green (0,255,0) | Team Dark = Red (0,0,255)
                         draw_color = (0, 255, 0) if p_team == "light" else (0, 0, 255)
-                        if p_team == "spectator": draw_color = (0, 255, 255) # Yellow for Whitelisted Spectators
+                        if p_team == "spectator": draw_color = (0, 255, 255)
 
                         cv2.rectangle(preview_canvas, (x1, y1), (x2, y2), draw_color, 2)
                         cv2.putText(preview_canvas, p_name, (x1, y1 - 6), cv2.FONT_HERSHEY_SIMPLEX, 0.5, draw_color, 2)
 
-            # STRATEGY ENFORCEMENT: Draw Ball using Orange (0, 165, 255) bounding parameters
             if b_pixel is not None:
                 bx, by = b_pixel
                 cv2.rectangle(preview_canvas, (bx - 12, by - 12), (bx + 12, by + 12), (0, 165, 255), 2)
                 cv2.putText(preview_canvas, "BALL", (bx - 15, by - 16), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 165, 255), 2)
 
-            # Render active ground calibration overlay markers for quick visual tracking checks
-            if sub_zone:
-                sz_x1, sz_y1 = int(sub_zone['x']), int(sub_zone['y'])
-                cv2.rectangle(preview_canvas, (sz_x1, sz_y1), (sz_x1 + int(sub_zone['w']), sz_y1 + int(sub_zone['h'])), (240, 50, 240), 2)
+            # FIXED: Reconfigured to render the custom 4-Point polygon boundary cleanly using polylines
+            if sub_zone and len(sub_zone) >= 4:
+                pts_array = np.array([[pt['x'], pt['y']] for pt in sub_zone], dtype=np.int32).reshape((-1, 1, 2))
+                cv2.polylines(preview_canvas, [pts_array], True, (240, 50, 240), 2)
 
-            cv2.imshow(WINDOW_TITLE, cv2.resize(preview_canvas, (960, 540)))
+            cv2.imshow(WINDOW_TITLE, preview_canvas)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 

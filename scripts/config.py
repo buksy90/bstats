@@ -89,7 +89,7 @@ if 'court_corners' in CALIBRATION and len(CALIBRATION['court_corners']) >= 4:
     except Exception as e:
         print(f"[Config Engine] Warning: Failed to parse perspective fields: {e}")
 else:
-    print("[Config Engine] Notice: Missing or incomplete 'court_corners'. Bypassing 2D transformation matrix loops.")
+    print("[Config Engine] Notice: Missing 'court_corners'. Bypassing 2D transformation loops.")
 
 def get_court_meters(pixel_x, pixel_y):
     """Translates generic camera frame pixels into flat 2D bird's eye court meters."""
@@ -101,14 +101,25 @@ def get_court_meters(pixel_x, pixel_y):
     transformed = cv2.perspectiveTransform(pt, HOMOGRAPHY_MATRIX)
     return transformed[0][0][0] / 10.0, transformed[0][0][1] / 10.0
 
-def is_point_in_box(mx, my, box_dict):
-    """Checks if a transformed 2D coordinate falls inside a pixel bounding box mapping."""
-    if not box_dict:
+# FIXED: Complete geometric overhaul swapping out bounding-box logic for a Point-In-Polygon loop
+def is_point_in_substitution_zone(mx, my):
+    """Evaluates whether flat 2D bird's-eye court meter coordinates fall within the sub polygon."""
+    sz_pts = CALIBRATION.get('substitution_zone', [])
+    if not sz_pts or len(sz_pts) < 4:
         return False
-    # Translate box to bird's eye space boundary approximations
-    bx_m, by_m = get_court_meters(box_dict['x'], box_dict['y'])
-    bw_m, bh_m = box_dict['w'] / 50.0, box_dict['h'] / 50.0 # Approximate scaling divisor
-    return (bx_m <= mx <= bx_m + bw_m) and (by_m <= my <= by_m + bh_m)
+
+    # Translate screen vertices into real-world 2D court meters
+    meter_vertices = []
+    for pt in sz_pts:
+        cx_m, cy_m = get_court_meters(pt['x'], pt['y'])
+        meter_vertices.append([cx_m, cy_m])
+
+    # Convert vectors into a standard contour matrix shape for OpenCV tests
+    poly_contour = np.array(meter_vertices, dtype=np.float32).reshape((-1, 1, 2))
+
+    # Run structural ray-casting validation test. Returns distance (positive means inside polygon)
+    containment_test = cv2.pointPolygonTest(poly_contour, (float(mx), float(my)), False)
+    return containment_test >= 0
 
 def is_inside_court_boundaries(mx, my):
     """Verifies if the player ground contact position rests inside live borders."""

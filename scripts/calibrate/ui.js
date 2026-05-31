@@ -38,7 +38,6 @@ function togglePlayback() {
     else { video.pause(); playBtn.textContent = "Play"; }
 }
 
-// Fixed: Utilizes global standard Math context wrapper directly to resolve min() exceptions
 function adjustTime(seconds) {
     const video = document.getElementById('videoCore');
     video.currentTime = Math.max(0, Math.min(video.duration, video.currentTime + seconds));
@@ -81,11 +80,11 @@ function switchPhase(targetPhase) {
     const instrText = document.getElementById('instructionText');
 
     if (targetPhase === 'boundaries') {
-        instrTitle.textContent = "Phase 1: Court & Substitution Setup";
-        instrText.textContent = "Click 4 corners sequentially clockwise to define the court vector field. Afterward, click and drag a boundary bounding box mapping out the team substitution bench area.";
+        instrTitle.textContent = "Phase 1: Multi-Point Vector Boundary Setup";
+        instrText.textContent = "Click 4 corners clockwise to map the primary court boundary lines. Immediately following your 4th click, make 4 additional sequential clicks to outline the custom polygon for the team substitution bench zone area.";
     } else if (targetPhase === 'rims') {
         instrTitle.textContent = "Phase 2: Basket Hoop Calibration";
-        instrText.textContent = "Click and drag your first bounding box directly around the NEAR basket hoop, then click and drag your secondary box surrounding the FAR basket hoop layout location.";
+        instrText.textContent = "Draw your first bounding box directly around the NEAR basket hoop, then click and drag your secondary box surrounding the FAR basket hoop layout location.";
     } else if (targetPhase === 'seeding') {
         instrTitle.textContent = "Phase 3: Ground Truth Identity Seeding";
         instrText.textContent = "Click 'New' to instantiate a profile token. While active, any boxes drawn on screen add historical time-gated sample nodes directly inside that character's registry track.";
@@ -252,7 +251,6 @@ function confirmBallClassification(statusType) {
     if (editingBallIdx === null || !data.ball_samples[editingBallIdx]) return;
     data.ball_samples[editingBallIdx].status = statusType;
 
-    // STRATEGY ENFORCEMENT: Output structural profile logging parameters straight to developer console terminal
     console.log(`[Ball Swatch Classification Saved] Index Matrix Key #${editingBallIdx}:`, JSON.parse(JSON.stringify(data.ball_samples[editingBallIdx])));
 
     updateTextarea(); recomputeGlobalHsv(); draw();
@@ -283,7 +281,7 @@ function handleMinimapClickOverride(e) {
 }
 
 // =====================================================================
-// 🖌️ VERTEX GRAPHICS VECTOR CANVAS RENDER LOOP CORE
+// 🖌️ VERTEX GRAPHICS VECTOR CANVAS RENDER LOOP ENGINE
 // =====================================================================
 function draw() {
     const canvas = document.getElementById('overlayCanvas');
@@ -293,6 +291,7 @@ function draw() {
 
     // Phase 1 Isolation Guard Loop
     if (currentPhase === 'boundaries') {
+        // Draw primary 4-Point Court Boundaries
         if (data.court_corners && data.court_corners.length > 0) {
             ctx.strokeStyle = '#0070f3'; ctx.lineWidth = 2; ctx.fillStyle = '#0070f3';
             ctx.font = "bold 14px -apple-system, sans-serif";
@@ -309,11 +308,25 @@ function draw() {
             if (data.court_corners.length === 4) ctx.closePath();
             ctx.stroke();
         }
-        if (data.substitution_zone) {
-            const sx = toScreenX(data.substitution_zone.x); const sy = toScreenY(data.substitution_zone.y);
-            ctx.strokeStyle = '#9b59b6'; ctx.lineWidth = 2;
-            ctx.strokeRect(sx, sy, toScreenW(data.substitution_zone.w), toScreenH(data.substitution_zone.h));
-            ctx.fillStyle = 'rgba(155, 89, 182, 0.1)'; ctx.fillRect(sx, sy, toScreenW(data.substitution_zone.w), toScreenH(data.substitution_zone.h));
+
+        // FIXED: Shifted from rectangular rendering loops to dynamic vector point-to-point drawing
+        if (data.substitution_zone && data.substitution_zone.length > 0) {
+            ctx.strokeStyle = '#9b59b6'; ctx.lineWidth = 2; ctx.fillStyle = 'rgba(155, 89, 182, 0.1)';
+            ctx.font = "bold 11px monospace";
+
+            data.substitution_zone.forEach((pt, idx) => {
+                const cx = toScreenX(pt.x); const cy = toScreenY(pt.y);
+                ctx.beginPath(); ctx.arc(cx, cy, 4, 0, 2 * Math.PI); ctx.fill();
+                ctx.fillText(`Sub_${idx+1}`, cx + 6, cy - 6);
+            });
+
+            ctx.beginPath();
+            data.substitution_zone.forEach((pt, idx) => {
+                if (idx === 0) ctx.moveTo(toScreenX(pt.x), toScreenY(pt.y));
+                else ctx.lineTo(toScreenX(pt.x), toScreenY(pt.y));
+            });
+            if (data.substitution_zone.length === 4) ctx.closePath();
+            ctx.stroke(); ctx.fill();
         }
         return;
     }
@@ -341,17 +354,12 @@ function draw() {
         const activeCharacter = data.player_seeds[editingPlayerIdx];
         if (activeCharacter.boxes) {
             activeCharacter.boxes.forEach((b, idx) => {
-                const isCurrentlyActiveTarget = (idx === editingPlayerBoxIdx);
-                const timeMatchesVideoHead = Math.abs(video.currentTime - b.timestamp) < 0.4;
-
+                const isCurrentlyActiveTarget = (idx === editingPlayerBoxIdx); const timeMatchesVideoHead = Math.abs(video.currentTime - b.timestamp) < 0.4;
                 if (isCurrentlyActiveTarget || timeMatchesVideoHead) {
                     ctx.strokeStyle = isCurrentlyActiveTarget ? '#ff00ff' : (activeCharacter.team === 'light' ? '#28a745' : (activeCharacter.team === 'dark' ? '#dc3545' : '#ffc107'));
                     ctx.lineWidth = isCurrentlyActiveTarget ? 4 : 2;
-
-                    const sx = toScreenX(b.x); const sy = toScreenY(b.y);
-                    ctx.strokeRect(sx, sy, toScreenW(b.w), toScreenH(b.h));
-                    ctx.fillStyle = ctx.strokeStyle; ctx.font = "bold 11px monospace";
-                    ctx.fillText(`${activeCharacter.name} [Box #${idx + 1}]`, sx, sy - 4);
+                    const sx = toScreenX(b.x); const sy = toScreenY(b.y); ctx.strokeRect(sx, sy, toScreenW(b.w), toScreenH(b.h));
+                    ctx.fillStyle = ctx.strokeStyle; ctx.font = "bold 11px monospace"; ctx.fillText(`${activeCharacter.name} [Box #${idx + 1}]`, sx, sy - 4);
                 }
             });
         }
